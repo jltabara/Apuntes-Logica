@@ -1,0 +1,3685 @@
+\documentclass[a4paper, 12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%Paquetes
+\usepackage[spanish]{babel}  
+\usepackage{indentfirst} %%%%%%%%%%%%%%%%Crear un indent al principio
+\usepackage[latin1]{inputenc}%%%%%%%%%%%%ñ y acentos
+\usepackage{amstext}%%%%%%%%
+\usepackage{amsfonts}%%%%%%%
+\usepackage{amssymb}%%%%%%%% AMSLaTeX
+\usepackage{amscd}%%%%%%%%%%
+\usepackage{amsmath}%%%%%%%%
+\usepackage{enumerate}%%%%%%%%%%%%%%%%Mejoras del entorno enumerate
+\usepackage[all]{xy}
+\usepackage{latexsym}
+\usepackage{color}
+\usepackage[mathcal]{eucal}%%%%%%%Caligrafica matematica
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{tcolorbox}
+\usepackage{qtree} 
+\usepackage{mathrsfs}
+\usepackage{setspace}
+\onehalfspacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%Teoremas
+\newtheorem{teo}{Teorema}[section]%%%%%%%%% Teorema
+\newtheorem{defi}{Definición}[section]%%%%%%%% Definicion
+\newtheorem{lema}[teo]{Lema}%%%%%%%%%%%%% Lema
+\newtheorem{propo}[teo]{Proposición}%%%%%%%% Proposicion
+\newtheorem{cor}[teo]{Corolario}%%%%%%%%%%%Corolario
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%Comandos
+\newcommand{\dem}{\noindent \textbf{Demostración. }\vspace{0.3 cm}}%%Demostracion
+\newcommand{\R}{\mathbb{R}}%%%%%%%%%%%%Numeros reales
+\newcommand{\F}{\mathbb{F}}%%%%%%%%%%%%Cuerpo
+\newcommand{\C}{\mathbb{C}}%%%%%%%%%%%%Numeros complejos
+\newcommand{\Q}{\mathbb{Q}}%%%%%%%%%%%%Numeros racionales
+\newcommand{\N}{\mathbb{N}}%%%%%%%%%%%%Numeros naturales
+\newcommand{\Z}{\mathbb{Z}}%%%%%%%%%%%%Numeros enteros
+\newcommand{\g}{\mathfrak{g}}%%%%%%%%%%%%Algebra de Lie del grupo G
+\newcommand{\V}{\mathcal{V}}%%%%%%%%%%%%Variedad
+\newcommand{\W}{\mathcal{W}}%%%%%%%%%%%%Variedad
+\newcommand{\h}{\mathcal{H}}%%%%%%%%%%%%Algebra de Lie del grupo H
+\newcommand{\uni}{\mathcal{U}}%%%%%%%%%%%%Algebra envolvente
+\newcommand{\fin}{ $\Box $ \vspace{0.4 cm}}
+\renewcommand{\sf}{\tt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%Operadores
+\newcommand{\lon}{\mathsf{long}}
+
+
+
+%%%%%%%%%%%%%%%%%
+\title{Lógica}
+\author{José Luis Tábara}
+\date{jltabara@gmail.com}
+%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black]
+
+\vspace{-1cm}
+\maketitle
+
+\end{tcolorbox}
+
+\thispagestyle{empty}
+
+\tableofcontents
+
+\newpage
+
+\section{Lenguajes formales}
+
+
+Nuestro objetivo es formalizar la noción de lenguaje escrito.  A efectos prácticos, una expresión de un lenguaje escrito es simplemente una cadena de símbolos escritos consecutivamente.  Cada uno de esos símbolos se llama {\it letra} y el conjunto de todas las letras utilizadas en un lenguaje se denomina {\it alfabeto}.  Todos los alfabetos de las lenguas naturales tienen un número finito de letras, pero nada nos impide imaginar alfabetos que tengan infinitos símbolos.  
+
+\begin{defi}
+
+Llamamos {\sf alfabeto} a cualquier conjunto $A$.
+
+\end{defi}
+
+
+Denotaremos por $A^n$ al producto cartesiano de $n$ copias de $A$. Por convenio supondremos que $A^0= \varnothing$.
+
+\begin{lema}
+
+Si $A$ es un alfabeto finito  entonces $A^n$ es un conjunto finito.
+
+\end{lema}
+
+\dem
+
+Sea $A$ un conjunto finito. Entonces $|A^n|= |A|^{\,n}$ (las barras verticales denotan el número de elementos de un conjunto). \fin
+
+Además de los alfabetos finitos, son muy utilizados los alfabetos numerables. Para poder hablar de ellos con precisión debemos recordar el concepto de conjunto numerable y algunos criterios de numerabilidad.
+
+\begin{defi}
+
+Un conjunto $A$ es {\sf numerable} si existe una biyección 
+$$
+f: A \mapsto \N
+$$
+
+\end{defi}
+
+  El conjunto de los  enteros pares $2 \N$ es numerable, puesto que la función 
+  $$
+  \begin{array}{cccc}
+  f : &\N & \mapsto & 2\N \\
+    & n & \mapsto& 2n
+    \end{array}
+    $$
+    es  claramente una biyección.  En realidad todos los subconjuntos de $\N$ que no son finitos, son también numerables, tal como demostramos a continuación.
+    
+\begin{lema}
+
+Sea $A$ un conjunto no finito y $f : A \mapsto \N$ una aplicación inyectiva.  Entonces $A$ es numerable.
+
+\end{lema}
+
+\dem
+
+   Definimos una aplicación $g: A \mapsto \N$ de la siguiente forma:  $g[1]$ es el menor elemento de $f[A]$.  Eliminamos dicho elemento del conjunto imagen, obteniendo el conjunto $A_2=f[A]-\{g[1]\}$.  Definimos entonces $g[2]$ como el menor elemento de $A_2$. En general, construimos el conjunto 
+   $$
+   A_n= f[A]-\{g[1]\}- \dots - \{g[n-1]\}
+   $$
+    y definimos $f[n]$ como el menor elemento de $A_n$. La aplicación $g$ de $A$ en $\N$ que es claramente inyectiva.  Además es epiyectiva puesto que el conjunto $A_n$ nunca es vacío. \fin
+    
+    
+    Siguiendo un proceso similar al anterior se puede probar el siguiente
+    
+    \begin{lema}
+    
+Sea $f: \N \mapsto A$ una aplicación epiyectiva.  Entonces $A$ es finito o numerable.
+
+\end{lema}   
+
+
+\begin{cor}
+
+El conjunto $\N \times \N$ es numerable.  En general el conjunto $\N^r$ es numerable.
+
+\end{cor}
+
+\dem
+
+Consideramos la aplicación
+$$
+\begin{array}{cccc}
+f: & \N \times \N &\mapsto & \N \\
+  &  (n,m)& \mapsto & 2^n \cdot 3^m
+  \end{array}
+$$
+Claramente es inyectiva y por el lema anterior (puesto que el conjunto no es finito) el conjunto es numerable.
+
+\smallskip
+
+Para el caso general se procede por inducción, utilizando el hecho de que $\N^r= \N^{r-1} \times \N$. \fin 
+
+  
+
+En el lenguaje natural un conjunto finito de letras colocadas consecutivamente se denomina expresión. 
+
+\begin{defi}
+
+Si $A$ es un alfabeto denotamos por $A^*$ al conjunto
+$$
+A^* = \bigcup_{i=0}^\infty A^n
+$$
+Los elementos de $A^*$ se llaman {\sf expresiones}.
+\end{defi}
+
+ En general es costumbre en matemáticas denotar a cualquier elemento de $A^n$ mediante $(a_1, \dots, a_n)$.  Sin embargo nosotros suprimiremos los paréntesis y las comas y escribiremos dicho elemento en la forma $a_1\dots a_n$. De esta forma queda más claro la denominación de expresión que hemos adjudicado a los elementos de $A^*$.
+
+\bigskip
+
+
+Los conjuntos $A^n$ y $A^m$ son disjuntos si $n \neq m$. Dado un elemento $\alpha \in A^*$, tenemos que $\alpha \in A^n$ para un único $n$.  Diremos entonces que $\alpha$ es una expresión de {\sf longitud} $n$. Denotaremos este hecho mediante \mbox{$\lon[\alpha]=n$.}
+Como hemos decidido que $A^0 = \varnothing $ esté contenido en $A^*$, existe una única palabra de longitud nula.  Para no confundirla con el conjunto vacío la denotaremos por $\otimes$.  Las palabras de longitud 1 se pueden identificar con los elementos del alfabeto.
+
+
+\begin{lema} 
+
+Una unión numerable  de conjuntos  finitos o numerables es numerable.
+
+\end{lema}
+
+\dem
+
+Sean $A_i$ la colección de conjuntos.  Denotemos por $a_{i1}, a_{i2}, \dots$ los elementos del conjunto $A_i$.  Esto es posible hacerlo puesto que $A_i$ es finito o numerable.  Consideremos la aplicación
+$$
+\begin{array}{cccc}
+f: & \N \times \N &\mapsto& \bigcup_{i=1}^\infty A_i \\
+  & (i,j) &\mapsto & a_{ij}
+\end{array}
+$$
+Por construcción esta aplicación es epiyectiva. Como $\N \times \N$ es numerable se concluye por los resultado anteriores. \fin   
+
+\begin{propo}
+
+Si $A$ es un alfabeto finito o numerable, el conjunto $A^*$ es siempre numerable.
+
+\end{propo}
+
+\dem
+
+Si $A$ es finito, ya hemos comentado que $A^n$ es finito.  Como el conjunto $A^*$ es una unión numerable de conjuntos finitos, necesariamente es numerable.
+
+\bigskip
+
+Si el alfabeto es numerable, entonces $A^*$ es una unión numerable de conjuntos numerables, y por lo tanto también es numerable. \fin
+
+\noindent{\bf Observación.}   Como lo que nos va a interesar de un alfabeto es su conjunto de expresiones, debido a este resultado existe muy poca diferencia entre considerar alfabetos finitos o considerar alfabetos numerables.  \fin 
+
+
+
+\begin{defi}
+
+Dado un alfabeto $A$, llamamos {\sf lenguaje} sobre $A$ a cualquier conjunto $L \subset A^*$.
+
+\end{defi}
+
+Si el alfabeto es finito o numerable, entonces $L$ es finito o numerable, puesto que está contenido en un conjunto numerable.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+
+\item Sea $A= \{0,1,2,3,4,5,6,7,8,9\}$. Consideremos el lenguaje
+$$
+L_1= \{ \alpha \in A^* \text{ tales que } \lon[\alpha]< 100 \}
+$$
+Este lenguaje es finito.  Sin embargo si consideramos el lenguaje
+$$
+L_2= \{\alpha \in A^* \text{ tales que  su primera cifra es el }0 \}
+$$
+tenemos un lenguaje de cardinal infinito. En el lenguaje
+$$
+L_3=\{ \alpha \in A^* \text{ tales que su primera cifra no es } 0\}
+$$
+es claro como se puede establecer de manera efectiva una biyección del lenguaje con el conjunto de los naturales. 
+
+
+
+\item Dado un alfabeto $A$, si $L_1 \subset L_2$ decimos que $L_1$ es un {\sf sublenguaje} de $L_2$, o bien que $L_2$ es una {\sf extensión} de $L_1$.  Si tenemos dos alfabetos $A$ y $A'$ tales que $A \subset A'$ tenemos definiciones similares.
+
+\item En informática el alfabeto más utilizado es sin duda el $\{0,1\}$.  Cada uno de sus elementos se llaman {\it bits}.  Una «letra» en informática es una sucesión de 8 bits, que es lo que se denomina {\it byte}.  Existen  256 bytes distintos.  Las expresiones en informática son cadenas de bytes.  Esto es, son expresiones formadas por ceros y unos, pero siempre de longitud múltiplo de 8.
+
+
+\end{itemize}
+
+Dado un alfabeto $A$ y dos palabras $\alpha$ y $\beta$ denotamos por $\alpha \beta$ a la palabra que consiste en colocar primeramente todos los símbolos de $\alpha$ y a continuación todos los de $\beta$.  Esta definición da lugar a una operación
+$$
+\begin{array}{ccc}
+A^* \times A^* &\rightarrow &A^*\\
+(\alpha, \beta) &\rightarrow& \alpha \beta
+\end{array}
+$$
+llamada {\sf concatenación}. De la definición dada se deduce rápidamente la asociatividad de esta operación. El elemento neutro de esta operación es la palabra vacía $\otimes$. Además siempre se cumple que $\lon[\alpha\beta]=\lon[\alpha]+\lon[\beta]$.
+
+\bigskip
+
+\noindent{\bf Observación.} En matemáticas se llama {\sf semigrupo}  a un conjunto dotado de una operación asociativa y con elemento neutro. Entonces el conjunto de expresiones es un semigrupo. La función longitud es un morfismo entre este semigrupo y el semigrupo $(\N, +)$. \fin
+
+\begin{defi}
+
+Decimos que $\alpha$ es una {\sf subexpresión} de $\beta$ si existen expresiones, no necesariamente únicas, $\gamma$ y $\delta$ tales que $\beta= \gamma \alpha \delta$. Decimos que $\alpha$ es una {\sf parte inicial} o {\sf prefijo} de $\beta$ si existe una expresión $\gamma$ tal que $\beta=\alpha \gamma$.
+
+\end{defi}
+
+La operación  concatenación nos permite definir subconjuntos que son invariantes por su acción.  
+
+\begin{defi}
+
+Decimos que un lenguaje $L \subset A^*$ es {\sf cerrado por conca\-tenación} si para todo $\alpha, \beta \in L$ se tiene que $\alpha\beta \in L$.
+
+\end{defi}
+
+Naturalmente el conjunto $A^*$ es cerrado por concatenación. Del mismo modo es claro que el conjunto vacío es también cerrado por concatenación.  
+
+\begin{propo}
+
+Dado un alfabeto $A$ y una colección cualquiera $\{L_i\}_{i \in I}$ de lenguajes cerrados por concatenación, entonces el conjunto intersección $L=\bigcap_{i \in I} I_i$ es cerrado por concatenación.
+
+\end{propo}
+
+\dem
+
+Sean $\alpha, \beta \in L$.  Entonces  $\alpha, \beta \in L_i$ para todo índice $i$.  Como $L_i$ es cerrado por concatenación, tenemos que $\alpha\beta \in L_i$. Como este resultado es cierto para todo $i$, tenemos que dicho elemento también pertenece a la intersección de los conjuntos.  Concluimos que $\alpha\beta \in L$, lo que prueba que $L$ es cerrado por concatenación.  \fin
+
+En principio, puede ocurrir en la proposición anterior que el conjunto intersección sea el conjunto vacío, aun cuando ninguno de los conjuntos $L_i$ sea un conjunto vacío.  Para evitar esto, lo «mejor» es poner algunos elementos en la intersección.
+
+
+\begin{defi}
+
+Dado un conjunto $B \subset A^*$, llamamos {\sf conjunto generado por concatena\-ción} a partir de $B$ a la intersección de todos los conjuntos cerrados por concatenación que contienen a $B$.  Lo denotaremos  $\langle B \rangle$.
+
+\end{defi}
+
+Como $B \subset A^*$ y $A^*$ es cerrado por concatenación, siempre existe al menos un conjunto cerrado por concatenación y que contiene a $B$, por lo que la definición siempre tiene sentido. 
+
+En el caso de conjuntos generados, la intersección tiene siempre algún elemento y el conjunto generado nunca es vacío. También es clara la inclusión $B \subset \langle B \rangle$.  Si el conjunto $B$  no es cerrado por concatenación la inclusión es estricta.  En el caso en que 
+ $B$ ya sea cerrado por concatenación se tiene la igualdad.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Si $L_1 \subset L_2$ tenemos también la inclusión $\langle L_1 \rangle \subset \langle L_2 \rangle$. Sin embargo puede ocurrir que $\langle L_1 \rangle = \langle L_2 \rangle$ siendo $L_1 \neq L_2$.
+
+\item Sea $L_1$ el lenguaje formado por las expresiones cuya longitud es un múltiplo de  20 y $L_2$ el lenguaje de las expresiones de longitud múltiplo de 35. Ambos lenguajes son cerrados por concatenación. Su intersección está formada por las expresiones cuya longitud es múltiplo, a la vez, de 20 y de 35. Esto es, deben ser múltiplos del mínimo común múltiplo de ambos números.  Sin embargo la unión de ambos lenguajes no es cerrada por concatenación. Por ejemplo, si $\lon[\alpha]=20$ y $\lon[\beta]=35$, su concatenación tiene longitud 55 y no pertenece a la unión.
+
+\item Si $A$ es un alfabeto, entonces $\langle A \rangle = A^*$ pues todo elemento de $A^*$ se construye a base de concatenaciones de elementos de $A$. Si tenemos que $A \subset B$ entonces $\langle B \rangle =A^*$.
+
+\item Sea $B \subset A$. Entonces los elementos de $\langle B\rangle$ se forman concatenando elementos de $B$.  Este conjunto se identifica con el conjunto de todas las expresiones de $B$. En otras palabras, $\langle B\rangle =B^*$.
+
+\item Sea $A=\{0,1\}$ y sea $B= A^8$.  Entonces el conjunto generado por $B$ está formado por las palabras cuya longitud es un múltiplo de $8$. Es el lenguaje de la informática que hemos construido anteriormente.
+
+\item Sea $f: A^* \times A^* \rightarrow A^*$ una operación interna del conjunto de expresiones. En principio $f$ es arbitraria y no tiene que cumplir ninguna propiedad especial. Decimos que un conjunto $L\subset A^*$ es cerrado bajo $f$, si para todo $\alpha, \beta \in L$ se tiene que $f[\alpha,\beta] \in L$. La intersección de conjuntos cerrados bajo $f$ es de nuevo cerrado bajo $f$. 
+
+\item Sea $\{f_i\}_{i \in I}$ una colección, posiblemente infinita, de operaciones en $A^*$. Decimos que un conjunto $L$ es cerrado bajo el conjunto de operaciones $\{f_i\}$ si para todo $\alpha , \beta \in L$ y para todo $i  \in I$, se tiene que $f_i[\alpha,\beta] \in L$.  De nuevo la intersección de conjuntos cerrados bajo estas operaciones es cerrado.
+
+\item Llamamos {\sf operación de rango $n$}  a una función 
+$$
+f: A^*\times \stackrel{n)}{\dots} \times A^* \mapsto A^*
+$$  Se puede definir del mismo modo la noción de conjunto cerrado bajo $f$ y se cumple la misma propiedad para la intersección.  Si consideramos un conjunto de operaciones, de rangos variables, se tiene el mismo resultado.
+
+\end{itemize}
+
+\newpage
+
+\section{Lenguaje de la lógica proposicional}
+
+Para construir la lógica proposicional necesitamos primeramente construir un alfabeto. En muchos libros se opta por definir un alfabeto infinito, aunque nosotros seguiremos otro camino, utilizando un alfabeto finito. Es fácil demostrar que ambos caminos llevan en realidad al mismo lugar y la elección de uno u otro es más que nada estética.
+
+
+
+\begin{defi}
+
+El alfabeto de la lógica proposicional  es el conjunto 
+$$
+A=\{p,|,\neg, \vee,\wedge,\rightarrow,(,)\}
+$$
+
+\end{defi}
+
+Los símbolos $\neg, \vee,\wedge,\rightarrow$ se llaman {\sf conectivos}.  Como muchos de los razonamientos que haremos serán similares para los  tres conectivos $\vee, \wedge,\rightarrow$, emplearemos el símbolo $\star$ para designar a cualquiera de ellos.  Para mejorar la notación, a la expresión que consiste en el símbolo $p$ seguido de $n$ barras $|$, lo denotaremos por $p_n$
+$$
+p_0=p,\quad  p_1 = p\,|,\quad  p_2=p\,|\,|, \dots
+$$
+Las expresiones de la forma $p_n$ las llamaremos {\sf variables proposicionales} o simplemente {\sf variables}. El subconjunto de todas las variables proposicionales lo denotaremos $\mathcal{V}$. Por construcción es claro que el conjunto $\mathcal{V}$ es infinito numerable.
+
+
+En el conjunto de expresiones $A^*$ de este lenguaje se definen cuatro operaciones internas, asociada cada una a un conectivo. Una de ellas, la asociada con $\neg$, es de rango 1, y las otras son todas de rango 2 (o binarias). Sus definiciones precisas son:
+$$
+\begin{array}{lcc}
+E_\neg: \alpha &\longmapsto&\neg(\alpha)\\
+E_\vee: (\alpha, \beta)& \longmapsto& (\alpha \vee \beta)\\
+E_\wedge: (\alpha, \beta)& \longmapsto& (\alpha \wedge\beta)\\
+E_\rightarrow: (\alpha, \beta)& \longmapsto& (\alpha \rightarrow \beta)\\
+\end{array}
+$$
+donde debemos entender, por ejemplo, que $(\alpha \wedge \beta)$ es la concatenación de un paréntesis, junto con la expresión $\alpha$, junto con el conectivo  $\wedge$, etc.
+
+De la misma forma que en la sección anterior estabamos interesados en los lenguajes cerrados por concatenación, en este tema son de vital importancia, los conjuntos cerrados por cada una de las cuatro operaciones anteriores.
+
+\begin{defi}
+
+Decimos que un conjunto $I \subset A^*$ es {\sf inductivo} si:
+
+\begin{itemize}
+
+\item Contiene a la variables: $\mathcal{V} \subset I$.
+
+\item Es cerrado por cada una de las cuatro operaciones que hemos construido anteriormente: si $\alpha, \beta \in I$, entonces $\neg(\alpha)$, $(\alpha \vee\beta)$, $(\alpha \wedge\beta)$, $(\alpha \rightarrow\beta)$ también pertenecen a $I$.
+
+\end{itemize}
+
+\end{defi}
+
+Por construcción el conjunto total $A^*$ es inductivo. Ya podemos definir el lenguaje, que denotaremos por ${\bf Form}$.  Sus elementos se llaman {\sf fórmulas} o también {\sf fórmulas bien formadas}, que muchas veces abreviaremos como fbf (en inglés es corriente encontrar la abreviatura wff derivada de {\it well-formed formula}).
+
+\begin{defi}
+
+El lenguaje de la lógica proposional, ${\bf Form}$, es la intersección de todos los conjuntos inductivos. 
+
+\end{defi}
+
+
+
+\begin{propo}
+
+El lenguaje ${\bf Form}$ es inductivo.  Además es el menor de los conjuntos inductivos, en el sentido de que si $I$ es inductivo, entonces ${\bf Form} \subset I$.
+
+\end{propo}
+
+\dem
+
+Supongamos que $\alpha$ y $\beta$ son elementos de ${\bf Form}$.  Entonces pertenecen a todos los conjuntos inductivos. De esta forma tanto $\neg(\alpha)$  como $(\alpha \star \beta)$ pertenecen a todos los conjuntos inductivos, y por lo tanto pertenecen a su intersección, que es justamente el lenguaje ${\bf Form}$. Por construcción las variables están contenidas en el lenguaje, lo que prueba que en efecto es inductivo.
+
+\bigskip
+
+La otra parte se deriva directamente de la definición. \fin 
+
+
+\noindent{\bf Observación.} El último de los resultados de la proposición anterior se suele denominar {\sf principio de inducción para fbf}. Para demostrar que toda fbf posee una propiedad $P$ se pueden hacer las siguientes comprobaciones:
+
+\begin{itemize}
+
+\item Las variables tienen la propiedad $P$.
+
+\item Si $\alpha$ y $\beta$ tienen la propiedad $P$, entonces $\neg(\alpha)$, $(\alpha \vee \beta)$, $(\alpha \wedge \beta)$ y $(\alpha \rightarrow \beta)$ tienen la propiedad $P$.
+
+\end{itemize}
+Decimos entonces que hemos demostrado la propiedad $P$ por inducción sobre las fbf. \fin
+
+
+
+
+En la sección anterior definimos en general el concepto de longitud de una expresión.  Aplicando dicha definición tenemos que $\lon[p_n]=n+1$ pues recordemos que $p_n$ consiste en el símbolo $p$ seguido de $n$ barras.  También se cumple que $\lon[(\alpha \star \beta)]= 3+ \lon[\alpha]+\lon[\beta]$ pues estamos contando los paréntesis.  Queremos una nueva noción de longitud que asigne la unidad a todas las variables y que «no cuente» los paréntesis.
+
+\begin{defi}
+
+Dada $\alpha \in {\bf Form}$ llamamos {\sf longitud modificada}  de $\alpha$ y denotamos $\lon^*[\alpha]$ a la suma de las variables y de los conectivos que aparecen en $\alpha$, contados tantas veces como aparezcan.
+
+\end{defi}
+
+Muchas veces cometemos el abuso de notación de llamar símplemente longitud a lo que en realidad es la longitud modificada.  El contexto debe aclarar este abuso de notación.
+
+\bigskip
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item  Si $\alpha= (((p_0\wedge p_1) \rightarrow p_4)\wedge \neg (p_4))$ tenemos que su longitud modificada es 8, pues aparecen cuatro variables (algunas repetidas) y cuatro conectivos, algunos también repetidos.
+
+\item La longitud modificada cumple las propiedades
+$$
+\begin{array}{l}
+\lon^*[p_n]=1\\
+\lon^*[\neg(\alpha)]= 1+\lon^*[\alpha]\\
+\lon^*[(\alpha *\beta)]= 1+ \lon^*[\alpha]+\lon^*[\beta]
+\end{array}
+$$
+No es difícil probar que es la única función $f: {\bf Form}\mapsto \N$ que 
+cumple las tres propiedades anteriores. 
+
+\item Muchas veces cometeremos el abuso de notación de no escribir los paréntesis que se sobreentiendan.  Por ejemplo, es bastante habitual suprimir los paréntesis externos y escribir $\alpha \star \beta$ en lugar de $(\alpha \star \beta)$.  La longitud modificada no se ve afectada por este convenio, puesto que «no cuenta» los paréntesis.
+
+
+
+\end{itemize}
+
+
+
+
+
+La anterior construcción del lenguaje es rápida y elegante, pero no es constructiva.  Veremos otras formas de definir este mismo lenguaje, pero que carezcan de este inconveniente. Para ello se suelen emplear procesos inductivos. Para ello  construimos los conjuntos:
+$$
+\begin{array}{l}
+Form_0= \mathcal{V}\\
+Form_1= Form_0 \cup\{\neg(\alpha), \alpha \in Form_0\}\cup\{(\alpha \star \beta), \alpha, \beta \in Form_0\}\\
+\dotfill\\
+Form_{i+1}= Form_i \cup\{\neg(\alpha), \alpha \in Form_i\}\cup\{(\alpha \star \beta), \alpha, \beta \in Form_i\}
+\end{array}
+$$
+Con ayuda de estos conjuntos definimos el conjunto (ojo a la falta de negrita):
+$$
+Form= \bigcup_{n=0}^\infty Form_i
+$$
+
+\begin{propo}
+
+Se tiene que ${\bf Form}= Form$.
+
+\end{propo}
+
+\dem
+
+Como ${\bf Form}$ es cerrado por las operaciones asociadas a los conectivos, probemos, inductivamente, que $Form_i \subset {\bf Form}$.   Como $Form_0$ consta únicamente de las variables tenemos la inclusión.  Supongamos que $Form_i$ está contenido para todo $i < n$. El conjunto $Form_{i+1}$ está compuesto por los propios elementos de $Form_i$, más los elementos obtenidos aplicando las operaciones $E$ a dichos elementos.  Como ${\bf Form}$ es cerrado por las operaciones, concluimos que también $Form_{i+1}$ está contenido. Por lo tanto la unión también está contenida.  Esto prueba que $Form \subset {\bf Form}$.
+
+\bigskip
+
+Para demostrar el recíproco, probaremos que $Form$ es inductivo. Sean $\alpha$ y $\beta$ elementos de $Form$.  Como $Form_j \subset Form_i$ si $j<i$, debe existir un índice $i$ tal que $\alpha, \beta \in Form_i$.  Entonces $(\alpha \star\beta ) \in Form_{i+1} \subset Form$.  El resto de los detalles son elementales. \fin 
+
+Ahora nos hacemos una pregunta básica. ¿Si nos encontramos con cualquier expresión formada con el alfabeto $A$, como sabemos si es una fbf?  Para responder con comodidad a la pregunta debemos introducir algún material nuevo.
+
+\begin{defi}
+
+Una {\sf cadena de formación} de longitud $n$ es una sucesión $X_1, X_2, \dots, X_n$ de elementos de $A^*$ que satisface las siguientes condiciones:
+
+\begin{itemize}
+
+\item $X_i$ es una variable, o bien
+
+\item $X_i= \neg(X_j)$ con $j<i$, o bien
+
+\item $X_i= (X_j \star X_k)$ donde $j$ y $k$ son estrictamente menores que $i$.
+
+\end{itemize}
+
+\end{defi}
+
+Podemos entender que una cadena de formación parte de variables proposicionales y aplica un número finito de veces las operaciones $E$ o bien a dichas variables, o bien a los resultados de dichas variables.  Como el lenguaje ${\bf Form}$ es cerrado por dichas operaciones, tenemos que todos los miembros de una serie de formación pertenecen al lenguaje.  En realidad veremos que toda fbf se puede obtener de este modo. Por ello muchas veces se dice que 
+$$
+E=\{E_\neg,E_\vee, E_\wedge, E_{\rightarrow}\}
+$$
+ son las {\sf reglas de formación} y que el conjunto de variables es el {\sf generador} del lenguaje.
+
+\begin{defi}
+
+Decimos que $\alpha \in A^*$ {\sf admite una serie de formación}, si existe una serie de formación $X_1, \dots, X_n$  con $\alpha=X_n$.
+
+\end{defi}
+
+\begin{propo}
+
+Un elemento $\alpha \in A^*$ admite una serie de formación si y solo si $\alpha \in {\bf Form}$.
+
+\end{propo}
+
+\dem
+
+Vamos a ver primeramente que toda expresión que admita una serie de formación es una fbf.  Sea $X_1, \dots, X_n=\alpha$ una serie de formación. Entonces $X_1$ es necesariamente una variable y por tanto es una fbf. En general $X_i$ es o bien una variable o bien se obtiene de las anteriores expresiones de la cadena, aplicando alguna de las operaciones $E$.  Como ${\bf Form}$ es cerrado por todas estas operaciones, inductivamente se prueba que $X_n$ es una fbf.
+
+\bigskip
+
+Denotemos por $Form$ al conjunto de expresiones que admiten una serie de formación. Demostraremos que este conjunto es inductivo.  Claramente las variables pertenecen al conjunto, pues admiten series de formación de longitud unidad.  Supongamos que $X_1, \dots, X_n$ e $Y_1, \dots, Y_m$ son series de formación. Entonces 
+$$
+X_1, \dots, X_n,Y_1, \dots, Y_m, (X_n \star Y_m)
+$$
+es una serie de formación (compruebese) de $(X_n \star Y_m)$.  El conjunto es cerrado por tres de las cuatro operaciones. El caso del conectivo $\neg$ es incluso más sencillo. \fin 
+
+Si queremos probar que una expresión es una fórmula bien formada, simplemente tenemos que exhibir una serie de formación. 
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Dada la expresión $(((p_0\wedge p_1) \rightarrow p_4)\vee \neg (p_4))$, podemos comprobar que la siguiente es una serie de formación:
+$$
+\begin{array}{l}
+X_1= p_0\\
+X_2= p_1\\
+X_3= (X_1 \wedge X_2)\\
+X_4= p_4\\
+X_5= (X_3 \rightarrow X_4)\\
+X_6= \neg(X_4)\\
+X_7=(X_5 \vee X_6)
+\end{array}
+$$
+Esta misma expresión puede admitir otras series de formación distintas, pero es imposible encontrar una que tenga menos de siete «eslabones». La razón es la siguiente:  como en la expresión aparecen tres variables, deben existir tres eslabones asociados a dichas variables.  Como tenemos cuatro conectivos, debemos emplear al menos otros cuatro eslabones, uno para cada aparición del conectivo.
+
+
+
+\item La expresión $((p_1 \vee \rightarrow (p_2)$ no es una fbf. Hay muchas razones que implican que esta expresión no puede ser una fbf. Una razón es que nunca pueden existir dos conectivos binarios seguidos, debido al método de construcción de las series de formación.  Otra posible razón es que en la expresión hay más paréntesis izquierdos que derechos. En el siguiente punto probamos que esto es imposible.
+
+\item Dada una expresión $X \in A^*$ llamamos {\sf peso} de $X$, y denotamos $\mathrm{peso}[X]$, al número que se obtiene restanto el número de paréntesis  izquierdos «(» menos el número de paréntesis derechos «)» que posee $X$. Las variables tienen peso cero, puesto que carecen de paréntesis.   Aplicando la definición observamos que 
+$$
+\mathrm{peso}[\neg (X)] = \mathrm{peso}[X]\qquad \qquad \mathrm{peso}[(X \star Y)]= \mathrm{peso}[X]+\mathrm{peso}[Y]
+$$
+ 
+El conjunto de los elementos de peso nulo es inductivo. Toda fbf tiene peso nulo.
+
+\item Denotemos por $C_n$ al conjunto de fbf que admiten una serie de formación de longitud $n$.  Entonces $C_1=\mathcal{V}$ y $C_i \subset C_j$ si $i < j$.  Además la proposición anterior afirma que 
+$$
+{\bf Form}= \bigcup_{n=1}^\infty C_i
+$$
+
+
+
+
+\end{itemize}
+
+
+
+  
+Como toda fbf es el último eslabón de una serie de formación, cada fbf $\gamma$ debe ser de alguno de los siguientes cinco tipos
+\begin{enumerate}[\indent 1) ]
+\item $\gamma= p_n$
+
+\item  $\gamma=\neg(\alpha) \text{ con } \alpha \in {\bf Form}$
+
+\item $\gamma=(\alpha \vee \beta) \text{ con } \alpha, \beta \in {\bf Form}$
+
+\item $\gamma=(\alpha \wedge \beta) \text{ con } \alpha, \beta \in {\bf Form}$
+
+\item $\gamma=(\alpha \rightarrow \beta) \text{ con } \alpha, \beta \in {\bf Form}$
+
+\end{enumerate}
+
+Esta claro que una fbf del primer tipo nunca puede ser de ningún otro tipo, pues los tipos 2)-5) no comienzan por una variable.  También es claro que una fórmula de tipo 2) no puede ser de otro tipo, pues las de tipo 2) son las únicas que comienzan con el símbolo $\neg$.  Lo que no está tan claro es que una del tipo 3) no pueda ser también del tipo 4) o 5).
+
+\bigskip
+
+
+  
+
+Recordemos que una expresión $\alpha$ es prefijo de otra expresión $\beta$ si $\beta= \alpha \gamma$.
+
+\begin{lema}
+
+Una fbf no puede ser prefijo de otra fbf.
+
+\end{lema}
+
+\dem
+
+Haremos la demostración por inducción sobre la longitud modificada.  Si $\lon^*[\alpha]=1$ necesariamente $\alpha=p_n$.  Pero una constante nunca es prefijo de una fbf de mayor  longitud, puesto que todas comienzan, o  con el símbolo $\neg$ o con un paréntesis.
+
+Por hipótesis de inducción suponemos que el enunciado es cierto para toda fbf de longitud (modificada) menor o igual  que $n$. Si una fbf tiene longitud $n+1$ entonces pueden darse cuatro casos:
+
+\begin{enumerate}[\indent a)]
+
+\item La fbf es de la forma $\neg(\alpha)$. Si $\neg(\alpha)$ es prefijo de una fórmula, necesariamente esta fórmula es de la forma $\neg(\beta)$.  Por lo tanto $\alpha$ es prefijo de $\beta$, lo cual es imposible, pues $\alpha$  cumple la hipótesis de inducción.
+
+\item La fbf es de la forma $(\alpha \vee \beta)$.   Si $(\alpha \vee \beta)$ es prefijo de una fórmula, esta debe ser del tipo ($\gamma \star \delta)$.  Dependiendo de la posición relativa de $\vee$ y $\star$ tenemos tres posibilidades:
+
+\begin{enumerate}[\indent 1.- ]
+
+\item Si $\vee$ está a la izquierda de $\star$, entonces $\alpha$ es prefijo de $\gamma$. Imposible por hipótesis de inducción, puesto que $\lon^*[\alpha] <n+1$.
+
+\item Si $\vee$ está a la derecha de $\star$, entonces $\gamma$ es prefijo de $\alpha$. De nuevo esto es imposible.
+
+\item Si $\vee$ y $\star$ están en la misma posición entonces $\beta$ es prefijo de $\delta$.  De nuevo esto implicaría una contradicción.
+
+\end{enumerate}
+
+\end{enumerate}
+
+Las demostraciones para los otros conectivos son similares. \fin 
+
+
+
+
+
+
+\begin{teo}
+
+Cada una de las fbf es solamente de un tipo de los anteriores.
+
+\end{teo}
+
+\dem
+
+Todos los casos problemáticos se reducen a demostrar la siguiente cuestión
+
+\begin{quote} \it
+
+Si $(\alpha \star \beta)= (\alpha' \circ \beta')$ entonces $\alpha=\alpha'$, $\star= \circ$ y $\beta= \beta'$.
+
+\end{quote}
+
+Lo demostraremos por reducción al absurdo.  Supongamos que en efecto es cierto que $(\alpha \star \beta)= (\alpha' \circ \beta')$ y que $\alpha \neq \alpha'$. Si $\star$ está a la izquierda de $\circ$, $\alpha$ es prefijo de  $\alpha'$, lo cual contradice el lema anterior. Los otros casos se analizan de la misma forma. Hemos visto que necesariamente $\alpha=\alpha'$.  Ahora es trivial demostrar que $\star=\circ$ y que $\beta=\beta'$. \fin
+
+Si denotamos por $A_\vee$ al conjunto de fbf del tipo $(\alpha \vee \beta)$, y definiciones análogas para los otros conectivos, el teorema anterior afirma que
+$$
+{\bf Form}= \mathcal{V} \cup A_\neg \cup A_\vee \cup A_\wedge \cup A_\rightarrow 
+$$
+siendo los conjuntos disjuntos dos a dos.
+
+El resultado anterior se puede enunciar de un modo más algebraico.
+
+\begin{cor}
+
+Consideremos las cuatro aplicaciones $E$. Entonces:
+
+\begin{itemize}
+
+\item Cada una de las aplicaciones $E$ es inyectiva.
+
+\item Los conjuntos imagen de $E_\star$ y $E_\circ$ son disjuntos si $\star \neq \circ$.
+
+\end{itemize}
+
+\end{cor}
+
+\dem
+
+La inyectividad es consecuencia de la unicidad de la descomposición. Por ejemplo si  $ E_\vee[(\alpha,\beta)]=E_\vee[(\alpha',\beta')]$, tenemos que 
+$(\alpha \vee \beta)=(\alpha' \vee \beta')$, de donde deducimos las igualdades $\alpha=\alpha'$ y $\beta=\beta'$, lo que prueba la inyectividad.  De la unicidad del conectivo se deduce que los conjuntos son disjuntos. \fin
+
+
+\begin{defi}
+
+Dado  $\alpha \in {\bf Form}$, llamamos {\sf grado} de $\alpha$ al número de conectivos que aparecen en $\alpha$, contados tantas veces como aparezcan.
+
+\end{defi}
+
+Las fbf de grado cero son las constantes.  Cualquier otra fbf que no sea constante es de uno de los cuatro tipos anteriormente vistos. Si $\alpha=\neg(\beta)$ el grado de $\alpha$ es una unidad mayor que el grado de $\beta$.  Si $\alpha=(\beta_1 \star \beta_2)$ el grado de $\alpha$ es superior a los grados de $\beta_1$ y $\beta_2$.  Con más precisión se cumple
+$$
+\mathsf{grado}[\neg(\alpha)]= 1+\mathsf{grado}[\alpha] \qquad 
+\mathsf{grado}[(\alpha \star \beta)]= 1+ \mathsf{grado}[\alpha]+ \mathsf{grado}[\beta]
+$$
+
+Estas fórmulas, unidas a la unicidad del tipo de descomposición, nos permitirán realizar razonamientos inductivos sobre el grado de las fbf. Un ejemplo de ello es la siguiente
+
+
+
+\begin{defi}
+
+El concepto de {\sf subfórmula} se define inductivamente por las propiedades:
+
+\begin{itemize}
+
+\item Si $\mathsf{grado}[\alpha]=0$ la única subfórmula es ella misma.
+
+\item Si $\alpha=\neg(\beta)$, las subfórmulas de $\alpha$ son la propia $\alpha$ y las subfórmulas de $\beta$.
+
+
+\item  Si $\alpha= (\beta_1 \star \beta_2)$ las subfórmulas de $\alpha$ son la propia $\alpha$, más todas las subfórmulas de $\beta_1$ más todas las subfórmulas de $\beta_2$.
+
+\end{itemize}
+
+\end{defi}
+
+Es bastante habitual, al descomponer una fbf en subfórmulas, utilizar un árbol.  Sin embargo también puede realizarse el mismo trabajo sin emplear dichos árboles.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Calculemos todas las subfórmulas de 
+$$
+(((p_0\wedge p_1) \rightarrow p_4)\vee \neg (p_4))
+$$
+
+ Esta  fbf es de tipo $\vee$. Por lo tanto tenemos dos subfórmulas
+ $$
+ ((p_0\wedge p_1) \rightarrow p_4) \qquad  \neg(p_4)
+ $$
+ La primera de estas fbf es de tipo $\rightarrow$. Obtenemos entonces
+ $$
+ (p_0\wedge p_1) \qquad p_4
+ $$
+ Continuando de este modo, obtenemos  que el conjunto de subfórmulas es
+ $$
+ \{((p_0\wedge p_1) \rightarrow p_4), \neg (p_4), (p_0\wedge p_1), p_4, p_0,p_1\}
+ $$
+
+El árbol asociado a esta descomposición es
+
+\Tree [.$\vee$ [.$\rightarrow$ [.$\wedge$ $p_0$ $p_1$  ] $p_4$ ] [.$\neg$ $p_4$ ] ]
+
+
+\item Todo árbol asociado a una descomposición en subfórmulas tiene variables en los vértices terminales y conectivos en los vértices interiores.  Conociendo el árbol se pueden reconstruir todas las subfórmulas y la fórmula de partida.
+
+
+
+\item Se puede definir de un modo más simple la noción de {\sf subfórmula}. Una subfórmula de $\alpha$ es una subexpresión de $\alpha$ que sea a la vez una fbf.  Sin embargo hemos optado por definirla de modo inductivo, pues ello nos da un método efectivo para encontrar todas las subfórmulas.  Con un poco de trabajo se ve que este método también sirve para crear series de formación de cualquier fbf.
+
+\item Hemos definido el concepto de subfórmula por inducción sobre el grado.  Del mismo modo podríamos haber utilizado la longitud modificada para realizar la inducción.  En general casi siempre se puede utilizar el grado o la longitud para realizar inducciones.
+
+\end{itemize}
+
+
+
+Sea $\alpha$ una fbf y supongamos que $\neg$ forma parte de la expresión de $\alpha$. Al construir la serie de formación de $\alpha$, en algún eslabón de la cadena  «aparece» el conectivo. Dicho eslabón es de la forma $\neg(\beta)$. Aplicando los argumentos anteriores se prueba sin dificultad la unicidad de $\beta$.  Del mismo modo, si $\star$ es un conectivo binario que forma parte de $\alpha$, existen dos subfórmulas $\beta_1$ y $\beta_2$ tales que $(\beta_1 \star \beta_2)$ es también subfórmula.  De nuevo se tiene la unicidad.
+
+\begin{defi}
+
+Sea $\alpha$ una fbf.  Si $\neg$ forma parte de $\alpha$ se llama {\sf alcance} de $\neg$ a la única subfórmula $\beta$ tal que $\neg(\beta)$ es también subfórmula.  Para conectivos binarios se definen de modo análogo el {\sf alcance anterior} y el {\sf alcance posterior}.
+
+\end{defi}
+
+\noindent{\bf Observación.} Aunque no daremos las definiciones precisas, se tiene el siguiente resultado: {\it dadas dos subfórmulas $\beta_1$ y $\beta_2$ de $\alpha$ o bien son disjuntas, o bien una está contenida en la otra}. \fin 
+
+
+Ahora que ya hemos terminado de explicar la construcción del  lenguaje proposicional, digamos clásico, estamos en disposición de generalizar el concepto.  En realidad para construir todo el proceso hemos consideramos un conjunto $\mathcal{V}$ de variables y hemos añadido al lenguaje los conectivos y los paréntesis.  Una vez hecho esto hemos procedido a crear, utilizando series de formación,  el concepto de fbf.  En nuestro caso el conjunto $\mathcal{V}$ es un conjunto numerable, pero nada nos impide adoptar como conjunto de variables un nuevo conjunto que puede ser finito o innumerable. Podemos tomar como conjunto de variables cualquier conjunto $B$ y repetir todos los pasos de la construcción del lenguaje. Todos los resultados se extrapolan a esta nueva situación.
+
+
+
+
+\newpage
+
+\section{Semántica del lenguaje proposicional}
+
+
+En el conjunto $B=\{0,1\}$ introducimos una serie de  cuatro operaciones internas. Una de ellas será de rango 1 y las otras tres serán binarias. Aunque se emplean símbolos similares a los conectivos lógicos, en principio no tienen nada que ver y perfectamente podríamos haber utilizado otros.  La razón de emplear estos se verá al definir el concepto de valuación. Mediante $x$ e $y$ denotamos elementos de $B$. Las definiciones de las cuatro operaciones internas son:
+$$
+\begin{array}{l}
+\neg \,x= 1-x\\
+x \vee y = \max\,[x,y]\\
+x \wedge y = \min\,[x,y]\\
+x \rightarrow y= \max\, [1-x,y]\\
+\end{array}
+$$
+Como el conjunto $B$ solamente posee dos elementos es fácil especificar las tablas de multiplicación de todas estas operaciones
+$$
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+$x$&$y$& $x\vee y$&$x\wedge y$&$x\rightarrow y$& $\neg\, x$\\\hline\hline
+1&1&1&1&1&0\\\hline
+1&0&0&1&0&0\\\hline
+0&1&0&1&1&1\\\hline
+0&0&0&0&1&1\\\hline
+\end{tabular}
+$$
+
+El conjunto $B$ junto con estas operaciones es lo que en matemáticas se denomina un {\sf álgebra de Boole}. Naturalmente todas estas operaciones tienen una serie de propiedades, como asociatividad, conmutatividad,... que no nos detenemos en explorar, puesto que no son útiles en este momento.
+
+\begin{defi}
+
+Llamamos {\sf valuación} a toda aplicación $v:{\bf Form} \mapsto B$ que cumple, para toda $\alpha, \beta \in {\bf Form}$, las siguientes propiedades:
+
+\begin{itemize}
+
+\item $v[\neg\, \alpha]= \neg\, v[\alpha]$
+
+\item $v[\alpha \vee \beta] = v[\alpha] \vee v[\beta]$.
+
+\item $v[\alpha \wedge \beta] = v[\alpha] \wedge v[\beta]$.
+
+\item $v[\alpha \rightarrow \beta] = v[\alpha] \rightarrow v[\beta]$.
+
+\end{itemize}
+
+El conjunto de todas las valuaciones lo denotamos ${\bf Val}$.
+
+\end{defi}
+
+
+Una valuación «respeta» las operaciones y podemos entenderla como una especie de morfismo entre estructuras algebraicas.  Como el conjunto ${\bf Form}$ está generado por las variable y las aplicaciones $E$, es hasta cierto punto natural que una valuación quede determinada por su valor sobre las variables.  Ello se demuestra en el
+
+\begin{teo}
+
+Sea $f:\mathcal{V} \mapsto B$ una función arbitraria.  Existe una única valuación $f^*: {\bf Form} \mapsto B$ que hace conmutativo el diagrama
+$$
+\xymatrix{
+{\bf Form} \ar[r]^{f^*}& B\\
+\mathcal{V} \ar[u]^{i}\ar[ur]_f
+}
+$$
+
+\end{teo}
+
+\dem
+
+Estamos pidiendo que $f^*$ sea una valuación y que sobre las variables coincida con $f$.  Pasemos a construir, por inducción sobre el grado, $f^*$.
+
+Si $\alpha$ es de grado cero, entonces es una variable y necesariamente debemos definir 
+$$
+f^*[\alpha]=f[\alpha]
+$$
+Supongamos que hemos definido $f^*$ para todas las fbf de grado menor que $n$.  Si $\alpha$ es de grado $n$ y es de la forma $\alpha=\neg(\beta)$, si queremos que sea valuación debemos definir 
+$$
+f^*[\alpha]= \neg \, f^*[\beta]
+$$
+  Si $\alpha$ es  de otro tipo entonces $\alpha=\beta_1 \star \beta_2$. De nuevo, si queremos que sea valuación debemos definir
+$$
+f^*[\alpha]= f^*[\beta_1]\star f^*[\beta_2]
+$$
+lo que completa la definición inductiva de $f^*$.
+
+Es fácil probar que la aplicación $f^*$ así construida es en efecto una valuación y que necesariamente es única, pues cada uno de los pasos de la construcción nos vienen impuestos por la necesidad de que la extensión sea una valuación. \fin 
+
+
+
+\noindent{\bf Observación.} Existe un concepto más general que el de valuación. Si $X$ es un álgebra de Boole arbitraria, podemos considerar las funciones de ${\bf Form}$ en $X$ que conservan los conectivos. Muchas demostraciones se extienden a este caso más general. \fin 
+
+\begin{cor}
+
+El conjunto ${\bf Val}$ se identifica, de modo canónico, con el conjunto de funciones de $\mathcal{V}$ en $B$.  También se identifica con el conjunto  $\mathcal{P}(\mathcal{V})$, formado por los subconjuntos de $\mathcal{V}$.
+
+\end{cor}
+
+\dem
+
+En el teorema  hemos probado la primera identificación. Para establecer la segunda basta observar que cada subconjunto de $\mathcal{V}$ queda identificado por su función característica, que es una función de $\mathcal{V}$ en $\{0,1\}$.  \fin
+
+Como el conjunto de las variables es numerable, el conjunto de sus partes tiene el cardinal del continuo.  El cardinal del conjunto de valuaciones coincide con el del continuo.
+
+\begin{cor}
+
+Dado cualquier subconjunto $\{x_1, \dots, x_n\} \subset \mathcal{V}$  y cualquier sucesión $a_1, \dots, a_n$ de elementos de $B$, existe una valuación $v$ que cumple $v(x_i)=a_i$ para todo índice.
+
+\end{cor}
+
+\dem
+
+Construimos la función $f(p_n)=a_k$ si $p_n=x_k$ y $f(p_n)=0$ en cualquier otro caso. La extensión $f^*$ cumple el enunciado. \fin 
+
+
+\noindent{\bf Observación.} Por el método que hemos seguido para construir la valuación observamos que existen infinitas valuaciones que cumplen el enunciado.  Basta con variar la definición de $f$ sobre las variables que no coincidan con las $x_i$ y tendremos nuevas valuaciones que cumplen el corolario.  Con un poco más de trabajo, se demuestra el corolario aun en el caso de que el conjunto no sea finito. \fin 
+
+
+\begin{defi}
+
+Decimos que $\alpha$ es una {\sf tautología} si $v(\alpha)=1$ para toda valuación.  Decimos que es una {\sf contradicción} si $v(\alpha)=0$ para toda valuación.  Decimos que es una {\sf contingencia} si existen valuaciones $v_0$ y $v_1$ que cumplen $v_0(\alpha)=0$ y $v_1(\alpha)=1$.
+
+\end{defi}
+
+Cada una de las fbf es de alguno de los tipos y no puede ocurrir que una misma fbf sea de dos tipos distintos.  Esta clasificación induce una descomposición de ${\bf Form}$ en tres subconjuntos disjuntos.
+
+En principio puede parecer difícil probar que una fbf es una tautología, pues debemos demostrar que toda valuación, y hay un conjunto infinito de valuaciones, da la unidad sobre ella.  Sin embargo veremos que basta hacer la comprobación para un conjunto finito de valuaciones.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Tenemos que $\alpha=p_n \vee \neg(p_n)$ es siempre una tautología. En efecto, si una valuación cumple $v(p_n)=0$, se tiene, aplicando que $v$ «respeta» las operaciones, que $v[\alpha]= v[p_n \vee \neg(p_n)]= v[p_n] \vee \neg v[p_n]= 1 \vee 0=1$.  Del mismo modo si $v[p_n]=0$ también se cumple.
+
+\item Por el mismo método anterior es fácil verificar que $p_n \wedge \neg(p_n)$ es siempre una contradicción.
+
+\item Sea $\alpha= ((p_0 \wedge p_1)\rightarrow p_2)\rightarrow ((p_0\rightarrow p_2) \vee (p_1 \rightarrow p_2))$. Aplicando reiteradamente las propiedades que definen la valuación se tiene que 
+$$
+v[\alpha]=((v[p_0] \wedge v[p_1])\rightarrow v[p_2])\rightarrow ((v[p_0]\rightarrow v[p_2]) \vee (v[p_1] \rightarrow v[p_2]))
+$$
+En definitiva, el valor de $v[\alpha]$ depende solo y exclusivamente de los valores de sus variables.  Para analizar todos los casos posibles, es común emplear un método conocido como {\sf tablas de verdad}. He aquí la tabla de verdad de esta fbf.
+
+$$
+\begin{tabular}{|c|c|c|c|}\hline
+$p_0$&$p_1$& $p_2$&$\alpha$\\ \hline
+1&1&1&1\\ \hline
+1&1&0&1\\ \hline
+1&0&1&1\\ \hline
+1&0&0&1\\ \hline
+0&1&1&1\\ \hline
+0&1&0&1\\ \hline
+0&0&1&1\\ \hline
+0&0&0&1\\ \hline
+\end{tabular}
+$$
+
+En este caso hemos demostrado que $\alpha$ es una tautología.
+
+\item $\alpha$ es una tautología si y solo si $\neg(\alpha)$ es una contradicción.
+
+\end{itemize}
+
+Hemos visto en un ejemplo anterior que el valor de una valuación sobre una fbf depende solo y exclusivamente del valor de la valuación sobre las variables que intervienen en la fbf. 
+
+\begin{cor}
+
+Sea $\alpha$ una fbf tal que sus variables son un subconjunto de $\{x_1, \dots,x_n\}$.  Si dos valuaciones $v$ y $w$ cumplen que $v[x_i]=w[x_i]$ entonces $v[\alpha]=w[\alpha]$.
+
+\end{cor}
+
+\dem
+
+Se puede demostrar por inducción sobre el grado.  Simplemente se debe utilizar que las valuaciones respetan las operaciones. \fin 
+
+
+
+ Por ello, realizando una tabla de verdad, que es un proceso finito, podemos saber si la fórmula es una contingencia, una tautología o una contradicción  Además de este método de las tablas de verdad existen otros métodos, también finitos, que nos permiten averiguar el tipo de cada fórmula. No los analizaremos aquí.
+ 
+ \newpage
+ 
+ 
+ \section{Equivalencia y álgebras de Boole}
+ 
+ A nivel sintáctico dos expresiones son iguales si tienen exactamente los mismos símbolos y colocados en los mismos lugares.  Sin embargo, en los lenguajes naturales, dos frases o palabras pueden ser distintas y sin embargo expresar la misma idea.  Dos frases que significan lo mismo, a efectos semánticos, son totalmente equivalentes.  En la lógica proposicional puede ocurrir que dos fbf sean sintácticamente distintas, pero todas sus posibles interpretaciones sean iguales.  
+ 
+ \begin{defi}
+ 
+ Decimos que  $\alpha,  \beta \in {\bf Form}$ son {\sf equivalentes} (o mejor dicho son {\sf semántica\-mente equivalentes}) si para toda valuación $v \in {\bf Val}$ se cumple $v[\alpha]= v[\beta]$.  Si dos fbf son equivalentes lo denotamos $\alpha\equiv \beta$.
+ 
+ \end{defi}
+ 
+ 
+ Es fácil comprobar que efectivamente la relación anterior es de equivalencia. Esto es, que cumple las propiedades reflexiva, simétrica y transitiva.
+ 
+ \bigskip
+ 
+
+ 
+ \noindent{\bf Ejemplos.}
+ 
+ \begin{itemize}
+ 
+ \item Si $\alpha$ y $\beta$ son tautologías entonces $\alpha \equiv \beta$.  Análogamente si ambas son contradicciones.  Sin embargo puede ocurrir que ambas sean contingencias y sin embargo no sean equivalentes.
+ 
+ \item Las fbf $p_0$ y $\neg\,\neg\, p_0$ son equivalentes. En efecto, si $v[p_0]=1$ entonces también $v[\neg\, \neg \, p_0]=1$ y lo mismo en el otro caso. En general si $\alpha$ es cualquier fbf entonces $\alpha\equiv \neg\, \neg\,  \alpha$.
+ 
+ \item  Las fbf $(p_0\vee p_1)$ y $(p_1\vee p_0)$ son equivalentes.  Basta comprobar todos los casos, o lo que es lo mismo, realizar sus tablas de verdad. 
+ 
+ \item Existe otro método, distinto a las tablas de verdad, para probar el resultado anterior. Calcular $v[p_0\vee p_1]$ es equivalente a calcular $v[p_0] \vee v[p_1]$. Esta última operación se realiza en $B$ y aquí la operación $\vee$ es conmutativa. Por ello si calculamos $v[p_1\vee p_0]$ obtenemos el mismo resultado.  
+ 
+ \end{itemize} 
+
+
+Como hemos visto en los ejemplos anteriores, para comprobar que dos fbf son equivalentes basta realizar sus tablas de verdad.
+
+\begin{propo}
+
+Sean $\alpha$ y $\beta$ dos fbf con las mismas variables.  Entonces son equivalentes si y solo si sus tablas de verdad coinciden.
+
+\end{propo}
+
+\dem
+
+Si las fbf  tiene $n$ variables $\{x_1, \dots, x_n\}$, la fila de la tabla de verdad que tiene como  primeros $n$ números la sucesión $(a_1,\dots,a_n)$, le corresponde en la posición $n+1$ el número $a_{n+1}$ construido de la siguiente forma: se toma una valuación $v$ tal que $v[x_i]=a_i$ y entonces $a_{n+1}= v[\alpha]$.  Si $\alpha$ y $\beta$ son equivalentes, sus tablas de verdad son iguales.  
+
+\smallskip
+
+Recíprocamente, si $v$ es una valuación arbitraria denotamos por $a_i=v[x_i]$.  La sucesión así construida pertenece a las primeras $n$ posiciones de la tabla de verdad. Entonces $v[\alpha]$ es el valor $a_{n+1}$ de dicha fila.  Como la tabla de verdad de $\beta$ es igual, tenemos que $v[\beta]=v[\alpha]$.  Como esta construcción es válida para toda valuación, concluimos que $\alpha \equiv \beta$. \fin 
+
+
+Aunque para nosotros no presenta un interés especial puede ser conveniente familiarizarse con algunas equivalencias.  Para comprobarlas, basta realizar la tabla de verdad.  También se puede utilizar que  las valuaciones respetan los conectivos y utilizar algunas propiedades de las álgebras de Boole.
+
+\begin{itemize}
+
+\item Leyes conmutativas para $\wedge$ y $\vee$:
+$$
+\alpha \wedge \beta \equiv \beta \wedge \alpha \qquad\qquad  \alpha \vee\beta \equiv \beta \vee \alpha
+$$
+
+\item Leyes asociativas para $\wedge$ y $\vee$:
+$$
+(\alpha \wedge \beta )  \wedge \gamma \equiv \alpha \wedge(\beta \wedge \gamma) \qquad \qquad 
+(\alpha \vee \beta )  \vee \gamma \equiv \alpha \vee(\beta \vee \gamma)
+$$
+
+\item Negación:
+$$
+\neg \neg \alpha \equiv \alpha
+$$
+
+\item Leyes de De Morgan:
+$$
+\neg(\alpha \vee \beta)\equiv \neg \alpha \wedge \neg \beta \qquad \qquad
+\neg(\alpha \wedge \beta)\equiv \neg \alpha \vee \neg \beta
+$$
+
+\item Relaciones entre los conectivos:
+$$
+\alpha \wedge \beta  \equiv  \neg (\alpha \rightarrow \neg \beta)\qquad \qquad 
+\alpha \vee \beta  \equiv  \neg \alpha \rightarrow \beta
+$$
+
+
+
+\end{itemize}
+
+
+
+\begin{propo}
+
+Los fórmulas $\alpha$ y $\beta $ son equivalentes si y solo si $\alpha \rightarrow \beta$ y $\beta \rightarrow \alpha$ son tautologías.
+
+\end{propo}
+
+\dem
+
+Si $\alpha \equiv \beta$, supongamos que $v[\alpha]=0$.  Entonces $v[\beta]=0$ y se deduce que $v[\alpha \rightarrow \beta]=1$.  Análogamente si $v[\alpha]=1$ deducimos que $v[\alpha \rightarrow \beta ]=1$ y es una tautología.
+
+\bigskip
+
+Si $\alpha \rightarrow \beta $ y $\beta \rightarrow \alpha$ son tautologías, $\alpha$ y $\beta$ deben ser equivalentes, puesto que si $v[\alpha]\neq v[\beta]$ tenemos una contradicción. Por ejemplo, si $v[\alpha]= 1$ y $v[\beta]=0$, entonces $v[\beta \rightarrow \alpha]=0$ y no sería una tautología. \fin 
+
+\noindent{\bf Observación.} En muchas referencias se introduce un nuevo conectivo  $\leftrightarrow$ definiendo
+$$
+(\alpha \leftrightarrow \beta) = (\alpha \rightarrow \beta) \wedge (\beta \rightarrow \alpha)
+$$
+Entonces $\alpha \equiv \beta$ si y solo si $\alpha \leftrightarrow \beta$ es una tautología.  Este resultado se utiliza a menudo como definición de equivalencia. \fin
+
+
+Como resumen de todo lo tratado se tiene el siguiente resultado.
+
+\begin{teo}
+
+El conjunto cociente ${\bf Form}/ \equiv$ junto con las operaciones heredadas tiene estructura de álgebra de Boole.
+
+\end{teo}
+
+
+En particular, como las operaciones $\vee$ y $\wedge$ tienen la propiedad asociativa, muchas veces suprimiremos los paréntesis, como se hace habitualmente con las operaciones asociativas.
+
+\bigskip
+
+\noindent{\bf Observación.} En nuestro álgebra de Boole se verifica
+$$
+\alpha \wedge \beta  \equiv  \neg (\alpha \rightarrow \neg \beta)\qquad \qquad 
+\alpha \vee \beta  \equiv  \neg \alpha \rightarrow \beta
+$$
+Esta equivalencias (igualdades a nivel en el conjunto cociente) nos informan, que en álgebra de Boole, o lo que es lo mismo, a nivel semántico, basta únicamente con utilizar los conectivos $\neg$ y $\rightarrow$ para obtener todas las fórmulas.  Por ello se dice que el par $\{\neg, \rightarrow\}$ es un sistema completo de conectivas.  Existen otros sistemas completos de conectivas como por ejemplo $\{\neg, \wedge\}$ y $\{\neg,\vee\}$.
+
+En definitiva, a nivel semántico, nos hubiese bastado con utilizar únicamente como conectivos $\neg$ y $\rightarrow$.  Si hemos empleado los demás es simplemente por comodidad,  para poder expresar de un modo más sencillo algunos resultados. \fin
+
+
+
+
+Supongamos que $Var[\alpha]=\{x_1,x_2,\dots, x_n\}$.  Entonces la fbf $\alpha$ induce una función, que denotamos $f_\alpha: B^n\mapsto B$.
+Para definir como actua $f_\alpha$ sobre un elemento $(a_1,a_2,\dots, a_n) \in B^n$, tomamos una valuación $v$ que cumpla $v[x_i]= a_i$ para todo índice $i$.  Entonces definimos
+$$
+f_\alpha[(a_1,a_2,\dots, a_n)]= v[\alpha]
+$$
+Hemos visto anteriormente que siempre existe una valuación $v$ que cumple el enunciado y que si tomamos otra valuación $v'$ que lo cumple se tiene que $v[\alpha]=v'[\alpha]$.  Por lo tanto la función está bien definida.
+
+\begin{cor}
+
+Si $\alpha\equiv \beta$ entonces $f_\alpha=f_\beta$.
+
+\end{cor}
+
+\begin{cor}
+
+Si $Var[\alpha]=Var[\beta]$ y $f_\alpha=f_\beta$ entonces $\alpha\equiv \beta$.
+
+\end{cor}
+
+\dem
+
+Si las variables son iguales, y las funciones inducidas también, entonces ambas fbf tienen la misma tabla de verdad y  son equivalentes.\fin 
+
+Hemos visto que toda clase de equivalencia de fórmulas induce una función de $B^n$ en $B$.  El recíproco también es cierto: fijadas un conjunto de $n$ variables  y una función de $B^n$ en $B$, existe una fbf que la induce.  No vamos a realizar una demostración abstracta de este resultado, sino que daremos  un ejemplo (que se puede generalizar para obtener la demostración).  Para ello, lo primero que debemos tener en cuenta, es que fijadas las variables, una función de $B^n$ en $B$ es lo mismo que una tabla de verdad. Tomemos la siguiente tabla de verdad
+
+$$
+\begin{tabular}{|c|c|c|c|}\hline
+$p_3$&$p_5$& $p_7$&$f$\\ \hline
+1&1&1&1\\ \hline
+1&1&0&0\\ \hline
+1&0&1&1\\ \hline
+1&0&0&0\\ \hline
+0&1&1&1\\ \hline
+0&1&0&0\\ \hline
+0&0&1&1\\ \hline
+0&0&0&1\\ \hline
+\end{tabular}
+$$
+\smallskip
+
+Nos fijamos en la primera línea que produce un 1 en la tabla de verdad.  Construimos la fbf $\beta_1=p_3\wedge p_5\wedge p_7$ (recordar la asociatividad).  La siguiente fila que tiene un 1 es la tercera. Escribimos ahora $\beta_3= p_3 \wedge \neg p_5\wedge p_7$. Hemos colocado un signo $\neg$ delante de $p_5$ puesto que en esa fila la variable $p_5$ tiene un valor de 0. Del mismo modo construimos
+
+\begin{eqnarray*}
+\beta_5&=&\neg p_3\wedge p_5\wedge p_7\\
+\beta_7&=&\neg p_3\wedge \neg p_5\wedge p_7\\
+\beta_8&=& \neg p_3\wedge \neg p_5\wedge \neg p_7
+\end{eqnarray*}
+
+Una vez que tenemos formadas estas sentencias las unimos mediante la disyunción
+$$
+\beta=\beta_1 \vee \beta_3 \vee \beta_5 \vee \beta_7 \vee \beta_8
+$$
+Es muy sencillo (e instructivo) comprobar que $f_\beta$ es en efecto la función pedida.
+
+\bigskip
+
+\noindent{\bf Observación.} Decimos que una fbf $\alpha$ es {\sf normal disyuntiva}, si es de la forma
+$$
+\alpha= \beta_1 \vee\beta_2 \vee \dots \vee \beta_n
+$$
+donde cada $\beta_i$ es una conjunción de variables o negaciones de variables.  El resultado anterior prueba que toda fbf es equivalente a una fórmula normal disyuntiva.  También nos da un proceso para encontrar dicha fórmula normal disyuntiva. \fin 
+
+\begin{cor}
+
+Si $\{x_1, \dots, x_n\}$ es un conjunto de variables, el conjunto de clases de equivalencia que se pueden formar con dichas variables se identifica con el conjunto de funciones $f:B^n \mapsto B$.
+
+\end{cor}
+
+Como el conjunto de funciones de $B^n$ en $B$ tiene exactamente $2^{2^n}$ elementos, sabemos cuantas clases de equivalencia distintas podemos formar con $n$ variables.  En particular, con dos variables podemos formar 16 clases de equivalencia.  Resulta que $p_0 \wedge p_1$, $p_0 \vee p_1$ y $p_0 \rightarrow p_1$ son tres clases de equivalencia distintas.  Quedan otras 13.  Con cada clase de esas 13 podríamos formar un nuevo conectivo binario, con una tabla de verdad distinta (uno de ellos es el conectivo $\leftrightarrow$ que ya hemos mencionado).  En los estudios de lógica, digamos abstracta, no se trabaja con otros conectivos.  Sin embargo en lógica aplicada si que se trabaja con otros conectivos. En particular en informática son muy utilizadoslos conectivos NAND y NOR, que se representan con $|$ y $\downarrow$ respectivamente.  Estas conectivas tienen una propiedad especial:  tanto el conjunto $\{ |\}$ como el conjunto $\{\downarrow\}$ forman conjuntos completos de conectivas.  Esto se utiliza en los diseños de circuitos, puesto que cualquier circuito lógico (que no es más que una función de $B^n$ en $B$) se puede construir exclusivamente con puertas NAND o con puertas NOR.
+
+
+
+
+
+\newpage
+
+
+\section{Consecuencia lógica. Compacidad}
+
+En el lenguaje común estamos acostumbrados a sacar conclusiones a partir de ciertos conocimientos que denominamos premisas.  Decimos que la  conclusión $B$ se obtiene de unas premisas $A_1, \dots, A_n$, si la verdad de las premisas garantiza la verdad de la conclusión.  Intentamos traducir estas ideas al formalismo de la lógica.
+
+\begin{defi}
+
+Una fórmula $\alpha$ es {\sf satisfacible} si existe una valuación $v$ tal que $v[\alpha]=1$.  Un conjunto $\Sigma \subset {\bf Form}$ es satisfacible si existe una valuación tal que $v[\alpha]=1$ para toda $\alpha \in \Sigma$.
+
+\end{defi}
+
+Para indicar que $v[\alpha]=1$ para toda $\alpha \in \Sigma$, cometeremos el abuso de notación de escribir $v[\Sigma]=1$.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+
+\item Si $\alpha$ es una tautología o una contingencia, entonces es satisfacible.  Si $\alpha$ es una contradicción entonces no es satisfacible.
+
+\item El conjunto $\Sigma=\{p_0, \neg(p_0)\}$ es no satisfacible.
+
+\item El conjunto $\Sigma=\{p_0 \wedge p_1, p_0 \vee p_1\}$ es satisfacible.  Basta considerar una valuación $v$ que cumpla $v[p_0]=1$ y $v[p_1]=1$.
+
+\item Si el conjunto $\Sigma$ tiene un único elemento, basta realizar la tabla de verdad de dicho elemento para comprobar si es o no satisfacible:  si aparece algún 1 en la tabla, entonces es satisfacible.  En caso contrario no es satisfacible.
+
+
+\end{itemize}
+
+
+En el caso de los conjuntos finitos podemos trabajar únicamente con fórmulas y olvidarnos de los conjuntos, como muesta la siguiente 
+
+\begin{propo}
+
+Sea $\Sigma=\{ \alpha_1, \dots, \alpha_n\}$ un conjunto finito. Entonces
+$$
+\Sigma \text{ es satisfacible } \Leftrightarrow \,\,\alpha_1 \wedge \dots \wedge \alpha_n \text{ es satisfacible }
+$$
+
+\end{propo}
+
+\dem
+
+En efecto, si existe $v$ que cumple $v[\alpha_1]= \dots = v[\alpha_n]=1$, entonces, aplicando las propiedades de las valuaciones, $v[\alpha_1 \wedge \dots \wedge \alpha_n]=1$.
+
+\bigskip
+
+Recíprocamente, si  $v[\alpha_1 \wedge \dots \wedge \alpha_n]=1$, necesariamente $v[\alpha_i]=1$, pues lo contrario implica una contradicción. \fin
+
+Si el conjunto es infinito, el resultado no tiene sentido.  Debemos esperar al teorema de compacidad para tratar del mismo modo el caso de conjuntos infinitos.
+
+\bigskip
+
+\noindent{\bf Observación.} En el caso de los conjuntos finitos existe un procedimiento efectivo (lo que técnicamente se llama un algoritmo) que comprueba si el conjunto es o no satisfacible.  Por ejemplo, las tablas de verdad es un algoritmo válido para esta comprobación.  Aunque no entraremos en ello, esto significa que el problema de comprobar si un conjunto finito es o no satisfacible es {\sf decidible}. \fin 
+
+\begin{defi}
+
+Dado $\Sigma \subset {\bf Form}$ decimos que $\alpha$ es una {\sf consecuencia} de $\Sigma$ si $v[\Sigma]=1$ implica $v[\alpha]=1$.  Denotaremos este hecho por $\Sigma \vDash \alpha$.
+
+\end{defi}
+
+El conjunto de consecuencias de $\Sigma$ se denota ${\bf Con}(\Sigma)$.
+$$
+{\bf Con} (\Sigma)= \{ \alpha \in {\bf Form} \text{ tal que } \Sigma \vDash \alpha\}
+$$
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Supongamos que $\Sigma = \varnothing$.  Todas valuaciones que cumplen $v[\varnothing]=1$.  Por lo tanto las consecuencias del conjunto vacío son precisamente las fbf $\alpha$ que cumplen $v[\alpha]=1$ para toda valuación.  Esto es, las tautologías. Hemos probado que
+$$
+{\bf Con}(\varnothing)= {\bf Tau}
+$$
+
+
+\item Si $\Sigma $ es un conjunto no satisfacible, entonces no existe ninguna valuación que cumpla $v[\Sigma]=1$.  Por ello $\Sigma \vDash \alpha$ para cualquier $\alpha$. De un conjunto, o de una premisa, contradictoria se puede derivar cualquier conclusión. Si $\Sigma$ no es satisfacible hemos demostrado que 
+$$
+{\bf Con} (\Sigma)= {\bf Form}
+$$
+
+
+
+
+
+\item Si $\Sigma=\{\alpha\}$ tiene un único elemento se suele cometer el abuso de notación de escribir $\alpha \vDash \beta $ en lugar de $\{\alpha\} \vDash \beta$.
+
+\item Si $\alpha \equiv \beta $ entonces $\alpha \vDash \beta$ y $\beta \vDash \alpha$. Es más, en algunos libros esta caracterización se toma como definición de equivalencia, pues el recíproco también es cierto.
+
+
+\item Sea $\Sigma =\{ \alpha , \alpha \rightarrow \beta\}$.  Entonces $\Sigma \vDash \beta$, pues suponer lo contrario implica una contradicción. En efecto, si existe $v$ que cumple $v[\alpha]=1$, $v[\alpha \rightarrow \beta]=1$ y $v[\beta]=0$, entonces tendríamos que $v[\alpha \rightarrow \beta]= v[\alpha] \rightarrow v[\beta]= 1 \rightarrow 0=0$, produciendose la contradicción.
+
+
+
+\end{itemize}
+
+Las nociones de consecuencia y satisfacibilidad están intimamente ligadas.
+
+\begin{teo}
+
+Dados $\Sigma \subset {\bf Form} $ y $\alpha \in {\bf Form}$
+$$
+\Sigma \vDash \alpha  \Leftrightarrow \Sigma \cup \{\neg\, \alpha\} \text{ no es satisfacible }
+$$
+
+\end{teo}
+
+\dem
+
+Supongamos que $\Sigma \vDash \alpha$.  Entonces si $v[\Sigma]=1$, necesariamente $v[\alpha]=1$.  Esto implica que no puede existir ninguna valuación que cumpla $v[\Sigma]=1$ y $v[\neg(\alpha)]=1$.  El conjunto $ \Sigma \cup \{\neg\, \alpha\}$ es insatisfacible.
+
+\bigskip
+
+Si $\Sigma \cup \{\neg\, \alpha\}$ es insatisfacible, toda $v$ que cumple $v[\Sigma]=1$, cumple también $v[\neg(\alpha)]=0$.  Esto es, si $v[\Sigma]=1$ necesariamente $v[\alpha]=1$.  Pero esto es decir que $\Sigma \vDash \alpha$. \fin
+
+\begin{cor}
+
+Sea $\Sigma=\{\alpha_1, \dots ,\alpha_n\}$ un conjunto finito. Entonces
+$$
+\Sigma \vDash \beta \Leftrightarrow \alpha_1 \wedge \dots \alpha_n \wedge \neg \beta \text{ es una contradicción }
+$$
+
+\end{cor}
+
+Pero ya hemos visto que las contradicciones se pueden detectar con las tablas de verdad.  En el caso de que el conjunto de premisas $\Sigma$ sea finito podemos averiguar si $\alpha \in {\bf Con} (\Sigma)$ simplemente haciendo tablas de verdad. El conjunto ${\bf Con}(\Sigma)$, si $\Sigma$ es finito, es decidible.
+
+\bigskip
+
+También están muy relacionados la noción de consecuencia lógica y el conectivo $\rightarrow$.
+
+\begin{propo}
+
+Tenemos que $\beta \in {\bf Con}(\Sigma \cup \{\alpha\}) \Leftrightarrow \alpha \rightarrow \beta \in {\bf Con}(\Sigma)$. En otras palabras
+$$
+\Sigma \cup \alpha \vDash \beta \text{ si y solo si } \Sigma \vDash \alpha \rightarrow \beta
+$$
+
+\end{propo}
+
+\dem 
+
+Sea $\alpha \in {\bf Con}(\Sigma \cup \{\beta\})$.  Sea $v$ tal que $v[\Sigma]=1$. Pueden darse dos casos:
+
+\begin{itemize}
+
+\item Si $v[\beta]=1$ entonces $v[\Sigma \cup \{\beta\}]=1$.  Esto implica que $v[\alpha]=1$. Por lo tanto $v[\alpha\rightarrow \beta]=1$ y por lo tanto $\beta \rightarrow \alpha \in {\bf Con}(\Sigma)$.
+
+
+
+\item Si $v[\beta]=0$, entonces $v[\beta \rightarrow \alpha]=1$, independientemente del valor de $v[\alpha]$.  También se concluye que $\beta \rightarrow \alpha \in {\bf Con}(\Sigma)$.
+
+\end{itemize}
+
+\bigskip
+
+Recíprocamente.  Sea $\beta \rightarrow \alpha \in {\bf Con}(\Sigma)$.  Tomemos una valuación  $v$ tal que \mbox{$v[\Sigma \cup \{\beta\}]=1$.} Entonces necesariamente $v[\alpha]=1$, pues lo contrario implica una contradicción. Concluimos que $\alpha \in {\bf Con}(\Sigma \cup \{\beta\})$. \fin 
+
+
+
+Comenzaremos a tratar los conjuntos infinitos de premisas.
+
+\begin{defi}
+
+Un conjunto $\Sigma$ es {\sf finitamente satisfacible} si cualquier subconjunto finito de $\Sigma$ es satisfacible.
+
+\end{defi}
+
+La definición afirma que si tomamos cualquier subconjunto finito $\Sigma_1$ existe una valuación $v_1$ que cumple $v_1[\Sigma_1]=1$.  Si tomamos otro subconjunto finito $\Sigma_2$ existe otra valuación $v_2$ que cumple lo mismo.  En principio estas valuaciones pueden ser distintas.  Si la misma valuación sirviese para cualquier conjunto finito, entonces $\Sigma$ sería satisfacible.  El teorema de compacidad precisamente afirma esto:  si para cualquier suconjunto finito $\Sigma_1$ existe  una valuación $v_1$ que cumple $v_1[\Sigma_1]=1$, entonces existe una valuación $v$ que cumple $v[\Sigma]=1$. Este resultado no es trivial y requiere alguna maquinaria extra para su demostración.
+
+\begin{defi}
+
+Un conjunto $\Delta \subset {\bf Form}$ es {\sf completo} si para toda fbf $\alpha$ se tiene o bien $\alpha \in \Delta$ o bien $\neg\, \alpha \in \Delta$ (pero no ambas a la vez).
+
+\end{defi}
+
+Es claro que todo conjunto completo es necesariamente infinito. En principio no está nada claro ni que exista un conjunto completo.  Vamos a dar un procedimiento que permite construir conjuntos completos.
+
+
+
+
+
+
+Procederemos  de  modo inductivo.  Como el conjunto de fbf es numerable podemos escribir 
+$$
+{\bf Form}= \{\alpha_1, \alpha_2, \dots\}
+$$
+
+Construimos $\Delta_1=\{\alpha_1\}$. Para construir $\Delta_n$ hacemos una comprobación: si $\neg \, \alpha_n = \alpha_i$ para  algún $i < n$, entonces $\Delta_n= \Delta_{n-1}$.  En caso contrario $\Delta_n= \Delta_{n-1} \cup \{\alpha_n\}$.  El conjunto unión
+$$
+\Delta= \bigcup_{n=1}^\infty \Delta_i
+$$
+es completo, puesto que o bien $\alpha_n \in \Delta_n$ o bien $\neg \, \alpha_n \in \Delta_i$ con $i<n$.  Existe otro método de construcción, basado en el lema de Zorn, que es más elegante.
+
+\begin{lema}
+
+Si $\Sigma$ es finitamente satisfacible entonces no puede ocurrir que $\alpha$ y $\neg\, \alpha$ pertenezcan a $\Sigma$.
+
+\end{lema}
+
+\dem
+
+Si $\alpha$ y $\neg \, \alpha$ perteneciesen a $\Sigma$, el conjunto finito $\{\alpha, \neg\, \alpha\}$ no podría ser satisfacible. \fin 
+
+Aunque este lema se puede demostrar de modo inductivo, realizaremos la demostración por el lema de Zorn.
+
+\begin{lema}
+
+Si $\Sigma$ es finitamente satisfacible, existe un conjunto completo $\Delta$ tal que $\Sigma \subset \Delta$.
+
+\end{lema}
+
+\dem
+
+Construimos el conjunto de partes de ${\bf Form}$.
+$$
+C= \{ H \subset {\bf Form} \text{ tales que } \Sigma \subset H \text{ y } H \text{ es finitamente satisfacible}\}
+$$
+
+Por el lema de Zorn existe un elemento maximal, que denotamos $\Delta$.  Este conjunto es finitamente satisfacible por construcción. Además  es completo por el siguiente razonamiento:
+
+\begin{itemize}
+
+\item Si $\Delta \cup \{\alpha\}$ es finitamente satisfacible, dicho conjunto pertenece a $C$ y por la maximalidad de $\Delta$ debe estar contenido en $\Delta$.  Esto implica que $\alpha \in \Delta$.
+
+\item Si $\Delta \cup \{\alpha\}$ no es finitamente satisfacible, entonces debe ocurrir que  el conjunto $\Delta \cup\{\neg\, \alpha\}$ si sea finitamente satisfacible.  El mismo razonamiento prueba en este caso que $\neg \,\alpha \in \Delta$.
+
+\end{itemize}
+
+Hemos probado que $\Delta $ es completo. \fin 
+
+\begin{teo}[de compacidad]
+
+Si $\Sigma$ es finitamente satisfacible, entonces es satisfacible.
+
+\end{teo}
+
+\dem
+
+Existe un conjunto $\Delta$ completo que contiene a $\Sigma$.  Definimos una función $v: {\bf Form} \mapsto B$ con el siguiente criterio
+$$
+v[\alpha]= 1 \text{ si y solo si } \alpha \in \Delta
+$$
+Por lo tanto necesariamente $v[\alpha]=0$ si $\alpha \not \in \Delta$. Pero como el conjunto es completo,  se tiene que $v[\alpha]=0$ si y solo si $\neg \, \alpha \in \Delta$.
+
+
+Un análisis detallado, aunque sencillo, de todos los casos, demuestra que efectivamente $v$ es una valuación.  Por construcción se tiene que $v[\Sigma]=1$ y el conjunto es satisfacible. \fin 
+
+\begin{cor}
+
+Si $\Sigma \vDash \alpha$, existe un conjunto finito $\Sigma_1$ que cumple
+$\Sigma_1 \vDash \alpha$.
+
+\end{cor}
+
+\dem
+
+Sabemos que $\Sigma \vDash \alpha$ si y solo si el conjunto $\Sigma \cup\{\neg \alpha\}$ es insatisfacible. Imaginemos que para todo conjunto finito $\Sigma_1$ sea imposible que  $\Sigma_1 \vDash \alpha$.  Entonces el conjunto finito $\Sigma_1 \cup \{\neg \alpha\}$ si es satisfacible.  Pero como esto ocurre para todo conjunto finito, por compacidad, tenemos que $\Sigma\cup \{\neg \alpha\}$  es satisfacible.  Esto entra en contradicción con la hipótesis $\Sigma \vDash  \alpha$. \fin 
+
+\newpage
+
+\section{Sistemas deductivos}
+
+En Matemáticas estamos acostumbrados a demostrar teoremas. Si tenemos una teoría, por ejemplo, la teoría de grupos, partimos de unos conocimientos básicos, que denominamos axiomas, y tras una serie de razonamientos, llegamos a una conclusión, que es lo que se denomina teorema. En los razonamientos debemos emplear la «lógica» en algún sentido que no podemos todavía precisar. Nosotros sabemos que si un conjunto cumple los axiomas (esto es, si es un grupo), entonces el resultado obtenido es cierto para dicho conjunto.  Es más, para proceder a demostrar más teoremas, podemos apoyarnos en los ya demostrados y siempre obtenemos resultados verdaderos.  Esto que hemos esbozado es el concepto intuitivo de deducción.
+
+\begin{defi}
+
+Una {\sf regla de inferencia} es una función parcial simétrica de rango $n$ sobre el lenguaje ${\bf Form}$.
+
+\end{defi}
+
+Aclaremos esta definición.  Una función de rango $n$ sobre ${\bf Form}$ es una aplicación
+$$
+\begin{array}{cccc}
+f:& \stackrel{n)}{{\bf Form}\times \dots \times {\bf Form}}& \mapsto & {\bf Form}
+\end{array}
+$$
+
+Que sea simétrica significa que si cambiamos el orden de las coordenadas, el resultado no cambia. Finalmente, parcial significa que $f$ puede no estar definida en todo el conjunto ${\bf Form}^n$ sino solamente sobre un subconjunto propio.
+
+\bigskip
+
+\noindent{\bf Propiedades.}
+
+\begin{itemize}
+
+\item Como la función es simétrica el valor de $f[\alpha_1, \dots, \alpha_n]$ dependen solamente del conjunto $\{\alpha_1, \dots , \alpha_n\}$ y no del orden particular de los elementos.
+
+\item Existe una forma relativamente estandar para denotar las reglas de inferencia.  Consiste en colocar el conjunto de argumentos sobre  una línea y debajo de ésta la imagen
+$$
+\begin{array}{c}
+\alpha_1 \quad \alpha_2 \dots \alpha_n \\ \hline
+f[\alpha_1, \alpha_2, \dots, \alpha_n]
+\end{array}
+$$
+A veces separamos los argumentos con comas para facilitar la lectura. 
+También se puede escribir cada elemento $\alpha_i$ en una fila.
+\end{itemize}
+
+\begin{defi}
+
+Dada una regla de inferencia, si $\beta= f[\alpha_1,\dots, \alpha_n]$ decimos que $\beta$ es una {\sf consecuencia} de $\alpha_1,\dots, \alpha_n$ aplicando la regla $f$.
+
+\end{defi}
+
+Para manejar  el concepto de regla de inferencia, debemos pensar que los argumentos de la regla de inferencia son las premisas de las que se parte y que su imagen es la conclusión que se obtiene de dichas premisas.  De esta manera, debemos ser capaces de probar la verdad de la consecuencia  a partir de la verdad  de las premisas. Por ello únicamente   nos interesarán las reglas de inferencia que cumpla la siguiente
+
+\begin{defi}
+
+Una regla de inferencia $f$ es {\sf correcta} si para toda valuación $v$ que cumple $v[\alpha_1] = \dots =v[\alpha_n]=1$ se tiene también que $v[\beta]=1$, siendo $\beta= f[\alpha_1, \dots, \alpha_n]$.
+
+
+\end{defi}
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Tal vez la regla de inferencia más importante es el {\it modus ponens}:
+$$
+\begin{array}{l}
+\alpha \\
+\alpha \rightarrow \beta \\ \hline
+\beta
+\end{array}
+$$
+ Sea $v$ una valuación tal que $v[\alpha]= 1$ y que $v[\alpha \rightarrow \beta]=1$.  Entonces necesariamente $v[\beta]=1$, puesto que si fuese nulo tendríamos una contradicción. Esta regla es correcta.
+
+\item Otras reglas también muy  conocidas (y también correctas) son:
+$$
+\begin{array}{l}
+\alpha \wedge \beta\\ \hline
+\alpha 
+\end{array}
+\qquad  \qquad 
+\begin{array}{l}
+\alpha \\
+\beta\\ \hline
+\alpha \wedge \beta
+\end{array}
+\qquad \qquad 
+\begin{array}{l}
+\neg \alpha \\
+\alpha \vee \beta \\ \hline
+\beta
+\end{array}
+$$
+
+
+\item Algunas reglas de inferencia no necesitan premisas.  Ello equivale a que la función $f$ sea de rango cero. Una de ellas es
+$$
+\begin{array}{c}
+ \varnothing \\ \hline
+ \alpha \vee \neg \alpha
+ \end{array}
+ $$
+Esta regla es correcta (pues la consecuencia es una tautología) y normalmente se elimina el conjunto vacío de su expresión, escribiendo simplemente
+$$
+\begin{array}{c}
+ \hline
+ \alpha \vee \neg \alpha
+ \end{array}
+ $$
+
+
+\end{itemize}
+
+
+
+
+
+
+ Es evidente que existe una gran variedad de reglas de inferencia.  Sin embargo nosotros estaremos interesados en las reglas de inferencia que se utilizan habitualmente en el trabajo matemático, que naturalmente son correctas.  
+
+
+\begin{defi}
+
+
+Dado un conjunto $R$ de reglas de inferencia, y un subconjunto $\Delta \subset {\bf Form}$, llamamos deducción desde $\Delta$ mediante $R$ a cualquier sucesión finita   $\alpha_1, \dots, \alpha_n$ que cumpla alguna de las condiciones:
+
+\begin{itemize}
+
+\item $\alpha_i$ es un elemento de $\Delta$.
+
+\item $\alpha_i$ es consecuencia de un conjunto de  eslabones anteriores de la cadena mediante alguna regla de inferencia de $R$.
+
+\end{itemize}
+
+\end{defi}
+
+
+Si existe una deducción con $\alpha_n= \beta$ decimos que $\beta$ es {\sf deducible} de $\Delta$ mediante $R$.  Todos los eslabones de una deducción son deducibles.
+
+
+Para empezar a realizar deducciones necesitamos un conjunto de reglas de inferencia y un conjunto de fbf de las que partir para realizar deducciones.
+
+\begin{defi}
+
+Un {\sf sistema deductivo} $D$ es un par formado por un conjunto $\Lambda\subset {\bf Form}$ cuyos elementos se llaman {\sf axiomas} y por un conjunto $R$ de reglas de inferencia.
+
+\end{defi}
+
+
+El conjunto de axiomas de los que se parte puede ser vacío (existen reglas de inferencia que no necesitan premisas), pero el conjunto de reglas de inferencia nunca puede ser vacío.
+
+
+\begin{defi}
+
+Fijado un sistema deductivo $D=(\Lambda,R)$, y un subconjunto $\Gamma \subset {\bf Form}$,  llamamos {\sf teorema} de $\Gamma$ a cualquier  $\beta$ que se deduce de $\Lambda  \cup \Gamma$ mediante las reglas $R$.  Indicaremos esto mediante $\Gamma \vdash_D  \beta$.  Si el sistema deductivo se supone conocido se indica $\Gamma \vdash \beta$.
+
+\end{defi}
+
+
+Los elementos de $\Gamma$ se dice que son las {\sf premisas} del teorema.  Si  $\beta$ se puede deducir sin premisas, esto es, si $\varnothing \vdash \alpha$, decimos que $\beta$ es un {\sf teorema lógico}.  Se suele denotar por $\vdash \beta$.
+
+
+Hemos visto que el conjunto de teoremas de $\Gamma$ se construye de modo recursivo y por ello presenta un principio de inducción asociado.  Supongamos fijado el sistema deductivo $D$.  Denotamos por ${\bf Teorema}(\Gamma)$ al conjunto de todos los teoremas de $\Gamma$.
+
+\begin{propo}
+
+Dado un sistema deductivo $D=(\Lambda, R)$ se cumple:
+
+\begin{itemize}
+
+\item $(\Lambda \cup \Gamma) \subset {\bf Teorema}(\Gamma)$.
+
+\item Si $f$ es una regla de inferencia de orden $n$ y $\alpha_1,\dots , \alpha_n \in {\bf Teorema}(\Gamma)$, entonces $f[\alpha_1, \dots, \alpha_n] \in{\bf Teorema}(\Gamma)$ (siempre que la función parcial $f$ se pueda aplicar a dichos elementos).
+
+
+\end{itemize}
+
+\end{propo}
+
+\dem
+
+El primer punto es claro, puesto que existe una deducción de longitud 1 de todos los elementos de  $\Lambda \cup \Gamma$.
+
+\smallskip
+
+Sea $\beta_{1i}, \beta_{2i}, \dots ,\beta_{ni}$ una deducción de $\alpha_i$, que existe pues es un teorema.  Colocamos en orden todas las deducciones de $\alpha_1,  \alpha_2, \dots$ y le añadimos $f[\alpha_1, \dots, \alpha_n]$.  Es claro que ésta es una deducción que toma como premisas el conjunto $\Lambda \cup \Gamma$ y por lo tanto el último eslabón de la cadena es un teorema de $\Gamma$. \fin 
+
+A pesar de que las reglas de inferencia pueden no estar definidas globalmente observamos que ${\bf Teorema}(\Gamma)$ está generado por el conjunto $\Lambda \cup \Gamma$ y por las reglas $R$.  Ya podemos enunciar el principio de inducción.
+
+\begin{cor}
+
+Sea $T$ un conjunto tal que:
+
+\begin{itemize}
+
+\item $(\Lambda \cup \Gamma ) \subset T$.
+
+\item $T$ es cerrado por las reglas de inferencia $R$.
+
+\end{itemize}
+Entonces $  {\bf Teorema}(\Gamma) \subset T$.
+
+\end{cor}
+
+
+De este corolario se obtienen una serie de resultados, todos ellos inmediatos, que se emplean habitualmente en las deducciones. Enunciamos algunos de ellos.
+
+\begin{itemize}
+
+\item Sea $\Gamma \subset \Delta$. Si $\Gamma \vdash \alpha$ entonces $\Delta \vdash \alpha$. Si aumentamos el conjunto de premisas el conjunto de teoremas aumenta.
+
+\item Si $\Gamma \vdash \alpha$ entonces existe un conjunto finito $\Gamma'\subset \Gamma$ tal que $\Gamma' \vdash \alpha$.  Aunque se tenga un colección infinita de premisas, en cada deducción solamente se emplea un número finito de ellas.  Lo mismo es cierto para el conjunto de axiomas.
+
+\item La regla de transitividad.  Si $\Gamma \vdash \beta$ para todo elemento $\beta$ de un conjunto $B$ (lo que indicaremos $\Gamma \vdash B$) y si además $B \vdash \alpha$, entonces $\Gamma \vdash \alpha$. Si en la deducción de $\alpha$ utilizamos teoremas previamente demostrados, es posible deducir $\alpha$ directamente de las premisas iniciales.  Para ello basta con concatenar las deducciones.
+
+
+
+\end{itemize}
+
+Ahora que ya tenemos la teoría general de los sistemas deductivos, vamos a aplicarlo a un caso particular.  Antes de empezar debemos hacer una precisión.
+
+En matemáticas, al final, lo que nos interesa es la semántica.  Si queremos demostrar enunciado $\alpha$, nos sentimos satisfechos si en vez de $\alpha$ demostramos $\beta$ siempre que $\alpha$ y $\beta$ sean (semánticamente) equivalentes.    Como la semántica no necesita de todos los conectores, podemos realizar deducciones empleando solamente un conjunto completo de conectivas.  Por ello supondremos que las fórmulas  que queremos demostrar están construidas a partir de los conectores $\{\neg , \rightarrow\}$.  Por ello no se pierde generalidad si llamamos {\bf Form} al conjunto de fbf generadas únicamente con los conectivos $\{\neg, \rightarrow\}$. Haremos, sin mencionarlo, la siguiente suposición:
+
+\begin{quote}
+
+Llamamos ${\bf Form}$ al conjunto generado por $\mathcal{V}$ y las operaciones $E_\neg$ y $E_\rightarrow$.
+
+\end{quote}
+
+\begin{defi}
+
+El sistema deductivo con el trabajaremos tiene como axiomas
+
+\begin{itemize}
+
+\item $\alpha \rightarrow (\beta \rightarrow \alpha)$.
+
+\item $(\alpha \rightarrow (\beta \rightarrow \gamma))\rightarrow ((\alpha \rightarrow \beta) \rightarrow (\alpha \rightarrow \gamma))$
+
+\item $(\neg \beta \rightarrow \neg \alpha)\rightarrow ((\neg \beta \rightarrow \alpha) \rightarrow \beta)$
+
+\end{itemize}
+donde  $\alpha$, $\beta$ y $\gamma$ son fbf arbitrarias.  La única regla de deducción es el modus ponens: 
+$$
+\begin{array}{l}
+\alpha \\
+\alpha \rightarrow \beta \\ \hline
+\beta
+\end{array}
+$$
+
+
+\end{defi}
+
+Aunque parezca que existen solamente tres axiomas en realidad existen infinitos.  En cualquiera de las expresiones anteriores podemos sustituir $\alpha$, $\beta$ y $\gamma$ por cualquier fbf, obteniendo un nuevo axioma.
+
+\begin{propo}
+
+Todos los axiomas son tautologías.
+
+\end{propo}
+
+\dem
+
+Basta realizar las tabla de verdad. \fin 
+
+\begin{cor}
+
+Todos los teoremas lógicos son tautologías.
+
+\end{cor}
+
+\dem
+
+Como el {\it modus ponens}  es correcto, entonces cualquier consecuencia es verdadera siempre que sean verdaderas las premisas.  Como los axiomas siempre son ciertos, entonces las consecuencias también. \fin 
+
+
+\begin{defi}
+
+Decimos que un cálculo deductivo es {\sf correcto} si para cualquier conjunto de premisas $\Gamma$ y para cualquier deducción $\beta$ se tiene
+$$
+\Gamma \vdash \beta \Rightarrow \Lambda \cup \Gamma \vDash \beta
+$$
+
+\end{defi}
+
+Como en nuestro caso los axiomas son tautologías el añadir el conjunto de axiomas no aporta nada. Podemos decir entonces que el sistema deductivo es correcto si
+$$
+\Gamma \vdash \beta \Rightarrow  \Gamma \vDash \beta
+$$
+
+Naturalmente la corrección del sistema deductivo tiene mucho que ver con la corrección de las reglas de inferencia.
+
+\begin{teo}[de corrección]
+
+Nuestro sistema deductivo es correcto.
+
+\end{teo}
+
+\dem
+
+Supongamos que $\Gamma \vdash \beta$.  Entonces existe una deducción 
+$$
+\alpha_1, \alpha_2,\dots, \alpha_n=\beta
+$$
+ desde el conjunto $\Lambda \cup \Gamma$.  Tomemos una valuación de verdad $v$ tal que \mbox{$v[\Gamma]=1$}.  Probemos por inducción que todos los eslabones de la deducción son verdaderos bajo esta valuación. Necesariamente $\alpha_1$ es un axioma o un elemento de $\Gamma$.  En ambos casos se cumple $v[\alpha_1]=1$ (recordar que los axiomas son tautologías).  Supongamos que $v[\alpha_i]=1$ para todo $i <r$. Si $\alpha_r$ es axioma o premisa entonces es verdadera.  En caso contrario debe existir un  eslabón anterior de la forma $\alpha_k= \alpha_i \rightarrow \alpha_r$, siendo $i$ estrictamente menor que $r$.  Como la regla de inferencia es correcta, de la verdad de las premisas ($\alpha_i$ y $\alpha_k$) se deduce la verdad de la consecuencia ($\alpha_r$).\fin 
+ 
+  Los sistemas deductivos que cumplen el recíproco del teorema anterior se llaman completos.
+  
+  \begin{defi}
+  
+  Un sistema deductivo es {\sf completo} si $\Gamma \vDash \beta \Rightarrow \Gamma \vdash \beta$.
+  
+  \end{defi}
+  
+Nuestro sistema deductivo también es completo, pero la demostración no es tan sencilla como la de correción.
+
+
+\newpage
+
+\section{Completitud de la lógica proposicional}
+
+Realizaremos ahora unas cuantas deducciones, pero solo las estrictamente necesarias para demostrar el teorema de completitud. Además, escribiremos las deducciones en vertical, añadiendo comentarios a su lado para que sean más fáciles de seguir. Debemos recordar que en cualquier momento podemos cambiar cualquier fbf que aparezca en la demostración por otra o por cualquier combinación de ellas, siempre que lo hagamos en todas sus entradas.
+
+\begin{propo}
+
+Para cualquier $\alpha \in {\bf Form}$ se tiene $\vdash \alpha \rightarrow \alpha$.
+
+\end{propo}
+
+\dem
+
+Una posible demostración es
+
+\begin{center}
+
+\begin{tabular}{lll}
+1 & $\alpha \rightarrow (\beta \rightarrow \alpha)$& Ax. 1 \\ 
+2 & $(\alpha \rightarrow (\beta \rightarrow \alpha)) \rightarrow ((\alpha \rightarrow \beta) \rightarrow (\alpha \rightarrow \alpha))$ & Ax. 2 \\
+3 & $(\alpha \rightarrow \beta) \rightarrow (\alpha \rightarrow \alpha)$ & MP(1,2)\\
+4 & $(\alpha\rightarrow (\gamma \rightarrow \alpha)) \rightarrow (\alpha \rightarrow \alpha)$ &  $\beta$ por $\gamma \rightarrow \alpha$ en 3\\
+5 & $\alpha \rightarrow (\gamma \rightarrow \alpha)$ & Ax. 1\\
+6 & $\alpha \rightarrow \alpha$ & MP(5,6)
+\end{tabular}
+
+\end{center}
+\noindent y obtenemos el resultado deseado. \fin
+
+\begin{propo}
+
+Si $\{\Gamma, \alpha\} \vdash \beta$ entonces $\Gamma \vdash (\alpha \rightarrow \beta)$.
+
+\end{propo}
+
+
+\dem
+
+La haremos por inducción.  Llamemos $D$ al conjunto 
+$$
+D=\{ \beta \text{ tales que } \Gamma \vdash \alpha \rightarrow \beta\}
+$$
+Para demostrar que este conjunto contiene a  los teoremas de $\{\Gamma \cup \alpha\}$ debemos demostrar que contiene al conjunto y que es cerrado por la regla de inferencia.
+
+\begin{itemize}
+
+\item Supongamos que $\beta \in \Gamma$.  Entonces es claro que $\Gamma \vdash \beta$.  Ahora debemos demostrar que $\alpha \rightarrow \beta$ se puede deducir de $\Gamma \cup \alpha$
+
+\begin{center}
+
+\begin{tabular}{lll}
+1 & $\beta$ & Puesto que $\Gamma \vdash \beta$ \\
+2 & $\beta \rightarrow (\alpha \rightarrow \beta )$ & Ax. 1 \\
+3 & $\alpha \rightarrow \beta$ & MP(1,2)
+\end{tabular}
+
+\end{center}
+Esto prueba que $\beta \in D$.
+
+\item Por la proposición anterior $\alpha \rightarrow \alpha$.  Entonces $\alpha \in D$.
+
+\item Supongamos que $\beta$ y $\beta \rightarrow \gamma$ pertenecen a $D$.  Debemos demostrar que $\gamma$ también pertenece a $D$.
+
+\vspace{5 cm}
+
+terminar
+
+\vspace{5 cm}
+
+
+
+\end{itemize}
+
+
+
+El recíproco del teorema anterior también es cierto y es muy utilizado en la realización de deducciones
+
+\begin{propo}
+
+Si $\Gamma \vdash \alpha \rightarrow \beta$ entonces $\{\Gamma, \alpha\}\vdash \beta$.
+
+\end{propo}
+
+\dem
+
+Como $\Gamma \vdash \alpha \rightarrow \beta$, entonces, añadiendo una premisa tenemos también que $\{\Gamma, \alpha\} \vdash \alpha \rightarrow \beta$.  Como también $\{\Gamma, \alpha\} \vdash \alpha $, aplicando el modus ponens tenemos que $\{\Gamma, \alpha\} \vdash \beta$. \fin 
+
+El conectivo $\rightarrow$ presenta unas leyes de transitividad, análogas a las de la implicación
+
+\begin{cor}
+
+Se cumplen las propiedades:
+
+\begin{itemize}
+
+\item $\{\alpha \rightarrow \beta, \beta \rightarrow \gamma\} \vdash \alpha \rightarrow \gamma$.
+
+\item $\{\alpha \rightarrow (\beta \rightarrow \gamma), \beta\} \vdash \alpha \rightarrow \gamma$.
+
+\end{itemize}
+
+\end{cor}
+
+\newpage
+
+\begin{defi}
+
+Un sistema deductivo es {\sf inconsistente} si existe un fbf $\beta$ tal que $\vdash \beta $ y también $\vdash \neg \beta$.  Se dice que es {\sf consistente} en caso contrario.  
+
+\end{defi}
+
+Nuestro sistema deductivo es consistente, como se deduce del teorema de corrección.  Si fuese inconsistente entonces tendríamos $\Gamma \vDash \beta$ y $\Gamma \vDash \neg \beta$, lo cual es imposible.
+  
+  
+  
+
+
+\newpage
+  
+  
+\section{Lenguajes de primer orden. Términos}
+
+Una frase declarativa, a nivel proposicional, es una variable $p_n$ y no se considera que tenga estructura. Ahora necesitamos un lenguaje que, aproximadamente, nos dé la estructura {\it sujeto-predicado} propia de las oraciones de los lenguajes naturales. Los lenguajes de primer orden permiten resolver este problema.  Además, prácticamente cualquier expresión matemática se puede traducir a este lenguaje.
+
+\begin{defi}
+
+El alfabeto $A$ de un {\sf lenguaje de primer orden} consta de varios suconjuntos disjuntos, que enumeramos a continuación:
+
+\begin{itemize}
+
+\item {\sf Variables}: Un conjunto infinito numerable $\mathcal{V}$, cuyos elementos denotamos por $x_i$. También utilizaremos las letras $x, y, z,\dots$ para denotarlas.
+
+\item {\sf Conectivos}: $\{\neg, \wedge, \vee, \rightarrow \}$
+
+\item {\sf Cuantificadores}: $\{\forall, \exists\}$. $\forall$ se lee «para todo» y $\exists$ se lee «existe al menos un».
+
+\item {\sf Paréntesis}: $\{ (,)\}$.
+
+\item {\sf Constantes}: Un conjunto $\mathcal{C}$ cuyo cardinal puede ser arbitrario. Los elementos los denotaremos por $c_i$.
+
+\item {\sf Functores}: Para cada $n \geq 1$ un conjunto $\mathcal{F}_n$ de cardinal arbitrario.   Utilizaremos las letras $f$ y $g$ para denotarlos.
+
+\item {\sf Relatores}: Para cada $n \geq 1$ un conjunto $\mathcal{R}_n$ de cardinal arbitrario.     Utilizaremos letras latinas mayúsculas para denotarlos. Los relatores también se llaman {\sf predicados}. 
+
+
+\end{itemize}
+
+\end{defi}
+
+
+Denotaremos por $\mathcal{F}$ al conjunto $\bigcup_{n=1}^\infty \mathcal{F}_n$ y por $\mathcal{R}$ al conjunto $\bigcup_{n=1}^\infty\mathcal{R}_n$. Estos conjuntos pueden tener cualquier cardinal. En particular, nada impide que  el conjunto de funciones sea vacío. Del mismo modo puede ocurrir que el conjunto de constantes sea vacío.  Pero siempre vamos a suponer que existe un relator de orden 2.  Lo denotaremos por $\approx$ y diremos que es el {\sf símbolo de  igualdad}. 
+
+\bigskip
+
+\noindent{\bf Observación.} Nosotros consideramos que no existen functores de orden cero.  En otros libros se llaman functores de orden cero a lo que nosotros llamamos constantes.  Veremos en la parte de semántica la razón de ello. \fin
+
+
+A diferencia del lenguaje proposicional, existen muchos lenguajes de primer orden. Llamaremos {\sf alfabeto lógico} al conjunto formado por las variables, los conectivos, los cuantificadores, los paréntesis y el símbolo de igualdad.  Todos los lenguajes de primer orden contienen al alfabeto lógico. Además, cada lenguaje en particular tiene sus propios símbolos.  Este conjunto lo llamaremos {\sf vocabulario} y consta de las constantes, los functores y los relatores (salvo el relator igualdad).
+
+\bigskip
+
+
+\noindent{\bf Ejemplos.}
+
+
+\begin{itemize}
+
+\item El lenguaje de primer orden más simple es el que únicamente tiene símbolos lógicos y carece de vocabulario.  Normalmente se llama {\sf lenguaje de igualdad}. 
+
+\item Como el conjunto de símbolos lógicos es numerable, el cardinal del alfabeto $A$ es
+$$
+\aleph_0 +|\mathcal{C}|+|\mathcal{F}| + |\mathcal{R}|
+$$
+
+\item  Imaginemos que queremos hablar de aritmética elemental.  Para ello necesitamos un símbolo que denote nuestro concepto de cero.  No buscamos más y denotamos dicho elemento por $0$.  Del mismo modo debemos tener un símbolo para denotar a la unidad.  Si queremos realizar operaciones, necesitamos un símbolo para la suma, y otro para la multiplicación.   El vocabulario $\{0,1,+, \cdot\}$ está formado por dos constantes y por dos functores de orden 2.
+
+\item El lenguaje de la teoría de conjuntos tiene un único relator binario $\in$, y no tiene ni constantes ni functores.
+
+\item Si queremos hablar de teoría de grupos necesitaremos un símbolo para la operación y otro símbolo para denotar el elemento neutro.  El vocabulario es: $\mathcal{C}=\{ e \} $, $\mathcal{F}=\{ +\}$ y $\mathcal{R}=\varnothing$.
+
+
+\item Podemos utilizar otro lenguaje para estudiar la teoría de grupos. Simplemente añadimos al lenguaje anterior un functor de orden 1, $-$.  El nuevo vocabulario es ahora: $\mathcal{C}=\{ e \} $, $\mathcal{F}=\{ +,-\}$ y $\mathcal{R}=\varnothing$.  Se pueden utilizar otros lenguajes para la teoría de grupos. Por ejemplo el que tiene vocabulario $\mathcal{C}=\{ e \} $, $\mathcal{F}=\varnothing$ y $\mathcal{R}=\{R_+\}$, donde $R_+$ es un relator de orden 3.  Posteriormente veremos como su puede construir un relator de orden $n+1$ a partir de un functor de orden $n$. En definitiva, el lenguaje que permite estudiar una teoría no es único.
+
+\item Para  hablar de una relación de orden en un conjunto necesitamos un símbolo para indicar dicha relación.  Normalmente se utiliza $\leq$, que es un relator binario. Este lenguaje no necesita constantes ni funciones.  
+
+
+\item Si tenemos dos lenguajes de primer orden, decimos que $L'$ es una {\sf extensión} de $L$ si se cumplen las siguientes tres condiciones evidentes:
+$$
+\mathcal{C} \subset \mathcal{C}' \qquad \mathcal{F} \subset \mathcal{F}' \qquad \mathcal{R} \subset \mathcal{R}'
+$$
+También se dice que $L$ es una {\sf restricción} de $L'$.
+
+
+\end{itemize}
+
+Con el  alfabeto de un lenguaje de primer orden pretendemos definir un conjunto de fórmulas bien formadas.  El proceso de creación es similar al del cálculo proposicional, empleando un conjunto generador y unas reglas de formación.  Existen dos diferencias fundamentales con el caso proposicional:
+
+\begin{itemize}
+
+\item El conjunto de reglas de formación es ahora un conjunto infinito.  
+
+\item El conjunto generador, que en el caso proposicional era $\mathcal{V}$, no está dado directamente por el alfabeto.  Lo tendremos que construir.  Los elementos de este conjunto generador es lo que llamaremos fórmulas atómicas. Pero para construir estas fórmulas atómicas necesitamos primeramente el concepto de término.
+
+\end{itemize}
+
+
+Dado un lenguaje de primer orden, si el conjunto de functores no es vacío, a cada elemento $f \in \mathcal{F}_n$ le asociamos una operación interna de rango $n$, que denotamos $T_f$, definida en el conjunto de expresiones
+$$
+\begin{array}{cccc}
+T_f:& A^* \times \stackrel{n)}{\cdots} \times A^* & \mapsto& A^*\\
+  & (X_1,\dots, X_n) &\mapsto& fX_1\dots X_n
+\end{array}
+$$
+donde la expresión $fX_1 \dots X_n$ es la concatenación del functor $f$,  seguido de la expresión $X_1$, etc. Naturalmente el conjunto $\{T_f\}$ puede ser infinito si el conjunto de functores lo es.
+
+\bigskip
+
+\noindent{\bf Observación.} A  veces, para que la escritura esté más próxima a los convenios que habitualmente se emplean en  matemáticas, escribimos $f(t_1 \dots t_n)$ en lugar de $ft_1 \dots t_n$.  \fin
+
+\begin{defi}
+
+Llamamos ${\bf Ter}$ al subconjunto generado por $\mathcal{V} \cup \mathcal{C}$ y las funciones $T_f$. Los elementos de este conjunto se llamarán {\sf términos}. En general emplearemos las letras $t$ y $s$ para referirnos a los términos.
+
+\end{defi}
+
+
+ Por lo tanto toda variable y toda constante, caso de existir, son términos. Si no existen functores estos son los únicos términos.  Pero en cuanto exista una functor $f$ de orden $n$, la expresión $ft_1 \dots t_n$  también es un término.  Este proceso inductivo de generación da lugar al concepto de cadena de formación de términos. Este concepto es análogo al de fbf que vimos en el cálculo proposicional.  
+
+\begin{defi}
+
+Llamamos {\sf cadena de formación de términos} a toda sucesión $X_1,\dots,X_n \in A^*$ que cumple una de estas condiciones:
+
+\begin{itemize}
+
+\item $X_i$ es una variable o una constante.
+
+\item Dado $i$, existen $i_1,\dots ,i_k$ índices menores que $i$ y un elemento $f \in \mathcal{F}_k$ tal que $X_i=fX_{i_1} \dots X_{i_k}$.
+
+\end{itemize}
+
+\end{defi}
+
+Se dice que un elemento $X\in A^*$ admite una cadena de formación de términos si es el último eslabón de alguna de las cadenas definidas anteriormente.  Del mismo modo que en el cálculo proposicional se demuestra la
+
+\begin{propo}
+
+Un elemento $t \in {\bf Ter}$ si y solo si posee una serie de composición de términos.
+
+\end{propo}
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item En el lenguaje de la igualdad los únicos términos son las variables.
+
+\item  En el lenguaje aritmético podemos crear ya nuevos términos.  Por ejemplo $+(11)$ es un término (recordemos lo dicho sobre los paréntesis).  Normalmente esto no lo escribimos así.  Empleamos la notación habitual de la aritmética y lo denotamos por $(1+1)$.  Otro término es $\cdot(+(11)+(11))$. Es fácil hallar la traducción de este término y en general de cualquier otro.
+
+\item De la misma forma, en el lenguaje de los conjuntos ordenados se emplea un relator binario $\leq$.  En lugar de escribir $\leq x_1x_2$, la notación habitual es $x_1 \leq x_2$.
+
+
+
+\item Si $L'$ es una extensión de $L$, todo término de $L$ se puede considerar también como un término de $L'$.  Al hacer extensiones ampliamos el conjunto de términos.
+
+
+\end{itemize}
+
+\noindent{\bf Obsrvación.}  Hemos visto que el lenguaje de la aritmética es muy formal y que nosotros podemos traducirlo siempre a un lenguaje más próximo al que estamos acostumbrados.  Esto es habitual en todos los lenguajes formalizados.  Cada parte de la matemática, e incluso diría que cada matemático en particular, tiene sus propios convenios de notación.  Nosotros empleamos muchos convenios.  Algunos los explícitamos, pero otros los tenemos ya tan interiorizados que los empleamos sin darnos cuenta. \fin 
+
+El método empleado para construir el conjunto de términos es recursivo.  Todas las construcciones recursivas tienen un principio de inducción asociado, que se utiliza para probar propiedades que poseen todos los términos.
+
+\begin{propo}[Principio de inducción]
+
+Si un subconjunto $L$ cumple:
+
+\begin{itemize}
+
+\item Contiene  a las variables y a las constantes.
+
+\item Es cerrado por las operaciones $\{T_f\}$.
+
+\end{itemize}
+
+Entonces $L$ contiene a ${\bf Ter}$.
+
+\end{propo}
+
+
+
+
+
+  Hemos demostrado que todo término es o bien una variable, o bien una constante o bien una expresión que comienza con un functor.  Es claro que estos tres tipos son disjuntos.  Además de esto se tiene el siguiente resultado.
+
+\begin{propo}[lectura única]
+
+Sea $t_1 \dots t_n= s_1 \dots s_k$ donde $t_i, s_i$ son términos.  Entonces se tiene que $n=k$ y $t_i= s_i$ para todo índice.
+
+\end{propo}
+
+
+\dem
+
+Realizaremos la demostración por inducción sobre la longitud modificada.  Cometeremos el abuso de notación de escribir $\lon$ para denotarla.  Con esta notación se tiene
+$$
+\lon[ft_1 \dots t_n]= 1+ \lon[t_1]+ \cdots + \lon[t_n]
+$$
+Si la longitud es la unidad, entonces necesariamente es una variable o una constante y se tiene la igualdad.  Supongamos, por hipótesis de inducción, que  cualquier cadena de términos de longitud menor que $r$ posee la propiedad.
+
+Si la primera letra de la expresión $t_1 \dots t_n$ es una variable o una constante, entonces $t_1$ es una variable o una constante.  Lo mismo le sucede a $s_1$.  Eliminando este primer término, obtenemos una igualdad entre dos sucesiones de términos de menor longitud.  Por hipótesis de inducción concluimos.
+
+Si la primera letra de la expresión es un functor $f$, necesariamente la otra cadena también comienza por $f$.  Si eliminamos esta primera letra, nos queda una igualdad entre dos sucesiones cuya longitud es menor. De nuevo concluimos por inducción. \fin
+
+
+
+
+\begin{cor}
+
+Las aplicaciones $T_f : {\bf Ter}\times \stackrel{n)}{\cdots} \times {\bf Ter}  \mapsto {\bf Ter}$ son inyectivas.  Además, el conjunto generador, $\mathcal{V} \cup \mathcal{C}$, y los conjuntos imagen de $T_f$ son disjuntos dos a dos.
+
+\end{cor}
+
+\dem
+
+Veamos que $T_f$ es inyectiva.  Si 
+$$
+T_f(t_1, \dots, t_n)=T_f(s_1,\dots, s_n)
+$$
+ entonces tenemos que
+ $$
+ ft_1 \dots t_n= fs_1 \dots s_n
+ $$
+ Por la proposición anterior, $t_i=s_i$ y la aplicación es inyectiva.
+ 
+ \smallskip
+ 
+ Es claro que el conjunto generador y los de tipo $\mathrm{Im}(T_f)$ son disjuntos, pues los elementos del conjunto generador comienzan por una variable o una constante y los del otro conjunto comienzan por el símbolo $f$.  El mismo razonamiento prueba que los conjuntos imagen son disjuntos dos a dos. \fin
+ 
+ 
+\noindent{\bf Observación.} En Álgebra, si tenemos un conjunto generador $G$ y unas operaciones generadoras $\{f_i\}$, se dice que el conjunto $\langle G \rangle$ está {\sf libremente generado} si los conjuntos $G$ y las imágenes de las aplicaciones generadoras son disjuntos dos a dos.  Con esta notación,  nosotros hemos probado que el conjunto de términos está libremente generado por el conjunto de variables y constantes. \fin
+ 
+ 
+ Los resultados anteriores permiten utilizar el {\sf método recursivo}  para definir  funciones sobre el conjunto de términos. La ideal general es la siguiente: tomamos un conjunto $B$ como conjunto imagen.  A cada elemento del conjunto generador le asociamos un elemento de $B$.  Construimos así una función $\phi: \mathcal{V} \cup \mathcal{C} \mapsto B$.  Para extender dicha función a términos compuestos definimos $\phi[ft_1\dots t_n]$ en función de $\phi[t_1], \dots , \phi[t_n]$.  Esta construcción es correcta debido a la lectura única.  Como cualquier término compuesto tiene una serie de formación, podemos emplear el procedimiento anterior en  cada eslabón de una cadena de formación, obteniendo finalmente la imagen de cualquier término compuesto. 
+ 
+ \bigskip
+ 
+ \noindent{\bf Ejemplos.}
+ 
+ \begin{itemize}
+ 
+ \item   Decimos que $t$ es un {\sf subtérmino} de $s$ si $s = \alpha t \beta$ y $t$ es a la vez un término.  Llamamos $\mathsf{subter}$ a la única   función
+  $$
+\mathsf{subter}: {\bf Ter} \mapsto \mathcal{P}({\bf Ter})
+$$
+ que cumple: 
+
+\begin{itemize}
+
+\item $\mathsf{subter}[c_i]= \{c_i\}$
+
+\item $\mathsf{subter}[x_i]= \{x_i\}$
+
+\item $\mathsf{subter}[ft_1\dots t_n ]=\{ft_1 \dots t_n\} \cup \mathsf{subter}[t_1] \cup \dots \cup  \mathsf{subter}[t_1] $
+
+
+\end{itemize}
+
+La imagen $\mathsf{subter}[t]$ da el conjunto de todos los subtérminos de $t$.  Es habitual utilizar árboles para encontrar todos los subtérminos.  En cada paso se utiliza el resultado de lectura única para crear nuevas ramas.  El proceso se detiene cuando se llega a una variable o a una constante.
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+\item El {\sf grado de complejidad} de un término es el número de functores que posee, contados tantas veces como aparece. Si la denotamos por $\mathsf{comp}: {\bf Ter} \mapsto \N$, es la única función que cumple:
+
+\begin{itemize}
+
+\item $\mathsf{comp}[x_i]=0$.
+
+\item $\mathsf{comp}[c_i]=0$.
+
+\item $\mathsf{comp}[ft_1\dots t_n]=1 + \mathsf{comp}[t_1]+ \dots + \mathsf{comp}[t_n]$.
+
+
+\end{itemize}
+
+\item Denotamos por $\mathsf{var}[t]$ al conjunto de variables que tienen entrada en $t$.  La definición recursiva de esta función es:
+
+\begin{itemize}
+
+\item $\mathsf{var}[c_i]= \varnothing$.
+
+\item $\mathsf{var}[x_i]= \{x_i\}$.
+
+\item $\mathsf{var}[f t_1 \dots t_n]= \mathsf{var}[t_1] \cup \dots \cup \mathsf{var}[t_n]$.
+
+
+\end{itemize}
+
+Si un término $t$ cumple que $\mathsf{var}[t] \subset \{x_1, \dots ,x_n\}$, lo denotaremos por $t[x_1,\dots, x_n]$.  Esta notación quedará clara cuando estudiemos la semántica.
+
+
+ \end{itemize}
+
+\newpage
+
+\section{Lenguajes de primer orden. Fórmulas}
+
+De momento solamente hemos empleado las variables, las constantes y los functores.  Para construir las fbf necesitamos ya los predicados.
+
+
+
+\begin{defi}
+
+Llamamos {\sf fórmula atómica} a cualquier expresión de la forma $Rt_1\dots t_n$  donde $R$ es un relator de orden $n$ y $t_i$ son términos. En particular $t_1 \approx t_2$ es siempre una fórmula atómica. El conjunto de todas las fórmulas atómicas lo denotamos ${\bf Atm}$.
+
+\end{defi}
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item En el lenguaje de la igualdad $ \approx x_1x_2$ es una fórmula atómica.  En este lenguaje todas las fórmulas atómicas son similares, puesto que los únicos términos son las variables y el único relator es el de igualdad. La escritura más habitual de esta fbf es $x_1 = x_2$.
+
+\item En aritmética $\approx x_1 0$ es una fórmula atómica.  Normalmente escribiremos $x_1\approx 0$.  Si no hay peligro de confundir el signo $\approx$ con el que a veces empleamos en el castellano, escribiremos $x_1=0$.  Otra fórmula atómica, ya traducida, es $(1+1)\cdot (0+1+1) = (x_1+1)$.
+
+
+\item En el lenguaje de la teoría de grupos, si denotamos por un punto a la operación interna y por $e$ al «elemento neutro», $e\cdot x_7=(e \cdot x_1) \cdot e$ es una fórmula atómica.
+
+\end{itemize}
+
+Ya hemos construido el conjunto que nos permitirá generar inductivamente el conjunto de fbf.  Ahora  necesitamos construir operaciones internas que nos sirvan de reglas de formación.  Algunas de ellas son exactamente iguales que las del cálculo proposicional y las denotaremos  $E_\neg$, $E_\wedge$, $E_\vee$ y $E_\rightarrow$.  Para cada natural $n$ tendremos otras dos funciones de rango $1$.  Sus definiciones son:
+$$
+\begin{array}{cccc}
+F_i: &A^* &\mapsto& A^*\\
+   &   X & \mapsto & \forall x_i(X)
+\end{array}\qquad \qquad 
+\begin{array}{cccc}
+G_i: &A^* &\mapsto& A^*\\
+   &   X & \mapsto & \exists x_i(X)
+\end{array}
+$$
+
+
+\begin{defi}
+
+Llamamos ${\bf Form}$ al conjunto generado por ${\bf Atm}$ con las reglas de formación $E$, $F_i$ y $G_i$. Sus elementos se llaman {\sf fórmulas} o abreviadamente {\sf fbf}.
+
+\end{defi}
+
+De nuevo se tienen los conceptos de cadena de formación y principio de inducción. 
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+	
+	\item  En el lenguaje de la igualdad $\forall x_1(x_7 = x_1)$ es una fórmula {\sf compuesta} (compuesta es lo contrario de atómica).  También es una fbf $\neg(\approx x_1 x_2)$ que normalmente escribimos $x_1 \neq x_2$.
+	
+	\item  En el lenguaje de la teoría de grupos $\forall x \forall y \forall z \big(x \cdot (y \cdot z)= (x \cdot y)\cdot z\big)$ es una fbf.  Nuestra intuición de matemáticos nos sugiere que esta fórmula expresa la propiedad asociativa, y que como estamos en un grupo, debe de ser cierta.  De momento no podemos pensar así.  Esto es simplemente una expresión en un lenguaje de primer orden.  Cuando hablemos de semántica ya podremos asociar un valor de verdad a dicha fórmula. 
+	
+	\item En el lenguaje de los conjuntos ordenados, donde $\leq$ es el único elemento del vocabulario, $\forall x(\exists y(x \leq y))$ es una fbf, donde hemos escrito $ x \leq y$ en lugar de $\leq x y$.
+	
+	
+\end{itemize}
+
+
+La siguiente proposición se prueba del modo habitual por inducción.
+
+
+\begin{propo}
+
+El conjunto de fórmulas está libremente generado por las fórmulas atómicas. 
+
+
+\end{propo}
+
+
+ Al estar libremente generado podemos hablar del {\sf tipo} de cada fbf. Cada fbf $\gamma$ es de alguno de los siguientes tipos:
+ 
+ 
+ \begin{itemize}
+ 
+ \item Fórmula atómica.
+ 
+ \item $\gamma= \neg \alpha$.
+ 
+ \item $\gamma = \alpha \wedge \beta$.
+ 
+ \item $\gamma = \alpha \vee \beta$.
+ 
+ \item $\gamma = \alpha \rightarrow \beta$.
+ 
+ \item $\gamma= \forall x_i(\alpha)$ para cierta variable $x_i$.
+ 
+ \item $\gamma= \exists x_i(\alpha)$ para cierta variable $x_i$.
+ 
+ 
+ \end{itemize} 
+ 
+ 
+Al estar libremente generado se tiene un principio de lectura única que nos permite definir funciones recursivamente.  Para ello debemos  asociar a cada fórmula atómica la imagen de la función y definir recursivamente la función para el resto de tipos.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item El {\sf grado de complejidad} de una fórmula es el número de conectivos y cuantificadores que aparecen en su escritura.  Recursivamente se define:
+
+\begin{itemize}
+
+\item $\mathsf{grado}[\alpha]=0$ si $\alpha$ es atómica.
+
+\item $\mathsf{grado}[\neg \alpha]= 1+ \mathsf{grado}[\alpha] $.
+
+\item $\mathsf{grado}[\alpha \star \beta]= 1+ \mathsf{grado}[\alpha]+ \mathsf{grado}[\beta]$.
+
+\item $\mathsf{grado}[\forall x_i(\alpha)]= 1+ \mathsf{grado}[\alpha]$.
+
+\item $\mathsf{grado}[\exists x_i (\alpha)]= 1+ \mathsf{grado}[\alpha]$.
+
+
+\end{itemize}
+
+\item  Tenemos asimismo el concepto de {\sf subfórmula}.  Las fórmulas atómicas no tienen subfórmulas y la construcción recursiva de la función $\mathsf{subfor}: {\bf Form} \mapsto \mathcal{P}({\bf Form})$ es: 
+
+\begin{itemize}
+
+\item $\mathsf{subfor}[\alpha]=\{\alpha\} $ si $\alpha$ es atómica.
+
+\item $\mathsf{subfor}[\neg \alpha]= \{\neg \alpha\}\cup \mathsf{subfor}[\alpha] $.
+
+\item $\mathsf{subfor}[\alpha \star \beta]= \{\alpha \star \beta\}\cup \mathsf{subfor}[\alpha]\cup  \mathsf{subfor}[\beta]$.
+
+\item $\mathsf{subfor}[\forall x_i(\alpha)]= \{\forall x_i (\alpha)\} \cup  \mathsf{subfor}[\alpha]$.
+
+\item $\mathsf{subfor}[\exists x_i (\alpha)]= \{\exists x_i (\alpha)\}\cup  \mathsf{subfor}[\alpha]$.
+
+
+\end{itemize}
+\item Ayudado con el concepto de subfórmula se pueden crear sucesiones de formación de fbf.  Por ejemplo, si $c$ es una constante la sucesión
+\begin{eqnarray*}
+X_1 &=& (x=y)\\
+X_2 &=& (x=c)\\
+X_3 &=& (x=y) \wedge (x=c)\\
+X_4 &=& \forall x ((x=y) \wedge (x=c))
+\end{eqnarray*}
+es una serie de formación de  $\forall x ((x=y) \wedge (x=c))$.  Aquí aparecen dos signos $=$.  Uno forma parte el lenguaje de primer orden y otro forma parte del argot matemático. No debemos confundirlos.
+
+
+
+\end{itemize}
+
+
+
+ 
+ 
+\noindent{\bf Observación.}  Al aplicar el concepto de recursión estamos a la vez dando un algoritmo de cálculo de todos los conceptos recursivos.  En un número finito de pasos, cada uno de ellos perfectamente determinado, podemos construir la imagen de cualquier elemento. \fin 
+
+\begin{defi}
+
+Dado un símbolo $a \in A$, decimos que tiene una {\sf entrada} en una fbf $\alpha$ si $\alpha= \beta a \gamma$. 
+
+\end{defi}
+
+Un mismo símbolo puede tener distintas entradas en una fbf.  También puede ocurrir que dicho símbolo no entre en la fórmula.
+
+
+\begin{defi}
+
+Si $\forall$ es una entrada en  $\alpha$, llamamos {\sf alcance} del cuantificador a la única subfórmula $\beta$, tal que $\forall x_i(\beta)$ es también subfórmula. Análoga definición para el otro cuantificador.
+
+\end{defi}
+
+Decimos que una entrada de una  variable $y\in \mathcal{V}$ de una fbf $\alpha$ está {\sf ligada} si  pertenece a alguna subfórmula $\beta$ tal que o bien $\forall y(\beta)$ o bien $\exists y (\beta)$ es una subfórmula.  En otras palabras, una variable está ligada si pertenece al alcance de un cuantificador (seguido de la variable en cuestión). Las otras variables que  aparecen en $\alpha$ se llaman {\sf libres}. 
+
+\bigskip
+
+\noindent{\bf Observación.} Aunque en rigor debemos hablar de entrada libre de una variable, normalmente hablaremos de {\sf variables libres}.  Esto puede inducir a error puesto que una misma variable puede tener entradas libres y ligadas.  Si decimos que $\alpha$ tiene como variable libre $y$, queremos decir que alguna (o varias) entrada de $y$ en $\alpha$ es libre.  \fin 
+
+
+Denotaremos por $\mathsf{lib}[\alpha]$ al conjunto de variables libres de $\alpha$. Las fórmulas atómicas tienen como variables libres las variables de sus términos.  La definición recursiva de la función $\mathsf{lib}$ es:
+
+\begin{itemize}
+	
+	\item   Si $\alpha= R t_1 \dots t_n$ es atómica entonces $\mathsf{lib}[\alpha]= \mathsf{var}[t_1 ] \cup \dots \cup \mathsf{var}[t_n]$.
+	
+	\item $\mathsf{lib}[\neg \alpha]= \mathsf{lib}[\alpha]$.
+	
+	\item $\mathsf{lib}[\alpha \star \beta] = \mathsf{lib}[\alpha] \cup \mathsf{lib}[\beta]$.
+	
+	\item $\mathsf{lib}[\forall y(\alpha)]= \mathsf{lib}[\alpha]- \{y\}$.
+	
+  \item $\mathsf{lib}[\exists y(\alpha)]= \mathsf{lib}[\alpha]- \{y\}$.
+	
+\end{itemize}
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+	
+	\item  Si $R$ es un relator binario, $Rx$ tiene una variable libre, que es $x$. Sin embargo $\forall x(Rx)$ no tiene variables libres, pues la entrada libre de $x$, se ve «ligada» por el cuantificador.
+	
+	\item $\forall x (Rx) \wedge Px$ tiene una variable libre. La segunda entrada de $x$ (la de $Rx$) está ligada.  Sin embargo la tercera entrada no está en el alcance del cuantificador.  Basta que exista una entrada libre de $x$ para que digamos que la fórmula posee una variable libre.
+	
+	\item Si la fórmula no tiene cuantificadores, todas las variables que entren en la fórmula son libres. 
+	
+	\item Dada una fbf $\alpha$ denotaremos por $\alpha[x_1, \dots , x_n]$ si $\mathsf{lib}[\alpha] \subset \{x_1, \dots , x_n\}$. Debemos esperar también a la parte de semántica para comprender la notación.
+	
+\end{itemize}
+
+
+\begin{defi}
+
+ Si una fbf tiene alguna variable libre se dice que es {\sf abierta}.  Si no posee variables libres se denomina {\sf cerrada.}  Las fbf cerradas también se llaman {\sf sentencias}. El conjunto de todas las sentencias de un lenguaje se denota ${\bf Sent}$.
+
+\end{defi}
+
+Nosotros estamos fundamentalmente interesados en las sentencias, puesto que cuando estudiemos la semántica, le asociaremos a cada sentencia un valor de verdad.  A las fórmulas abiertas la  semántica no le asociará un valor de veracidad.  Por ello es importante construir sentencias a partir de fbf libres.  Existen dos métodos fundamentales para «cerrar» una sentencia.  Imaginemos que $\alpha$ tiene una única variable libre $y$ (lo que hemos notado $\alpha[y]$).  Entonces $\forall y(\alpha)$ ya no posee variables libres.  Lo mismo puede realizarse con el otro cuantificador.  Si tiene más de una variable libre se pueden «cuantificar» una a una.  En principio el orden de cuantificación puede ser arbitrario.
+
+La otra forma de hacer que desaparezcan las variables libres es sustituirlas por constantes. Supongamos que una fbf tiene una única  variable libre $y$.  Si en todas las entradas libres de dicha variable sustituimos dicha variable por una constante $c$ obtenemos una nueva expresión.  No es difícil comprobar que esta nueva expresión es también una fbf.  Debemos hacer notar que cuando decimos «sustituir» la variable $x$ por la constante $c$, debemos hacerlo solamente en  las entradas  libres de la variable. Las entradas ligadas no se pueden sustituir por constantes puesto que si una fórmula es $\forall y(\alpha)$, si sustituimos $y$ por una constante obtenemos $\forall c(\dots )$, que no es una fbf.  Es sencillo dar una definición recursiva de este concepto.
+
+
+\newpage
+
+\section{Sistemas}
+
+Los lenguajes de primer orden se utilizan para estudiar sistemas. Los sistemas son estructuras algebraicas dotadas de operaciones y relaciones internas.  Muchas de las estructuras algebraicas que aparecen habitualmente en el trabajo matemático son casos especiales de esta definición.  Cada lenguaje de primer orden tiene una clase de sistemas asociado.  Cada elemento de esa clase es lo que llamaremos una {\it interpretación} del lenguaje.  El proceso también es reversible en cierto sentido: si tenemos un sistema particular, podemos crear un lenguaje de primer orden especificamente adaptado.   Sin embargo los sistemas se pueden estudiar independientemente de los lenguajes de primer orden.  Esto es lo que hace el {\it álgebra universal}.  Cuando utilizamos también los lenguajes de primer orden, entonces nos introducimos en la {\it teoría de modelos}.
+
+
+\begin{defi}
+
+Dado un conjunto $M$, una {\sf operación} de orden $n$ es una aplicación de $M^n$ en $M$.  Una {\sf relación} de orden $n$ es un subconjunto de $M^n$.
+
+\end{defi}
+
+En realidad una operación $f$ de orden $n$ se puede pensar como una relación $R_f$ de orden \mbox{$n+1$}: dada la operación, el conjunto $R_f$ de la relación  está formado por los puntos de la forma $(a_1, \dots ,a_n, f[a_1, \dots , a_n])$. El conjunto $R_f$ es el gráfico de la función. Sin embargo el recíproco no es cierto.  Existen relaciones en $M$ que no son el gráfico de ninguna función.
+
+Una función de orden $0$ es una aplicación de $M^0$ en $M$.  Como por convenio tenemos que $M^0=\varnothing$,  una  tal función tiene como dominio un conjunto con un único  elemento.  Se puede identificar, en este caso, la función con su imagen. Por ello las funciones de orden cero se llaman también {\sf constantes} o {\sf elementos destacados} de $A$.
+
+\begin{defi}
+
+Un {\sf sistema} es una colección $\mathscr{M}=\{ M, \{f_i\}_{i \in I}, \{R_j\}_{j \in J}\}$ donde $M$ es un conjunto, $f_i$ son funciones de cualquier orden (en $M$) y $R_j$ son relaciones de cualquier orden. 
+
+\end{defi}
+
+El conjunto soporte del sistema $M$ se llama  {\sf universo}. Nada impide que el conjunto de funciones y el de relaciones sea vacío. Si el conjunto de funciones y de relaciones es finito, denotamos al sistema por 
+$$
+\mathscr{M}=\{M, f_1, \dots , f_n, R_1, \dots, R_m\}
+$$
+
+A cada función $f_i$ le corresponde un orden $\delta(f_i)$ determinado.  Se construye de esta forma una función $\delta: I \mapsto \N$.  Análogamente se construye una función  que asigna su orden a cada relación.  La denotamos por $\mu$. Es costumbre colocar a las funciones y a las relaciones siguiendo un orden natural.  Esto implica que supondremos siempre que $\delta[i] \leq \delta[k]$ si $i < k$ y análogamente con las relaciones. En particular, las constantes (si existen) son las primeras que se mencionan. Llamaremos {\sf tipo} o {\sf signatura} del sistema  a $(\delta; \mu)$.  En caso de que los conjuntos sean finitos, el tipo de un sistema se denota $(i_1, \dots , i_n ; j_i \dots, j_m)$, lo que indica que la función  $f_k$ tiene orden $i_k$,...   Decimos que dos sistemas son {\sf similares} si tienen el mismo tipo.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Un grupo es un conjunto junto con una operación interna y binaria. Además en un grupo existe un elemento destacado, el elemento neutro. Un grupo es un sistema de tipo $(0,2; \varnothing)$. Un semigrupo también tiene una estructura del mismo tipo.  Incluso si la operación no es asociativa, se tiene el mismo tipo.
+
+
+
+\item Un anillo es un conjunto, junto con dos operaciones y un elemento neutro para la suma.  Su tipo es $(0,2,2;\varnothing)$.  En un anillo con unidad o en un cuerpo, debemos destacar también la unidad.  Trabajaríamos entonces con un sistema de tipo $(0,0,2,2;\varnothing)$.
+
+\item Un conjunto ordenado es un par formado por un conjunto y una relación de orden.  Es un sistema de tipo $(\varnothing;2)$.
+
+\item Consideremos en $\R$ su estructura como cuerpo ordenado.  En este caso trabajamos con dos operaciones, dos elementos neutros y una relación de orden.
+
+\item Sea el conjunto ${\bf Form}$ de la lógica proposicional.  En este conjunto tenemos las cuatro operaciones internas $E_\neg, E_\wedge,E_\vee,E_\rightarrow$.  Este es un sistema de tipo $(1,2,2,2;\varnothing)$.
+
+\end{itemize}
+
+
+
+\noindent{\bf Observación.}  Lo mismo que en el estudio de las estructuras algebraicas vamos a cometer muchos abusos de notación. En álgebra, por ejemplo, hablamos del anillo $A$, sobrentendiendo las operaciones y elementos neutros y nombrando únicamente al conjunto.  En la teoría de sistemas esta necesidad es aun mayor si queremos que la notación no sea terriblemente tediosa.  Por ello muchas veces hablaremos del sistema $M$, sobreentendiendo que sus operaciones las denotamos $f_i$ y a sus relaciones $R_j$.  \fin 
+
+
+En muchas teorías de tipo algebraico observamos que el comienzo del estudio de una estructura  es siempre similar.  	Primeramente se define la estructura (por ejemplo la estructura de grupo o anillo). El siguiente paso es el estudio de las subestructuras (subgrupos y subanillos).  Después se pasa a estudiar las aplicaciones entre estructuras (lo que llamamos morfismos) y ciertas características de ellos.
+
+
+\begin{defi}
+
+Decimos que un sistema $(M,f_i,R_j)$ es un {\sf subsistema} de $(N,g_i,S_j)$ si se cumple:
+
+\begin{itemize}
+
+\item $M \subset N$.  
+
+\item La operación $f_i$ es la restricción de la operación $g_i$ al subconjunto.
+
+\item La relación $R_j$ es la restricción de la relación $S_j$ a $M$.
+
+\end{itemize}
+
+Denotaremos el concepto de subsistema por $M \subset N$ cometiendo un abuso de notación.
+
+
+\end{defi}
+
+
+Restringir relaciones a un subconjunto no presenta nunca problemas.  Si $R$ es una relación en $B$ y $A \subset B$, la relación restringida es $R \cap A^n$.  Sin embargo no toda operación, por ejemplo binaria, se puede restringir, pues puede ocurrir que $\alpha, \beta \in A$ y sin embargo $f[\alpha,\beta] \not \in A$.  El siguiente resultado es elemental.
+
+\begin{propo}
+
+Dado un sistema $N$ y un subconjunto $M \subset N$, tenemos que $M$ es un subsistema si y solo si $M$ es invariante por todas las operaciones del sistema. Si el sistema carece de funciones cualquier subconjunto es subsistema.
+
+\end{propo}
+
+En particular las constantes, que son las funciones de orden nulo, deben pertenecer al subconjunto. 
+
+\begin{cor}
+
+Sea $(M, f_i,R_j)$ un sistema y $N$ un subconjunto cualquiera del conjunto soporte $M$.  Si denotamos por $\langle N\rangle$ al conjunto generado por $N$ y las funciones $f_i$, se tiene que  $\langle N\rangle$ es un subsistema.
+
+\end{cor}
+
+
+
+También es habitual en matemáticas «olvidarnos» de alguna estructura que posee un conjunto.  Sabemos que en  $\R$ podemos definir una estructura de cuerpo y una estructura de orden.  Sin embargo a veces consideramos únicamente la estructura de cuerpo o incluso solamente la estructura de grupo.  Dejamos el mismo conjunto pero eliminamos algunas operaciones o relaciones. Cuando hacemos esto en sistemas, decimos que {\sf reducimos} el sistema.  De la misma forma, si añadimos más funciones o relaciones a una estructura, decimos que realizamos una {\sf ampliación}.
+
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Sea  $G$ un conjunto con una estructura de grupo.  Si $G'$ es un subgrupo es claro que es también un subsistema. Pero un conjunto puede ser subsistema sin ser subgrupo. La definición de subsistema obliga a que el neutro pertenezca al subsistema y que éste sea cerrado por la operación, pero no nos dice nada sobre el inverso. Por ejemplo $(\N,+)$ es subsistema de $(\Z,+)$ pero no es subgrupo.
+
+\item Si $A$ es un subsistema de $B$ y $B$ es un subsistema de $C$, entonces también $A$ es un subsistema de $C$.
+
+\item Consideremos la estructura $(\N,0, S)$ donde $S$ es la función $S(n)=n+1$.  Esta estructura carece de subsistemas no triviales.  En efecto, si $A\subset \N$ es subsistema, entonces $0 \in A$ y además, por ser cerrado por $S$, tenemos que si $n \in A$ entonces $n+1 \in A$.  Pero el principio de inducción nos dice que en este caso necesariamente $A=\N$.
+
+\item Sea ahora $(\R,0, S)$.  Este sistema si que presenta subsistemas no triviales.  Por ejemplo $\Z$ es subsistema.  También $\R^+ \cup \{0\}$ es subsistema. Dado el conjunto $\{-10\}$ el subsistema generado por este conjunto es $\{-10,-9,-8, \dots \}$.  Sin embargo el subsistema generado por $1/2$ es $\{1/2, 3/2, \dots\} \cup \N$.
+
+
+
+\end{itemize}
+
+
+\begin{defi}
+
+Dadas dos estructuras del mismo tipo, llamamos {\sf mor\-fismo} de  $(M,f_i,R_j)$ en  $(N, g_i,S_j)$  a toda aplicación $\phi: M \mapsto N$ que cumpla:
+
+\begin{itemize}
+
+\item Conserva las operaciones: si $f_i$ y $g_i$ denotan la $i$-ésima operación en cada estructura 
+$$
+\phi[f_i[x_1, \dots, x_n]]=g_i[\phi[x_1],\dots, \phi[x_n]]
+$$
+En particular para las constantes se tiene que $\phi(c)=c$.
+
+\item Conserva las relaciones: si $R_j$ y $S_j$ denotan las relaciones $j$-ésimas de ambas estructuras 
+$$
+\text{Si }(x_1, \dots, x_n) \in R_j \text{ entonces } (\phi[x_1], \dots, \phi[x_n]) \in S_j
+$$
+
+
+\end{itemize}
+
+\end{defi}
+
+El ejemplo más inmediato de morfismo es la inyección natural de un subsistema dentro del sistema.   Los morfismos de grupos, de anillos, etc. también son morfismos de las correspondientes estructuras.
+
+\bigskip
+
+\noindent{\bf Propiedades.}
+
+\smallskip
+
+\begin{itemize}
+	
+	\item La composición de morfismos de sistemas es de nuevo un morfismo.
+	
+	\item Llamamos morfismos {\sf inyectivos} a aquellos cuya función asociada sea inyectiva.  La inyección canónica es un morfismo inyectivo.
+	
+	\item Si $\phi: M\mapsto N$ es un morfismo, la aplicación $\phi$ es biyectiva y la aplicación inversa $\phi^{-1}: N \mapsto M$ es también morfismo, hablaremos de un {\sf isomorfismo}.
+	
+	\item La relación de isomorfía es de equivalencia.  A todos los efectos dos sistemas isomorfos serán considerados iguales.
+	
+	\item Sea $(M,f_i,R_j)$ un sistema y sea $N$ un conjunto que tenga una biyección $\phi$ con el conjunto soporte $M$.  En $N$ se puede construir una estructura de sistema que haga de $\phi$ un isomorfismo.
+	
+\end{itemize}
+
+
+
+El estudio del álgebra nos presenta muchos ejemplos de sistemas y morfismos.  A su vez el estudio de los sistemas nos permite tener una visión general y observar que ciertos resultados que utilizamos en cada estructura algebraica son casos particulares de un resultado más general.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Consideremos  los sistemas que no tienen ni funciones ni relaciones destacados (los de tipo $(\varnothing; \varnothing)$).  Los morfismos entre sistemas son aplicaciones entre conjuntos.  Si un conjunto $A$ tiene menos elementos que un conjunto $B$ entonces existe un morfismo inyectivo de $A$ en $B$.  Para que dos sistemas sean isomorfos es necesario y suficiente que tengan el mismo cardinal.
+
+\item Sea $(A, \leq)$ un conjunto ordenado.  Este es un sistema de tipo $(\varnothing;2)$.  Un morfismo entre dos conjuntos ordenados es un morfismo de este tipo de sistemas.  En particular dos conjuntos ordenados son isomorfos si tienen el mismo ordinal.  El estudio de los ordinales es una parte del estudio de los sistemas de este tipo.
+
+\end{itemize}
+
+
+
+
+\newpage
+
+\section{Semántica}
+
+
+Nuestra intención es asociar a cada fbf un valor de verdad.  Para ello basta con dar una «interpretación».  Una interpretación consiste en asociar a cada símbolo no lógico un objeto matemático. Así el símbolo se transforma en algo más tangible.  Con ello se consigue asociar un valor de verdad a las fbf cerradas.  Para conseguir extender esta construcción a las fórmulas abiertas debemos dar también una interpretación a las  variables.
+
+
+El concepto de interpretación de un lenguaje se puede adaptar a varios esquemas.  Se puede definir perfectamente  sin saber lo que es un sistema y así se hace en muchos libros.  Sin embargo el concepto de sistema ayuda a clarificar el concepto de interpretación.  La  definición clásica de interpretación se adapta a la 
+
+
+\begin{defi}
+
+Dado un lenguaje de primer orden $L$ una {\sf interpreta\-ción} $M$ de $L$ consta de los siguientes ingredientes:
+
+
+\begin{itemize}
+	
+	\item Un conjunto $M$ llamado {\sf universo de la interpretación}.
+	
+	\item  A cada constante $c_i \in \mathcal{C}$ se le asocia un elemento ${\bf c_i} \in M$.
+	
+	\item A cada functor $f\in \mathcal{F}_n$  se le asocia una operación ${\bf f}$ de orden $n$ en $M$.
+	
+	\item A cada relator $R \in \mathcal{R}_n$  se le asocia una relación ${\bf R}$ de orden $n$ en $M$.
+	
+	
+\end{itemize}
+
+
+\end{defi}
+
+Al predicado $\approx$ siempre se le debe asociar la relación binaria de igualdad, independientemente de la interpretación.  Por ello este relator binario es en cierto sentido especial y no se incluye en el vocabulario, sino en los símbolos lógicos del lenguaje.
+
+\bigskip
+
+\noindent{\bf Observación.} En gran parte de la literatura lo que nosotros hemos llamado functores se denominan {\sf símbolos de función} y los relatores se denominan {\sf símbolos de relación}.  Con ayuda de esta definición podemos entender mejor dicha nomenclatura. De momento hemos denotado por el mismo símbolo al elemento del lenguaje y a su interpretación.  Simplemente hemos puesto negrita a las interpretaciones.  Este convenio lo iremos desechando poco a poco y denotaremos exactamente igual al símbolo y a su interpretación.  El contexto debe ser suficiente para discriminar qué significa en cada caso. \fin 
+
+
+Pero nosotros observamos que una interpretación de un lenguaje $L$ es un  sistema.  La estructura de sistema creada guarda una relación muy estrecha con el  lenguaje en cuestión.
+
+\begin{defi}
+
+Dada un lenguaje $L$, llamamos {\sf $L$-sistema} a un sistema $\mathscr{M}= (M,f_i,R_j)$ que tenga tantas operaciones como functores tenga el lenguaje y tantas relaciones como relatores tenga el lenguaje.  Además los órdenes de los functores y operaciones, así como los de relatores y relaciones, deben coincidir. En particular a las constantes del lenguaje le corresponden elementos destacados del sistema.
+
+\end{defi}
+
+
+Por lo tanto podemos definir nuevamente el concepto de interpretación de un lenguaje. Una interpretación es  un $L$-sistema.  Esta claro que dos $L$-sistemas son siempre similares.
+
+\bigskip
+
+\noindent{\bf Observación.}  Recíprocamente, si tenemos un sistema $(M, f_i, R_j)$ podemos crear un lenguaje de primer orden asociado.  Por cada operación de orden $n$ creamos un functor de orden $n$ y análogamente con las relaciones.  Esto permite construir el vocabulario del lenguaje. \fin 
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Consideremos el lenguaje de la aritmética con vocabulario $\{0,1 , +, \cdot\}$. La interpretación estandard tiene como conjunto soporte $\N$ y las definiciones de los símbolos son las operaciones habituales de la aritmética.  Tomemos un término sin variables, por ejemplo $(1+1)+(1\cdot (1+0))$. Nuestra intuición de matemáticos nos indica que, fijada la interpretación, esta cadena de símbolos nos está indicando un elemento del conjunto $\N$.  Sin embargo si tomamos un término con una variable, por ejemplo $(1+x_1)+1$ vemos que no le podemos asociar un elemento de $\N$.  Sin embargo, si sustituimos la variable por un elemento de $\N$ ya podemos asociarle un número natural.
+
+\item Tomemos una estructura algebraica particular, por ejemplo el cuerpo $\R$.  A este cuerpo se le asocia un lenguaje con vocabulario $\{0,1,+, \cdot\}$  y ese lenguaje tiene un interpretación natural en $\R$.  Sin embargo $\R$ puede ser soporte de otras interpretaciones distintas sin más que variar la definición de alguna de las operaciones o de alguna de las constantes.  Puede ocurrir que bajo alguna de esas interpretaciones $\R$ no sea un cuerpo. 
+
+\item Generalizando el ejemplo anterior, prácticamente a cualquier estructura algebraica se le asocia un lenguaje y la estructura algebraica es precisamente una interpretación de dicho lenguaje.
+
+\item Consideremos la interpretación estandard del cuerpo $\R$. Nuestra intuición nos dice que la fórmula $\forall x \exists y (y+y=x)$ se puede traducir por la frase: «Para todo número real $x$ existe un número real $y$ tal que $y+y=x$».  Sabemos que esta afirmación es cierta en $\R$. Sin embargo la afirmación $\exists y (y \cdot y=x)$ no sabemos si es cierta.  Si $x$ «es» un número positivo sabemos que si es cierta, pero si $x$ es negativo es falsa.  Esto es debido a que la fórmula posee una variable libre y para saber si es cierta o falsa debemos asignarle un cierto valor.
+
+\item En $\R$ la fórmula $\exists x (x+x=y)$ es cierta para cualquier valor que le asignemos a $y$. Por lo tanto, en este caso, a pesar de tener una variable libre, podemos decir que la fbf es cierta.  Nótese el gran parecido entre la fórmula anterior y $\forall y\exists x (x+x=y)$, que también es cierta en $\R$.
+
+\end{itemize}
+
+\begin{propo}
+
+Dada una interpretación $M$ de un lenguaje, a cada tér\-mino sin variables le corresponde, de modo canónico, un elemento de $M$.
+
+\end{propo}
+
+\dem
+
+Si denotamos por ${\bf TerCerr}$ al conjunto de términos cerrados (es decir sin variables), vamos a construir una función $\phi$ que tenga ese dominio y cuya imagen sea el conjunto $A$.  Como siempre la definición será recursiva.
+
+
+\begin{itemize}
+
+	\item  Si $c_i$ es una constante $\phi[c_i]={\bf c_i}$, que es elemento que le corresponde a la constante por la interpretación dada.
+	
+	\item Si el término es de la forma $t=f t_1 \dots t_n$ entonces
+	$$
+	\phi[t]= {\bf f}[\phi[t_1], \dots , \phi[t_n]]
+	$$
+	siendo ${\bf f}$ la operación que se asocia con el relator $f$ en la interpretación dada.
+	
+\end{itemize}
+
+Una inducción sobre el grado de complejidad nos garantiza la corrección del método de construcción. El elemento que le corresponde a $t$ lo denotaremos ${\bf t}$. \fin 
+
+El método para calcular el elemento asociado a cada término es claro.  En la expresión del término, sustituimos cada constante y cada functor por su interpretación y «operamos».  Esto permite demostrar el siguiente 
+
+\begin{cor}
+
+Dadas dos interpretaciones  en un mismo universo $M$. Si las interpretaciones coinciden sobre las constantes y sobre los functores,  los términos sin variables tienen la misma interpretación.
+
+\end{cor}
+
+En definitiva, para interpretar un término sin variables basta con conocer la interpretación de los símbolos lo componen.  Por ello se dice que la interpretación de los términos es una {\sf propiedad local}. 
+
+\bigskip
+
+Si el término tiene una variable, la idea intuitiva es que al sustituir la variable por un elemento del universo se obtiene otro elemento del universo.  Un término $t$ con una variable induce una función $ t: M\mapsto M$.  Análogamente si tiene $n$ variables se induce una función $t: M^n \mapsto M$.  Sin embargo esto no se puede hacer directamente, puesto que estamos sustituyendo una variable por un elemento del universo que, en principio, no pertenece al lenguaje.  Para poder realizar lo anterior debemos ampliar el lenguaje, añadiendo tantas constantes como elementos tenga el universo de la interpretación. 
+
+
+\begin{defi}
+
+Dado un lenguaje $L$ y una interpretación $M$ llamamos $L(M)$ al lenguaje que tiene como conjunto de constantes $\mathcal{C} \cup M$ (unión disjunta).  Los conjuntos de functores y relatores coinciden con los de $L$.
+
+\end{defi}
+
+
+Este nuevo lenguaje es una ampliación de $L$.  Todo término y toda fbf del lenguaje $L$ es también un término o una fbf del nuevo lenguaje.  La ventaja de trabajar en el nuevo lenguaje es que se pueden sustituir variables por elementos de $M$.  De esta manera, si sustituimos todas las variables en un término, conseguimos «cerrar» dicho término y éste nuevo término ya tiene una interpretación.  De la misma forma, si sustituimos todas las variables libres de una fbf cerramos la fórmula.  Como veremos posteriormente esto también nos permitirá interpretar dicha fbf.
+
+
+\begin{propo}
+
+Dada una interpretación $M$ de un lenguaje $L$ se induce una interpretación  canónica de $L(M)$ en el mismo conjunto.
+
+\end{propo}
+
+\dem
+
+La interpretación de los functores y de los relatores coincide con la interpretación de $L$.  Asimismo en las constantes que pertenezcan a $L$ la interpretación coincide.  Las nuevas constantes son símbolos de la forma $a \in M$.  La interpretación natural es asociar al símbolo $a$ el  elemento $a \in M$.  Esta es una interpretación de $L(M)$ que «extiende» a la interpretación de $L$. \fin 
+
+  
+
+\begin{cor}
+
+La interpretación de los términos cerrados coincide en $L$ y en $L(M)$.
+
+\end{cor}
+
+
+\dem
+
+Es consecuencia de la localidad de la interpretación, ya que ambas interpretaciones asignan los mismos elementos a todos los símbolos que forman parte de los términos cerrados de $L$. \fin
+
+Con este lenguaje ampliado ya se puede realizar la idea anterior.
+
+\begin{propo}
+
+Cada término $t$ con $n$ variables induce una función $t: M^n \mapsto M$.
+
+\end{propo}
+
+
+\dem
+
+Sea $t$ un término en $L$ con $n$ variables libres. También se puede considerar como un término en $L(M)$.  Sea $(a_1, \dots ,a_n)$ un elemento de $M^n$.  Como el término $t$ pertenece al lenguaje $L(M)$ podemos sustituir sus variables  por constantes de este lenguaje.  Sustituimos la  primera variable por $a_1$, la segunda por $a_2$, etc.  Así conseguimos un término cerrado en $L(M)$. Por un resultado anterior a este término cerrado le corresponde canónicamente un elemento de $M$.  Así se construye la función $t$ asociada. \fin 
+
+La notación habitual para un término con $n$ variables es $t[x_1, \dots, x_n]$.  Después de esta proposición se entiende mejor la notación funcional que se suele adoptar.
+
+
+
+\bigskip
+
+\noindent{\bf Observación.}  Cuando tengamos una interpretación $M$ de un lenguaje siempre podemos construir el lenguaje $L(M)$ y su interpretación.  Por ello muchas veces se comete el abuso de notación de trabajar con $L(M)$ sin mencionarlo explícitamente.  Esto no es problemático, pues todas las construcciones que hagamos serán independientes de que trabajemos con un lenguaje o con otro. \fin 
+
+
+Nuestra idea es ahora asociar un valor de verdad a cada fórmula cerrada de $L$. Denotaremos el valor de verdad de $\alpha$ por $v_M[\alpha]$ o simplemente $v[\alpha]$ si se sobreentiende la interpretación. Nosotros vamos a ir más allá y asociaremos un valor de verdad a cualquier sentencia cerrada del lenguaje $L(M)$.  Denotaremos por $\alpha(x/a)$ a la sentencia que se obtiene sustituyendo la variable libre  $x$ por la constante $a$.  Recordemos también que a cualquier término sin variables de $L(M)$ se le asocia un elemento de $M$. Como siempre el proceso será recursivo.
+
+\begin{itemize}
+
+	\item Si $\alpha$ es atómica, sin variables y de la forma $t_1 \approx t_2$, donde los términos no pueden tener variables,  entonces
+	$$
+	v[\alpha]= 1 \text{ si y solo si } {\bf t_1} = {\bf t_2}
+	$$
+	
+	\item  Sea $\alpha$ otra fórmula atómica sin variables.  Entonces $\alpha=R t_1 \dots t_n$ donde los términos no pueden tener variables.  En este caso
+	$$
+	v[\alpha]= 1 \text{ si y solo si } ({\bf t_1}, \dots , {\bf t_n}) \in {\bf R}
+	$$
+	
+	
+	\item Si $\alpha = \neg \beta$ entonces $v[\alpha]= 1$ si y solo si $v[\beta]=0$.
+	
+	\item  $v[\alpha \vee \beta]= 1$ si y solo si $v[\alpha]=1$ o $v[\beta]=1$ (o ambas valen 1).
+	
+	
+		\item  $v[\alpha \wedge \beta]= 1$ si y solo si $v[\alpha]=1$ y $v[\beta]=1$.
+		
+			\item  $v[\alpha \rightarrow \beta]= 0$ si y solo si $v[\alpha]=0$ o $v[\beta]=1$ (o ambas cosas a la vez). Recordar que en el cálculo proposicional $\alpha \rightarrow \beta \equiv \neg \alpha \vee \beta$.
+		
+		
+		\item Si $\alpha= \forall x (\beta)$ entonces $v[\alpha]= \sup_{a \in M}(v[\beta(x/a)])$.   La definición tiene sentido, pues $\beta$ tiene como única variable libre $x$.  
+		
+		\item Si $\alpha= \exists  x (\beta)$ entonces $v[\alpha]= \inf_{ a\in M}(v[\beta(x/a)])$. 
+		
+			
+\end{itemize}
+
+
+\noindent{\bf Observación.}  La sentencia $\forall x (\beta)$ es verdadera si y solo si todas las sentencias de la forma $\beta(x/a)$ son verdaderas.  En definitiva, si «para todo» $a \in M$ la sentencia $\beta(x/a)$ es verdadera. La sentencia $\exists x (\beta)$  es verdadera  «si existe algún» $a\in M$ que haga verdadera a la sentencia $\beta(x/a)$.  Esto explica los nombres dados a los cuantificadores. \fin 
+
+
+\noindent{\bf Observación.} No es difícil probar inductivamente la {\sf propiedad de loca\-lidad} de la interpretación de fbf .  Esto es, que el valor de verdad de $\alpha$ depende solo y exclusivamente de la interpretación de los símbolos que forman parte de $\alpha$. Da lo mismo trabajar con el lenguaje $L$ que con el $L(M)$ o con el lenguaje más restrigido que tiene como vocabulario los símbolos que entran en la sentencia. \fin 
+
+
+
+
+Hemos visto que la interpretación solamente asocia valores de verdad a fbf cerradas.  Si las fórmulas son abiertas debemos cerrarlas de algún modo y entonces ya estamos en el caso anterior.  Retomaremos nuestra vieja notación $\alpha[x_1, \dots x_n]$ para indicar que $\alpha$ posee $n$ variables libres.  Si sustituimos $x_i$ por $a_i \in M$ la notación habitual que hemos empleado es $\alpha[x_1/ a_1, \dots ,x_n/a_n]$.  Relajaremos un poco la notación y escribiremos simplemente  $\alpha[ a_1, \dots a_n]$, para indicar que sustituimos las variables libres.
+
+\begin{defi}
+
+  Dada una interpretación $M$ y una fbf abierta $\alpha[x_1, \dots , x_n]$ decimos que $(a_1, \dots, a_n)\in M^n$ {\sf satisface} $\alpha$ si $v[ \alpha[a_1, \dots , a_n]]=1$.
+  
+  
+  \end{defi}
+  
+  
+  Tomando una sentencia abierta y analizando que vectores la satisface, se pueden crear nuevas relaciones en $M$.  Esto es lo que afirma la siguiente 
+  
+  \begin{defi}
+  
+  Dada una interpretación $M$ de $L$, una relación $R \subset M^n$ es {\sf definible} si existe una sentencia abierta $\alpha$ con $n$ variables libres que cumple:
+  $$
+  (a_1, \dots ,a_n) \in R \text{ si y solo si } v[\alpha[a_1, \dots, a_n]]=1
+  $$
+  
+  \end{defi}
+
+
+La fórmula que sirve para definir la relación $R$ no tiene necesariamente que ser única. Este concepto se debe interpretar de la siguiente manera: una formula abierta es una afirmación sobre un sistema que en principio no es ni cierta ni falsa. Al sustituir las variables por elementos de la interpretación se transforma ya en una sentencia y necesariamente es cierta o falsa.  Los elementos de la relación son aquellos que hacen que la propiedad enunciada en la fórmula sea cierta.
+
+En general no toda relación es definible, como prueba el siguiente argumento de cardinalidad. Imaginemos un lenguaje numerable.  El conjunto de fórmulas es numerable. Si el conjunto $M$ no es finito, el conjunto de sus relaciones siempre es innumerable.  Necesariamente algunas de esas relaciones no pueden ser definibles.
+
+\bigskip
+
+En general a las fórmulas abiertas no se les puede asociar un valor de verdad, pues al hacer una sustitución de variables puede ser verdadera y al hacer otra puede ser falsa.  Sin embargo si al realizar cualquier sustitución de variables resulta que la sentencia es siempre cierta (o siempre falsa) tiene sentido asociarle un valor de verdad.
+
+
+\begin{defi}
+
+Dado $M$. Una fórmula abierta $\alpha[x_1, \dots, x_n]$ es {\sf verdadera} si $v[\alpha[a_1, \dots , a_n]]=1$ para cualquier vector $(a_1,\dots ,a_n) \in M^n$. Lo denotaremos por $v[\alpha]=1$.
+
+\end{defi}
+
+
+Una fórmula abierta es verdadera (en una interpretación) si al realizar cualquier sustitución de sus variables libres obtenemos una fbf cerrada verdadera.  Pero esto mismo se puede expresar de otro modo, utilizando el cuantificador universal, que también sirve para cerrar sentencias.
+
+\begin{propo}
+
+Dada una fbf abierta 
+$$
+v[ \alpha]=1  \text{ si y solo si }v[\forall x_1 \dots \forall x_n(\alpha[x_1, \dots , x_n])]=1
+$$
+
+\end{propo}
+
+
+
+
+\noindent{\bf Observación.} Para dar sentido a los términos y a las fbf con variables libres hemos hecho una extensión del lenguaje. De esta forma podemos sustituir variable libres por elementos de $M$.  Sin embargo en otros libros no se procede de esta forma. Fijado un $L$-sistema $M$, se llama {\sf asignación de variables} a toda función $s:\mathcal{V} \mapsto M$.  Se cambian ahora el enfoque del problema y se define un nuevo concepto de interpretación.  Una interpretación es un par $(M,s)$ formado por un  $L$-sistema $M$ y una asignación de variables $s$.  La asignación de variables se utiliza para sustituir las variables libres y de este modo, fijada una interpretación $(M,s)$, se puede asociar un elemento de $M$ a cualquier término, tenga o no tenga variables.  Del mismo modo se puede asociar un valor de verdad a cualquier fbf, sea o no sea cerrada. Aunque el desarrollo de la semántica es ligeramente distinto con estas nuevas definiciones, los resultados en ambos enfoques son los mismos. \fin 
+
+
+\newpage
+
+\section{Ejemplos semánticos}
+
+Antes de seguir conviene abordar un buen número de ejemplos, sacados todos ellos de la matemática habitual, para manejar con soltura la semántica de los lenguajes de primer orden.
+
+\bigskip
+
+\noindent{\bf Lenguaje de igualdad.}
+
+\smallskip
+
+El lenguaje que  no tiene vocabulario tiene como estructuras asociadas simples conjuntos.
+
+\begin{itemize}
+
+\item Sea la fórmula $\forall x(x=x)$.  Esta fórmula es válida en cualquier interpretación, pues si sustituimos $x$ por cualquier elemento $ a \in M$ se obtiene la afirmación $a=a$ que es verdadera. Las fórmulas que son verdaderas en todas las interpretaciones son el análogo de las tautologías. Otra fórmula que es siempre válida es
+$$
+((x = y) \wedge (y=z) \rightarrow (x=z))
+$$
+Observemos que no hemos colocado los cuantificadores universales, pues es cierta para cualquier sustitución de las variables.  Este es un abuso de notación bastante común en matemáticas.
+
+\item Veamos ahora la sentencia 
+$$
+\varphi_3=\exists x \exists y \exists z (x \neq y \wedge x \neq z \wedge y \neq z)
+$$
+Fijada una interpretación $M$, habla de la existencia de tres elementos que no sean iguales entre si.  Si $M$ tiene tres o más elementos esta sentencia es verdadera.  En otro caso es falsa.  No es difícil escribir (o al menos imaginar) una sentencia que afirme que el conjunto tiene $n$ o más elementos.
+
+
+\item Estudiemos la sentencia
+$$
+\psi_2= \forall x \forall y \forall z(x= y \vee x=z)
+$$
+Afirma que dados tres elementos arbitrarios siempre dos, al menos, son iguales.  Esto solamente lo cumplen los conjuntos que tienen 2 o menos elementos.  Del mismo modo se puede estudiar la sentencia $\psi_n$ que es cierta si y solamente si la interpretación tiene $n$ o menos elementos.
+
+\item Finalmente la sentencia $\varphi_n \wedge \psi_n$ es cierta si ambas son ciertas. La primera afirma que el conjunto tiene $n$ o más elementos y la segunda que tiene $n$ o menos elementos.  Esta sentencia solamente es cierta en las estructuras que posean $n$ elementos.
+
+\end{itemize}
+
+\noindent{\bf Lenguaje de grupos.}
+
+\begin{itemize}
+
+\item La sentencia (o fórmula pues la escribiremos sin cuantificadores)
+$$
+(x+y)+z= x+(y+z)
+$$
+es cierta si la operación es asociativa.  Basta con la existencia de un trío de elementos de $M$ que no la cumplan para que la fórmula sea falsa.
+
+
+\item Análogamente $x+y=y+x$ es cierta si la operación es conmutativa.  La afirmación $x+0=x$ es cierta si la constante es el elemento neutro. La sentencia que habla del elemento neutro es
+$$
+\forall x \exists y(x+y=0)
+$$
+ Si hacemos la conjunción de las  cuatro sentencia, la sentencia obtenida es cierta si y solo si $M$ está dotado de una estructura de grupo conmutativo.
+ 
+
+\end{itemize}
+
+\noindent{\bf Lenguaje de las relaciones binarias.}
+
+\begin{itemize}
+
+\item Denotamos por $R$ la relación binaria y la situamos entre los términos. La sentencia  $xRx$ es cierta si la relación es reflexiva.  No es difícil escribir las sentencias de las relaciones simétrica y transitiva.
+
+\item También es sencillo dar sentencias que nos permitan hablar sobre conjuntos ordenados. Ahora denotamos la relación por $\leq$.  Algunas sentencias son:
+$$
+\begin{array}{l}
+x \leq x \\
+(x \leq y ) \wedge (y \leq z) \rightarrow (x=y)\\
+(x \leq y) \wedge (y \leq z) \rightarrow (x \leq z)
+\end{array}
+$$
+
+\end{itemize}
+
+
+
+
+
+
+\newpage
+
+\section{Modelos}
+
+
+
+
+Es habitual empezar a cambiar notaciones y llamar {\sf modelo} a lo que antes llamabamos interpretación, sobre todo si estudiamos la semántica con ayuda de los sistemas. También  escribimos $M\vDash \alpha$ en lugar de $v_M[\alpha]=1$.  Con estas nuevas notaciones tenemos:
+
+$$
+\begin{array}{ll}
+
+ M \vDash (t_1 =t_2) & \text{si y solo si } {\bf t_1}= {\bf t_2}\\
+
+ M\vDash Rt_1\dots t_n & \text{si y solo si } ({\bf t_1}, \dots ,{\bf t_n}) \in {\bf R}\\
+ 
+M\vDash \neg(\alpha) & \text{si y solo si no es cierto que } M \vDash \alpha\\
+
+M \vDash (\alpha \wedge \beta) &  \text{si y solo si }  M \vDash \alpha \text{ y } M \vDash \beta\\
+
+ M \vDash (\alpha \vee \beta) &  \text{si y solo si }  M \vDash \alpha \text{ o } M \vDash \beta\\
+
+ M \vDash(\alpha \rightarrow \beta  &  \text{si y solo si } M \vDash \neg(\alpha) \vee \beta\\
+
+ M \vDash \forall x(\alpha)  & \text{si y solo si  para todo } a \in M \text{ se tiene } M\vDash \alpha[a]\\
+
+ M \vDash \exists x(\alpha) &  \text{si y solo si  si existe un } a \in M \text{ se tiene } M\vDash \alpha[a]\\
+
+ \end{array}
+$$
+
+
+\begin{defi}
+
+Una sentencia $\alpha$ es {\sf satisfacible} si existe un modelo $M$ tal que $M \vDash \alpha$.  Si $\Sigma$ es un conjunto de sentencias (finito o infinito) decimos que es satisfacible si existe un modelo $M$ tal que $M \vDash \alpha$ para cualquier elemento $\alpha \in \Sigma$. Cometeremos el abuso de notación de escribir $M \vDash \Sigma$ en este último caso.  Si las fórmulas son abiertas se emplea el cuantificador universal para cerrarlas.
+
+\end{defi}
+
+Si $M \vDash \alpha$ también decimos que $M$ es un {\sf modelo} de $\alpha$ y lo mismo  para conjuntos de sentencias.
+
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Sea $L$ el lenguaje de los grupos.  Consideremos el conjunto de tres sentencias:
+$$\Sigma_{gr}=
+\begin{cases}
+\forall x \forall y \forall z ((x+y)+z=x+(y+z))$$\\
+\forall x (x+e =x)\\
+\forall x \exists y (x+y=e)
+\end{cases}
+$$
+Las estructuras $M$ que cumplen estas tres sentencias son precisamente los grupos, pues en estas tres sentencias está recogida la definición de grupo.
+
+\item Sea $L$ el lenguaje con una única relación binaria $R$.  Si un modelo $M$ cumple la sentencia $\forall x (Rxx)$ decimos que la relación es reflexiva.  Los conjuntos dotados de una relación de equivalencia son los modelos del siguiente conjunto de sentencias:
+$$
+\begin{cases}
+\forall x (Rxx)\\
+\forall x \forall y( Rxy \rightarrow Ryx)\\
+\forall x \forall y \forall z ((Rxy \wedge Ryz)\rightarrow Rxz)
+\end{cases}
+$$
+
+
+
+\end{itemize}
+
+Vemos la gran analogía entre este concepto y el correspondiente del cálculo proposicional. Lo que allí era una valuación aquí es un modelo.  Prácticamente todas las definiciones y conceptos asociados se «calcan» del caso proposicional.  
+
+\begin{defi}
+
+
+Dos sentencias $\alpha$ y $\beta$ son {\sf equivalentes} ({\sf semántica\-mente equivalentes}) si para todo modelo $M$ se cumple
+$$
+M \vDash \alpha \text{ si y solo si  } M \vDash \beta 
+$$
+ Lo denotaremos por $\alpha \equiv \beta$.
+
+\end{defi}
+
+Esto quiere decir que independientemente de la interpretación ambas son verdaderas o falsas a la vez. A nivel semántico dos sentencias equivalentes son exactamente iguales.  Son dos maneras distintas de expresar lo mismo.  En  semántica se puede trabajar con el conjunto cociente de ${\bf Form}$ módulo esta relación de equivalencia.   En particular tenemos las siguientes equivalencias:
+
+\begin{itemize}
+	
+	\item  $\alpha \wedge \beta \equiv \neg(\alpha \rightarrow \neg \beta)$.
+	
+	\item  $\alpha \vee \beta \equiv \neg \alpha \rightarrow \beta$.
+	
+	\item  $\exists x(\alpha) \equiv \neg(\forall x(\neg \alpha))$
+	
+\end{itemize}
+
+En el conjunto cociente todas las proposiciones se pueden crear a partir de los símbolos lógicos $\{\neg, \rightarrow, \forall\}$.  Estos forman el análogo a un conjunto completo de conectivas.  Por ello podríamos haber hecho todo el desarrollo de los lenguajes de primer orden utilizando únicamente estos tres símbolos lógicos. Naturalmente existen otros  conjuntos completos de signos lógicos.
+
+
+\begin{defi}
+
+Dado un conjunto $\Sigma$ de sentencias y $\alpha$ una sentencia, decimos que $\alpha$ es {\sf consecuencia lógica} de $\Sigma$ si todo modelo que cumpla $M\vDash \Sigma$ cumple también $M\vDash \alpha$. Lo denotamos por $\Sigma \vDash \alpha$.
+
+\end{defi}
+
+Vemos que hemos empleado el mismo símbolo ($\vDash$) para la noción de satisfación y la de consecuencia. No puede existir confusión pues en un caso a la izquierda figura un modelo y el otro caso un conjunto de sentencias. 
+
+Si $\alpha$ no es consecuencia de un conjunto $\Sigma$ lo denotaremos $M \not \vDash \alpha$.  Esto implica que existe al menos un modelo $M$ que cumple $M\vDash \Sigma$ y que sin embargo no cumple $M \vDash \alpha$.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+
+\item En el lenguaje de la igualdad tenemos la sentencia
+$$
+\alpha_2= \exists x \exists y (x \neq y)
+$$
+Los modelos de esta sentencia deben de tener al menos dos elementos.   De manera análoga se pueden definir la sentencia $\alpha_n$ cuya interpretación es cierta si el modelo tiene $n$ o más elementos.  Consideremos el conjunto de sentencias $\Sigma = \{\alpha_2, \alpha_3, dots\}$.  Los modelos de este conjunto son los conjuntos infinitos.  Como el lenguaje de la igualdad está contenido en todo lenguaje, este resultado es válido en cualquier lenguaje.
+
+\item Consideremos el  conjunto $\Sigma_{gr}$.  Entonces $M_{gr} \Vdash \alpha$ siendo
+$$
+\alpha= \forall x \forall y \forall z ((x+y)=(x+z)\rightarrow (y=z))
+$$
+ pues todo aquel que haya estudiado teoría de grupos ha demostrado que esta última sentencia es verdadera en todo grupo (es la llamada ley de cancelación).  Sin embargo $\Sigma_{gr}\not \vDash \beta$ siendo
+ $$
+ \beta= \forall x \forall y (x+y= y+x)
+ $$
+ pues es conocido que existen grupos no abelianos.  Si $G$ es un grupo no abeliano entonces  $G\vDash \Sigma_{gr}$ y sin embargo $G \not \vDash \beta$.
+
+
+\item Si una sentencia $\alpha$ es satisfacible se escribe $\mathsf{Sat\ } \alpha$.
+
+
+
+\item Las consecuencias lógicas del conjunto vacío son las sentencias que son válidas en cualquier modelo.  Es el análogo de la tautologías:
+
+\begin{quote}
+
+
+Una sentencia $\alpha$ es {\sf universalmente válida} o es una {\sf ver\-dad lógica} si para todo modelo $M$ se tiene $M\vDash \alpha$.
+
+\end{quote}
+
+\end{itemize}
+
+
+
+
+
+
+
+
+Los siguientes resultados se prueban igual que en el cálculo proposicional.
+
+
+\begin{cor}
+
+Un conjunto finito $\Sigma= \{\alpha_1, \dots , \alpha_n\}$ es satisfacible si y solo  es satisfacible la sentencia $\alpha_1 \wedge \dots \wedge \alpha_n$.
+
+\end{cor}
+
+\begin{cor}
+
+Si $\Sigma$ no es satisfacible entonces $\Sigma \vDash \alpha$ para cualquier sentencia.
+
+\end{cor}
+
+\begin{cor}
+
+$\alpha \equiv \beta$ si y solo si $\alpha \vDash \beta$ y $\beta \vDash \alpha$.
+
+\end{cor}
+
+\begin{cor}
+
+$\alpha \equiv \beta$ si y solo si $\alpha \rightarrow \beta$ y $\beta \rightarrow \alpha$ son universalmente válidos.
+
+\end{cor}
+
+\begin{cor}
+
+Sea $\Sigma$ un conjunto de sentencias.  Para toda sentencia $\alpha$
+$$
+\Sigma \vDash \alpha \text{ si y solo si } \Sigma \cup \{\neg \alpha\} \text{ es insatisfacible}
+$$
+
+\end{cor}
+
+
+
+En la teoría de sistemas, vista desde el punto de vista del álgebra universal,  se tenía un concepto de isomorfismo. A todos los efectos dos sistemas isomorfos pueden ser considerados iguales.  Pero ahora utilizamos los sistemas como modelos para estudiar la semántica. A efectos semánticos dos modelos que tengan las mismas sentencias verdaderas pueden ser considerados iguales.  
+
+\begin{defi}
+
+Dado un lenguaje $L$, decimos que dos modelos $M$ y $N$ son {\sf elementalmente equivalentes} si
+$$
+M\vDash \alpha \text{ si y solo si } N \vDash \alpha
+$$
+
+\end{defi}
+
+Es claro que esta noción es una relación de equivalencia en el conjunto de sistemas. No es difícil intuir que dos sistemas isomorfos son elementalmente equivalentes.  Pero lo sorprendente es que el recíproco no es cierto: dado un lenguaje $L$, pueden existir modelos que sean elementalmente equivalentes y que sin embargo no sean isomorfos.  Estos son los llamados {\sf modelos no estandard}.  La situación habitual es la siguiente.  Se tiene una estructura matemática suficientemente conocida, por ejemplo, la aritmética elemental.  Se crea un lenguaje asociado a esa estructura y se extraen todas las sentencias verdaderas de esa estructura. Pero resulta que existen otros modelos, no standard,  de la aritmética que cumplen exactamente las mismas sentencias.  
+
+
+
+
+\newpage
+
+\section{Teorías}
+
+En el conjunto de sentencias de un lenguaje tenemos definida la noción de consecuencia. Dada cualquier colección de sentencias se puede ampliar dicha colección añadiendole todas las posibles consecuencias.  Obtenemos de esta forma, en general, un nuevo subconjunto que contiene al anterior. En principio podemos repetir el proceso con el nuevo subconjunto, sin embargo veremos que una nueva repetición no amplía el conjunto.
+
+En toda esta sección trabajaremos con un lenguaje de primer orden fijo.  Los modelos que aparezcan tendrán la misma signatura que el lenguaje.
+
+\begin{defi}
+
+Un subconjunto $T \subset {\bf Sent}$ es una {\sf teoría} si para todo $\alpha \in{\bf Sent}$ tal que $T \vDash \alpha$ se tiene $\alpha \in T$.
+
+
+\end{defi}
+
+
+\noindent{\bf Observación.} En virtud del teorema de completitud de la lógica de primer orden sabemos que son equivalentes la noción de consecuencia $\Sigma \vDash \alpha$ y la de noción de deducción $M \vdash \alpha$. Se puede utilizar una u otra para definir el concepto de teoría. \fin 
+
+
+Las teorías son subconjuntos cerrados por la noción de consecuencia.  Dado un subconjunto arbitrario de sentencias siempre se puede construir de un modo natural una teoría asociada. Recordemos que llamamos consecuencias de un conjunto $\Sigma$ a 
+$$
+{\bf Con}(\Sigma)=\{ \alpha \in {\bf Sent} \text{ tales que } \Sigma \vDash \alpha\}
+$$
+
+
+\begin{propo}
+
+Si $\Sigma \subset {\bf Sent}$, entonces ${\bf Con}(\Sigma)$ es una teoría.
+
+\end{propo}
+
+\dem
+
+Dada una sentencia $\alpha$, si ${\bf Con}(\Sigma) \vDash \alpha$ necesariamente, por la definición de consecuencia,  $\Sigma \vDash \alpha$ y $\alpha \in {\bf Con}(\Sigma)$. \fin 
+
+
+Es evidente que dado cualquier conjunto $\Sigma$ se tiene que $\Sigma \subset {\bf Con}(\Sigma)$.  Además si $T$ es una teoría se tiene la inclusión contraria.   El siguiente corolario se puede tomar también como una nueva definición del concepto de teoría.
+
+\begin{cor}
+
+$T \subset {\bf Sent}$ es un teoría si y solo si $T= {\bf Con}(T)$.
+
+\end{cor}
+
+Dada cualquier teoría $T$, todo conjunto $\Sigma$ tal que ${\bf Con}(\Sigma)=T$ se dice que {\sf genera} la teoría.  Naturalmente dada una teoría pueden existir muchos subconjuntos distintos que sean generadores. Los elementos del conjunto $\Sigma$ se llaman {\sf axiomas} de la teoría.  Si variamos el conjunto generador variamos los axiomas.
+
+
+
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Sea $T={\bf Sent}$.  Entonces $T$ es una teoría.  Cualquier teoría está incluida en $T$. Dada una sentencia arbitraria $\alpha$ tenemos que el conjunto $\Sigma =\{\alpha, \neg\alpha\}$ genera el conjunto, puesto que ya hemos visto que de una contradicción podemos extraer cualquier consecuencia. En general, si $\Sigma$ no es satisfacible (esto es, si carece de modelos), entonces genera el conjunto de todas las  sentencias.
+
+
+
+\item ${\bf Con}(\varnothing)$ (el conjunto de verdades lógicas) es un teoría.  Cualquier teoría $T$ contiene a esta teoría.  En efecto, dada una teoría $T$, como $\varnothing \subset T$ tenemos que ${\bf Con}(\varnothing) \subset {\bf Con}(T)=T$.  Como el conjunto de verdades lógicas es infinito, cualquier teoría tiene cardinal infinito.
+
+\item La intersección de teorías es una teoría.  Si $\{T_i\}_{i\in I}$ es una colección de teorías, sea $T= \bigcup_{i \in I} T_i$. Supongamos que $T \vDash \alpha$.  Como $T \subset T_i$ tenemos que $T_i \vDash \alpha$. Como $T_i$ es teoría, entonces $\alpha \in T_i$.  Al ser cierto para todo índice, $\alpha$ pertenece a la intersección.
+
+\item Sea $L$ el lenguaje de la teoría de grupos. Consideremos el conjunto
+$$
+\Sigma=
+\begin{cases}
+\forall x \forall y \forall z ((x+y)+z=x+(y+z))\\
+\forall x (x + e =x)\\
+\forall x \exists y (x+y=e)
+\end{cases}
+$$
+  Sea $\alpha \in {\bf Con}(\Sigma)$, entonces todo modelo $M$ tal que $M\vDash \Sigma$ cumple $M \vDash \alpha$.  Por lo tanto todas las sentencias de la teoría son ciertas en todos los grupos.  A la inversa, si $\alpha$ es una sentencia que es verdadera en todos los grupos, entonces pertenece a la teoría.  Los axiomas de esta teoría constituyen hoy en día la definición natural de grupo.  Ello no implica que no existan otros axiomas que generan la misma teoría. Denotaremos esta teoría como ${\bf Th}(Grupos)$.
+
+
+\item El ejemplo anterior se generaliza a muchas otras teorías que se estudian en matemáticas.  Según la escuela formalista este es el prototipo de las teorías matemáticas: se parte de un lenguaje, se toma un conjunto (finito o infinito) de axiomas y se deducen de estos axiomas todas las posibles consecuencias.
+
+\end{itemize}
+
+El método anterior de generar teorías es, posiblemente, uno de los mejores, adaptado sobre todo a la mentalidad formalista.  Sin embargo otros matemáticos prefieren ver el asunto desde otro punto de vista.  Se imaginan que existen unas estructuras, por ejemplo el conjunto de los números naturales. Entonces crean un lenguaje adaptado a esta estructura y estudian todas las sentencias que son verdad en este modelo. Denotaremos por $\mathcal{M}$ al conjunto de todas las estructuras del tipo del lenguaje del que hablamos.
+
+
+\begin{defi}
+
+Dado un conjunto $\Sigma \subset {\bf Sent}$ llamamos {\sf modelos de $\Sigma$}  al conjunto
+$$
+{\bf Mod}(\Sigma)=\{ A \in \mathcal{M} \text{ tales que } A\vDash \Sigma\}
+$$
+
+\end{defi}
+
+Si el conjunto es satisfacible, entonces tiene al menos un modelo y este conjunto no es vacío. Los conjuntos insatisfacibles carecen de modelos, lo que hace poco interesantes.
+
+Por la definición de consecuencia lógica tenemos
+$$
+{\bf Mod}(\Sigma)= {\bf Mod}({\bf Con}(\Sigma))
+$$
+por lo que basta estudiar los modelos de las teorías.
+
+\bigskip
+
+\noindent{\bf Observación.} El teorema de Löwenheim-Skolem afirma que si $\Sigma$ es consistente y el  lenguaje es numerable, entonces $\Sigma$ tiene un modelo $A$ de cardinal numerable. Existen muchas generalizaciones de este teorema, fundamentalmente debidas a Tarski, que afirman la existencia de modelos con ciertos cardinales. \fin 
+
+
+\begin{defi}
+
+Sea $L$ un lenguaje y $A$ una estructura adaptada a este lenguaje.  Llamamos {\sf teoría de $A$} al conjunto
+$$
+{\bf Th}(A)=\{ \alpha \in {\bf Sent} \text{ tales que } A\vDash \alpha\}
+$$
+
+\end{defi}
+
+Casi por definición se puede comprobar que efectivamente ${\bf Th}(A)$ es una teoría.  Los elementos de la teoría son las sentencias verdaderas en el modelo particular que hemos elegido.  Del mismo modo se puede partir de una colección  $K \subset \mathcal{M}$ de modelos y considerar las sentencias que son válidas en todos los modelos
+$$
+{\bf  Th}(K)= \{ \alpha \text{ tales que } A \vDash \alpha \text{ para todo modelo } A \in K\}
+$$
+
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item Si $K_1 \subset K_2$ entonces ${\bf Th}(K_2) \subset {\bf Th}(K_1)$.  También se cumple la propiedad
+${\bf Th}(K_1 \cup K_2)= {\bf Th}(K_1) \cap {\bf Th}(K_2)$. La formación de teorías invierte el orden de las inclusiones.  Si deseamos que la teoría abarque más estructuras el precio a pagar es reducir el conjunto de sentencias que son válidas en todas las estructuras.
+
+\item Sea $K$ la clase de todos los  grupos.  La teoría que generan coincide con la teoría que generan los axiomas de grupo. Por ello antes hemos denotado por ${\bf Th}(Grupos)$ a dicha teoría.  El mismo esquema es válido para muchas otras estructuras algebraicas.
+
+
+\item  Consideremos el conjunto de los números naturales con sus dos operaciones y su relación de orden.  La teoría que genera esta estructura es lo que comunmente se ha llamado {\sf aritmética}. Se suele denotar por ${\bf Th}(\N)$.
+
+
+
+\item Sean $A$ y $B$ dos estructuras isomorfas.  Entonces ambas generan la misma teoría.  Esta restricción se puede relajar un poco y pedir que únicamente sean elementalmente equivalentes.  Es más, se tiene la siguiente caracterización:
+\begin{quote}
+$A$  es elementalmente equivalente a  $B$ si y solo si  ${\bf Th}(A)={\bf Th}(B)$
+\end{quote}
+
+
+\end{itemize}
+
+
+
+Una vez planteados estos dos procesos de construcción de teorías surgen dos preguntas básicas:
+
+\begin{itemize}
+
+\item Dados unos axiomas $\Sigma$, generamos la teoría $T={\bf Con}(\Sigma)$. ¿Existe una colección de estructuras $K \subset \mathcal{M}$ tal que $T={\bf Th}(K)$?
+
+\item Dada una colección de estructuras $K \subset \mathcal{M}$ creamos la teoría $T={\bf Th}(K)$.  Esta teoría tiene axiomas puesto que $T={\bf Con}(T)$. ¿Pero existe un conjunto finito de axiomas? 
+
+
+
+\end{itemize}
+
+Recordemos que un conjunto $\Delta \subset {\bf Sent}$ es consistente si tiene un modelo y que es completo si para toda sentencia $\alpha$ o bien $\alpha$ o bien $\neg \alpha$ pertenecen al conjunto. Con estos resultados en mente, tenemos el siguiente resultado. 
+
+
+\begin{cor}
+
+Una teoría $T$ es consistente si y solo si $T \neq {\bf Sent}$. La única teoría inconsistente es ${\bf Sent}$.
+
+\end{cor}
+
+
+
+
+
+Dada cualquier colección de modelos $K$, la teoría generada siempre es consistente, puesto que sabemos que  es imposible que $A\vDash \alpha$ y a la vez $A\vDash \neg \alpha$. La teoría generada no puede contener a todas las sentencias.
+
+\bigskip
+
+
+A partir de ahora consideramos el conjunto de todas las teorías consistentes de un cierto lenguaje.  La única teoría que debemos quitar es el total, según se deduce del corolario anterior. Este conjunto está ordenado por inclusión y hemos visto que tiene un elemento mínimo, que es ${\bf Con}(\varnothing)$.  Los elementos maximales, que siempre existen en virtud del lema de Zorn, tienen unas características especiales.
+
+
+\begin{propo}
+
+$\Delta \subset {\bf Sent}$ es consistente maximal si y solo si es una teoría completa (y consistente).
+
+\end{propo}
+
+\dem
+
+Supongamos que $\Delta$ es maximal y sea $\Delta \vDash \alpha$.  Si $\alpha$ no pertenece al conjunto entonces $\Delta \cup \{\alpha\}$ sería consistente, contradicciendo la maximalidad.  Concluimos que $\Delta$ es una teoría.
+
+\smallskip
+
+Tomemos una sentencia arbitraria $\alpha$ y construimos el conjunto $\Delta \cup \{\alpha\}$. Pueden darse dos casos: 
+
+
+\begin{itemize}
+
+\item Si $\Delta \cup \{\alpha\}= \Delta$ entonces $\alpha \in \Delta$.
+
+\item Si $\Delta \cup \{\alpha\}$ es estrictamente mayor que $\Delta$, por la maximalidad, debe ser inconsistente.  Se concluye en este caso que $\neg \alpha \in \Delta$
+
+\end{itemize}
+Hemos visto que necesariamente la teoría es completa.
+
+\smallskip
+
+Recíprocamente, si $\Delta$ es una teoría completa (y consistente), necesariamente es maximal. Supongamos que $\alpha\not \in \Delta$. Por ser teoría no es posible que $\Delta \vDash \alpha$.  Como es completa, tenemos que $\Delta \vDash \neg \alpha$.  Entonces $\Delta \cup \{\alpha\} \vDash \alpha \wedge \neg \alpha$ y el conjunto $\Delta \cup \{\alpha\}$  no es consistente. \fin 
+
+
+
+\noindent{\bf Ejemplos.}
+
+
+
+\begin{itemize}
+
+\item Sea $A$ una estructura. Entonces ${\bf Th}(A)$ es siempre consistente, puesto que es imposible que $A \vDash \alpha$ y que también se tenga $A \vDash \neg \alpha$. Además esta teoría es completa, pues si $A\not \vDash \alpha$ entonces, por la definición de satisfación, se tiene que $A \vdash \neg \alpha$.
+
+\item La teoría de grupos no es completa. La sentencia 
+$$
+\alpha = \forall x \forall y (x+y=y+x)
+$$
+ es cierta en algunos modelos (los grupos conmutativos) y falsa en otros.  Por lo tanto no puede pertenecer a la teoría de grupos.  Lo mismo le sucede a su negación. Ni $\alpha$ ni $\neg \alpha$ pertenecen a la teoría.
+ 
+ \item El famoso teorema de incompletitud de Gödel afirma que ${\bf Con}(\Delta)$ es una teoría incompleta, siendo $\Delta$ el conjunto de axiomas de Peano.  La demostración de este resultado sobrepasa lo pretendido en estos apuntes.
+
+\end{itemize}
+
+
+\begin{cor}
+
+Sean $A$ y $B$ estructuras tales que ${\bf Th}(A) \subset {\bf Th}(B)$.  Entonces se tiene la igualdad.
+
+\end{cor}
+
+\dem
+
+Como ${\bf Th}(A)$ es consistente y completa, entonces es maximal.  Como la teoría de $B$ es consistente, se tiene la igualdad. \fin
+
+\begin{cor}
+
+Sea $K$ una colección de sistemas.  La teoría ${\bf Th}(K)$ es completa si y solo si para cada par de estructuras $A, B \in K$ son elementalmente equivalentes.
+
+\end{cor}
+
+\dem
+
+Si todas los elementos de $K$ son elementalmente equivalentes, entonces se tiene que ${\bf Th}(K)={\bf Th}(A)$ siendo $A$ un elemento arbitrario. Ya hemos visto que este tipo de teorías son completas.
+
+\smallskip
+
+ Si $A$ es un miembro de $K$ se tiene la inclusión ${\bf Th }(K) \subset {\bf Th}(A)$.  Si la teoría de $K$ es completa se tiene la igualdad. Para todo miembro $B$ de $K$ se tiene el mismo resultado.  Esto prueba que ${\bf Th}(A)= {\bf Th}(B)$ y esto es lo mismo que decir que las dos estructuras son elementalmente equivalentes. \fin 
+ 
+En una  teoría $T$ es completa y consistente todos sus modelos son elementalmente equivalentes.  Sin embargo ello no implica que todos los modelos sean isomorfos.  Ello requiere una nueva
+
+\begin{defi}
+
+Una teoría es {\sf categórica} si cada si todos sus modelos son isomorfos.
+
+\end{defi}
+
+Necesariamente una teoría categórica es completa, pero no existe una caracterización tan simple de las teorías categóricas.  Una de las mayores sorpresas de la teoría de modelos radica en la existencia de teorías de la forma ${\bf Th}(A)$ que no son categóricas.  Demos algunos ejemplos, aunque omitimos las demostraciones.
+
+\bigskip
+
+\noindent{\bf Ejemplos.}
+
+\begin{itemize}
+
+\item La aritmética ${\bf Th}(\N)$ no es categórica.  Existen modelos, numerables $A$ que dan lugar a la misma teoría y que no son isomorfos.  Sonlos llamados modelos no estandard de la aritmética.
+
+\item Análogamente ${\bf Th}(\R)$ no es categórica.  Existen modelos, con el mismo cardinal que los reales y no isomorfa. 
+
+
+
+\end{itemize}
+
+
+\newpage
+
+\section{Cálculo deductivo}
+
+En esta sección pretendemos formalizar el concepto de demostración matemática.  Dado un conjunto de sentencias $\Sigma$ definiremos cuando una sentencia arbitraria $\beta$ se puede deducir a partir de $\Sigma$. Para ello crearemos una serie de reglas.  La sentencia $\beta$ se puede deducir a partir de $\Sigma$ si podemos llegar a $\beta$ partiendo de las sentencias de $\Sigma$ y aplicando únicamente las reglas.
+
+\begin{defi}
+
+Una deducción es una sucesión finita de lineas, donde cada línea es una sucesión finita de sentencias.
+
+\end{defi}
+
+Si denotamos por $\alpha_1 \dots \alpha_n \beta$ a una de estas líneas, diremos que $\alpha_1 \dots \alpha_n$ son las {\sf premisas} y que $\beta$ es la {\sf conclusión}. Normalmente denotaremos por $\Gamma=\alpha_1 \dots \alpha_n$ y escribiremos la línea en la forma $\Gamma \beta$.
+
+Las {\sf reglas del cálculo} permiten construir nuevas líneas a partir de otras ya creadas.  La colocación de las líneas a las que se va a aplicar la regla es indiferente.
+
+Para enunciar las reglas situaremos sobre la recta las líneas que deben existir previamente y debajo de la recta la nuva línea que nos permite crear la regla en cuestión.  Hay una regla que nos permite crear una línea a pesar de que no exista ninguna línea creada.  Otras necesitan una única línea para crear una nueva y finalmente otras reglas necesitan dos líneas ya creadas para dar origen a otra línea.
+
+\begin{itemize}
+
+\item (IH) Regla de introducción de hipótesis
+$$
+\begin{array}{rr}
+\ & \   \\ \hline
+\Gamma &\beta
+\end{array}
+\quad \text{ si } \beta \in \Gamma
+$$
+
+\item (M) Regla de monotonía
+$$
+\begin{array}{rr}
+\Gamma & \beta \\ \hline
+\Gamma' & \beta
+\end{array}
+\quad \text{ si } \Gamma \subset \Gamma'
+$$
+
+\item (PC) Regla de la prueba por casos
+$$
+\begin{array}{rrr}
+\Gamma &\beta &\gamma \\ 
+\Gamma &\neg \beta& \gamma \\ \hline
+\Gamma &\gamma & 
+\end{array}
+$$
+
+\item (NC) Regla de no contradicción
+$$
+\begin{array}{rrr}
+\Gamma & \neg \alpha & \beta \\
+\Gamma & \neg \alpha & \neg \beta \\ \hline
+\Gamma & \alpha& 
+\end{array}
+$$
+
+
+\item (IDA) Regla de introducción del disyuntor en el antecedente
+$$
+\begin{array}{rrr}
+\Gamma & \alpha & \gamma \\
+\Gamma & \beta & \gamma \\ \hline
+\Gamma & \alpha \vee \beta & \gamma
+\end{array}
+$$
+
+\item (IDC) Reglas de introducción del disyuntor en la conclusión
+$$
+\begin{array}{ll}
+\Gamma &  \alpha \\ \hline
+\Gamma & \alpha \vee \beta
+\end{array}
+\qquad 
+\begin{array}{ll}
+\Gamma &  \alpha \\ \hline
+\Gamma & \beta \vee \alpha
+\end{array}
+$$
+
+
+
+
+\end{itemize}
+
+
+\newpage
+
+\section{Consistencia}
+
+\begin{defi}
+
+Un subconjunto $\Sigma \subset {\bf Sent}$ es {\sf consistente} (sintácticamente) si no existe ninguna fórmula $\alpha$ tal que $\Sigma \vdash \alpha $ y $\Sigma \vdash \neg \alpha$.
+
+Un subconjunto es {\sf inconsistente} o {\sf contradictorio} si existe una fór\-mula $\alpha$ tal que $\Sigma \vdash \alpha$ y $\Sigma \vdash \neg \alpha$.
+
+\end{defi}
+
+\begin{propo}
+
+Un subconjunto es inconsistente si y solo si $\Sigma \vdash \beta$ para cualquier sentencia $\beta$.
+
+\end{propo}
+
+\dem 
+
+Si es contradictorio, entonces existe una sentencia tal que $\Sigma \vdash \alpha$ y también $\Sigma \vdash \neg \alpha$. Esto es, existe un subconjunto finito $\Gamma_1\subset \Sigma$  tal que $\Gamma_1 \vdash \alpha$.  Del mismo modo existe un subconjunto finito $\Gamma_2$ tal que $\Gamma_2 \vdash \neg \alpha$.
+
+Partimos de las premisas
+$$
+\begin{array}{cc}
+\Gamma_1 & \alpha\\
+\Gamma_2 & \neg \alpha
+\end{array}
+$$
+Añadimos premisas y reordenamos
+$$
+\begin{array}{ccc}
+\Gamma_1 &\Gamma_2 & \alpha\\
+\Gamma_2 & \Gamma_1 & \neg \alpha
+\end{array}
+$$
+Luego de $\Gamma_1 \cup \Gamma_2 $ se puede derivar cualquier fórmula $\beta$.  Como $\Gamma_1 \cup \Gamma_2$ es finito y está contenido en $\Sigma$, esto implica que $\Sigma \vdash \beta$. \fin
+
+\begin{cor}
+
+Un conjunto $\Sigma$ es consistent si existe una fórmula que no se deduce de $\Sigma$.
+
+\end{cor}
+
+\begin{lema}
+
+Un conjunto $\Sigma$ es consistente si y solo si son consistentes todos sus subconjuntos finitos.
+
+\end{lema}
+
+
+\begin{lema}
+
+Si $\Sigma$ tiene un modelo, entonces es consistente.
+
+\end{lema}
+
+\dem
+
+Si fuese inconsistente entonces existiría $\alpha$ tal que $\Sigma \vdash \alpha$ y $\Sigma \vdash \neg \alpha$. Por el teorema de corrección  $\Sigma \vDash \alpha$ y $\Sigma \vDash \neg \alpha$.  Pero esto es imposible puesto que tiene un modelo. \fin
+
+\begin{lema}
+
+Se cumplen las siguientes propiedades:
+
+\begin{itemize}
+
+\item $\Sigma \vdash \alpha$ si y solo si $\Sigma \cup \{\neg \alpha\}$ es contradictorio.
+
+\item $\Sigma \vdash \neg \alpha$ si y solo si $\Sigma \cup \{\alpha\}$ es contradictorio.
+
+\item Si $\Sigma $ es consistente, entonces o bien $\Sigma \cup \{\alpha\}$ o bien $\Sigma \cup \{\neg \alpha\}$ es consistente.
+
+\end{itemize}
+
+\end{lema}
+
+
+\newpage
+
+\section{Teorema de completitud}
+
+Dado un conjunto de sentencias $\Sigma$ tenemos una noción semántica de deducción, $\Sigma \vDash \alpha$, y una noción sintáctica, asociada al cálculo secuencial, $\Sigma \vdash \alpha$.  El teorema de corrección afirma que la noción semántica engloba a la sintáctica:
+$$
+\text{ si }\Sigma \vdash \alpha \text{ entonces } \Sigma \vDash \alpha
+$$
+El teorema de completitud pretende probar el recíproco de este resultado. Veremos que probar este resultado es equivalente a encontrar un modelo para cada conjunto consistente de fórmulas.
+
+\begin{propo}
+
+Si cada conjunto consistente  tiene un modelo (es consistente) entonces el cálculo secuencial es completo.
+
+\end{propo}
+
+\dem
+
+Supongamos que $\Sigma \vDash \alpha$ y sin embargo no sea cierto que $\Sigma \vdash \alpha$.  Entonces el conjunto $\Sigma \cup\{\neg \alpha\}$ es consistente (si no lo fuese, entonces $\Sigma$ tampoco lo sería), pero no puede tener un modelo, puesto que es imposible que un modelo satisfaga una sentencia y su negación. \fin 
+
+
+Consideremos la familia de todos los conjuntos consistentes de un lenguaje determinado.  Respecto a la inclusión conjuntista, tenemos la noción de elemento maximal.  El lema de Zorn afirma  la existencia de conjuntos consistentes y maximales. Es más, todo conjunto $\Sigma$ está contenido en un conjunto consistente maximal.
+
+\begin{defi}
+
+Un conjunto $\Sigma$ es {\sf consistente maximal} si no existe nin\-gún conjunto consistente que lo contenga estrictamente.
+
+\end{defi}
+
+
+
+A partir de ahora cometeremos el abuso de notación de hablar de conjuntos maximales, sobreentendiendo el calificativo de consistente.
+
+ El siguiente resultado es otra posible definición de conjunto consistente maximal.
+
+\begin{cor}
+
+Un conjunto $\Sigma$ es consistente maximal si y solo si para cada  $\alpha \not \in \Sigma$ se tiene que el conjunto $\Sigma \cup \{\alpha\}$ es contradictorio.
+
+\end{cor}
+
+\dem
+
+En efecto, $\Sigma \cup \{\alpha\}$ contiene estrictamente al conjunto $\Sigma$.  Como este es maximal, necesariamente el conjunto que lo contiene no puede ser consistente.  Entonces $\Sigma \cup \{\alpha\}$ es contradictorio.
+
+\smallskip
+
+Recíprocamente. Sea $\Sigma$ un conjunto consistente, tal que al añadirle una sentencia se transforme en contradictorio. Supongamos que existe un conjunto $\Delta$ tal que $\Sigma \subset \Delta$ de modo estricto.  Entonces debe existir una sentencia $\alpha$ que pertenezca a $\Delta$ y que sin embargo no esté en $\Sigma$.  Pero entonces $\Sigma \cup \{\alpha\} \subset \Delta$ es contradictorio, lo que implica que también es contradictorio $\Delta$.  Todos los conjuntos que contienen a $\Sigma$ son contradictorios. Luego $\Sigma$ es consistente y maximal. \fin 
+
+El siguiente resultado es otra nueva caracterización de los conjuntos consistentes maximales.  Es muy usada en razonamientos de todo tipo.
+
+\begin{propo}
+
+Si $\Sigma$ es consistente maximal, entonces para toda sentencia $\alpha$ se tiene que o bien $\Sigma \vdash \alpha$ o bien $\Sigma \vdash \neg \alpha$.
+
+\end{propo}
+
+\dem
+
+Supongamos que no es cierto que $\Sigma \vdash \alpha$.  Entonces, por la maximalidad, tenemos terminar.  \fin
+
+
+
+
+
+\begin{defi}
+
+Un conjunto $\Sigma$ es {\sf ejemplificado} si para cada sentencia de la forma $\exists x (\alpha) \in \Sigma$ existe un término $t$ (no necesariamente único) tal que $ \alpha[t/x] \in \Sigma$.
+
+\end{defi}
+
+A nivel sintáctico esta definición parece un poco extraña.  Sin embargo a nivel semántico es más clara: en un modelo $M$, $\exists x(\alpha)$ se interpreta como la existencia de un elemento $m \in M$ que hace verdadera a la sentencia $\alpha$.  Esto es, que existe un elemento $m$, tal que $\alpha[m]$ es cierta. A nivel sintáctico lo más que podemos afirmar es la existencia de un término que verifique lo mismo.
+
+
+
+
+A partir de ahora consideraremos un conjunto de sentencias consistente maximal y ejemplificado.  Veremos que  a partir de estos conjuntos se puede construir, de un modo efectivo, un modelo.  El procedimiento a seguir que utilizaremos se debe a Leon Henkin.  Para construir modelos de otros conjuntos consistente simplementente tendremos que incluirlos en conjuntos ejemplificados y maximales.  
+
+\begin{teo}[Henkin]
+
+Si $\Sigma$ es maximal y ejemplificado, entonces posee un modelo.
+
+\end{teo}
+
+\dem
+
+Debemos construir la estructura del modelo. Primeramente construiremos el conjunto y después las funciones y las relaciones.
+
+\smallskip
+
+En el conjunto de términos del lenguaje consideramos la  siguiente relación de equivalencia
+$$
+t_1 \sim t_2 \text{ si y solo si } \Sigma \vdash t_1 =t_2
+$$
+El cálculo secuencial nos informa de que efectivamente esta es una relación de equivalencia. La clase de equivalencia de $t$ la denotaremos por $\bar t$.  Llamemos $M$ al conjunto cociente.  Tomemos ahora una functor $f$ de orden $n$.  Construimos la función
+$$
+\begin{array}{cccc}
+f_M :& M\times \dots \times M &\mapsto &M \\
+ & (\bar t_1, \dots , \bar t_n) & \mapsto & \overline{ft_1\dots t_n}
+ \end{array}
+ $$
+ Como hemos definido la función a partir de un representante de la clase de equivalencia, debemos mostrar que la definición es independiente del representante elegido.  De nuevo el cálculo secuencial nos garantiza la corrección del procedimiento.
+ 
+ \newpage
+ 
+ \section{Bibliografía}\small
+ 
+ \begin{itemize}
+ 
+ \item[{[ 1 ]} ] J. Sancho San Román. {\it Lógica Matemática y Computabilidad}, Díaz de Santos, 1990
+ 
+ \item[{[ 2 ]} ] M. Manzano \& A. Huertas. {\it Lógica para principiantes}, Alianza Editorial, 2004
+ 
+ \item[{[ 3 ]} ] H.D. Ebbinghaus  \& J. Flum  \& W. Thomas  {\it Mathematical Logic}, Springer, 1984
+ 
+ \item[{[ 4 ]} ] C. Ivorra. {\it Lógica}, Internet.
+ 
+ \item[{[ 5 ]} ] M. Manzano. {\it Teoría de Modelos}, Alianza Editorial, 1989.
+ 
+ 
+ \end{itemize}
+
+
+
+\end{document}
+
